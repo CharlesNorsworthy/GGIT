@@ -36,3 +36,31 @@ You must always run this script in this folder.
 Instructions for setting up Neo4j Spatial
 ===
 Neo4j Spatial will allow for spatial querying.
+
+# Running GGIT
+
+To run GGIT, 'cd' into the GGIT directory and do the following commands
+```bash
+javac GGIT.java
+java GGIT {command}
+```
+
+Current Commands
+===
+(None of the following commands are currently supported.)
+* init
+* clone
+* add
+* commit
+* push
+* status
+* remote
+* checkout
+* branch
+* pull
+* merge
+* diff
+* log
+* fetch
+* reset
+* grep
