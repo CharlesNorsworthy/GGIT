@@ -1,5 +1,4 @@
-import org.w3c.dom.Node;
-
+package Graphs;
 
 public interface Graph {
 
