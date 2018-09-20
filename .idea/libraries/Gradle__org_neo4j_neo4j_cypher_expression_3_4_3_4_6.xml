@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.neo4j:neo4j-cypher-expression-3.4:3.4.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-cypher-expression-3.4/3.4.6/cc34fbafccf89ff340e954607041a5ce1707a40d/neo4j-cypher-expression-3.4-3.4.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-cypher-expression-3.4/3.4.6/ae4f4e4e98575c0765112ca3e9fc9e37f101b30a/neo4j-cypher-expression-3.4-3.4.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

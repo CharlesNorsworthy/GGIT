@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.neo4j:neo4j-command-line:3.4.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-command-line/3.4.6/126803f7564029f928108ea924ef8a870ecadf55/neo4j-command-line-3.4.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-command-line/3.4.6/ace22685a6e6ca2a05cbdf0af6a74b3b92c43e76/neo4j-command-line-3.4.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

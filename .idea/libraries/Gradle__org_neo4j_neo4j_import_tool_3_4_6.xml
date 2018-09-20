@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.neo4j:neo4j-import-tool:3.4.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-import-tool/3.4.6/3cf18409e0fbf10ff997736d3782b5fb6197ee29/neo4j-import-tool-3.4.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-import-tool/3.4.6/fb1892e9851819bd4f1922da04f6c71c3efe4446/neo4j-import-tool-3.4.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
