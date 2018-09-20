@@ -25,10 +25,11 @@ import java.util.Scanner;
                 switch (input) {
                     case "init":
                         //database.getNodeById("node", "username", "user1@neo4j.org");
-                        // database.createNode("cubicleWorker","status", "peon",5 );
+                        //database.createNode("cubicleWorker","status", "peon",5 );
                         //database.showAllNodes("cubicleWorker","status");
                         //System.out.println(database);
-                        //database.deleteNodes("cubicleWorker","status","peon");
+                        database.deleteNodes("cubicleWorker","status","peon");
+                        database.deleteNodes("node","status","username");
                         //database.createRelationship("cubicleWorker","node");
                         database.showRelationships("node","username","cubicleWorker","status");
                         //database.showAllNodes("node","username");
@@ -38,11 +39,6 @@ import java.util.Scanner;
                         throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
 
                     case "add":
-
-                        //System.out.println("Please enter a node,label, defaultproperty, and defaultpopertyValue separated by a comma");
-                        //String nodeInput1 = sc.nextLine();
-                       // String[] parsedInput = nodeInput1.split(",");
-                        database.createDefaultNodes("node", 10);
 
                         throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
                     case "commit":

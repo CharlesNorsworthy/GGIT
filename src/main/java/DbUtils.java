@@ -141,6 +141,22 @@ public class DbUtils
         }
     }
 
+    public void deleteNodes(String nodeType)
+    {
+        try ( Transaction tx = graphDb.beginTx())
+        {
+            Label label = Label.label( nodeType );
+            ResourceIterator<Node> users = ( graphDb.findNodes( label ) );
+
+            while(users.hasNext())
+            {
+                Node user = users.next();
+                user.delete();
+            }
+            tx.success();
+        }
+    }
+
     public void createRelationship(String nodeType1,String nodeType2 )
     {
         Relationship relationship;
