@@ -8,9 +8,6 @@ import java.util.ArrayList;
 public class DbUtils
 {
     GraphDatabaseService graphDb;
-    Node firstNode;
-    Node secondNode;
-    Relationship relationship;
 
     private void connectDatabase()
     {
@@ -46,7 +43,7 @@ public class DbUtils
             Label label = Label.label(nodeType);
 
             // Create some users
-            for ( int id = 0; id < num; id++ )
+            for ( int id = 1; id <= num; id++ )
             {
                 Node userNode = graphDb.createNode( label );
                 userNode.setProperty( prop, propVal );
@@ -80,8 +77,8 @@ public class DbUtils
 
         try ( Transaction tx = graphDb.beginTx() )
         {
-            try ( ResourceIterator<Node> users =
-                          graphDb.findNodes( label ) )
+            try ( ResourceIterator<Node> users = graphDb.findNodes( label ) )
+
             {
                 ArrayList<Node> userNodes = new ArrayList<>();
                 while ( users.hasNext() )
@@ -128,17 +125,15 @@ public class DbUtils
 
     }
 
-    public void deleteNodes(String NodeType,String prop, String propVal)
+    public void deleteNodes(String nodeType,String prop, String propVal)
     {
-        try ( Transaction tx = graphDb.beginTx() )
+        try ( Transaction tx = graphDb.beginTx())
         {
-            Label label = Label.label( NodeType );
+            Label label = Label.label( nodeType );
             ResourceIterator<Node> users = ( graphDb.findNodes( label, prop, propVal ) );
-                    //  Node[] node = graphDb.findNodes(label,prop,propVal);
-//                      for(Node user : users ){
-//                          user.delete();
-//                      }
-            while(users.hasNext()){
+
+            while(users.hasNext())
+            {
                 Node user = users.next();
                 user.delete();
             }
@@ -146,6 +141,63 @@ public class DbUtils
         }
     }
 
+    public void createRelationship(String nodeType1,String nodeType2 )
+    {
+        Relationship relationship;
+        try( Transaction tx = graphDb.beginTx())
+        {
+            Label label1 = Label.label(nodeType1);
+            Label label2 = Label.label(nodeType2);
+
+            ResourceIterator<Node> node = (graphDb.findNodes(label1));
+            ResourceIterator<Node> node2 = (graphDb.findNodes(label2));
+
+            while(node.hasNext()){
+                Node firstNode = node.next();
+                Node secondNode = node2.next();
+
+                relationship = firstNode.createRelationshipTo( secondNode, RelTypes.KNOWS );
+                relationship.setProperty( "link", "we are related " );
+            }
+        }
+    }
+
+    public void showRelationships(String nodeType1, String prop1,String nodeType2,String prop2){
+        Relationship relationship;
+        try( Transaction tx = graphDb.beginTx())
+        {
+
+             Label label1 = Label.label("a");
+             Label label2 = Label.label("b");
+             Node node1 = graphDb.createNode(label1);
+             Node node2 = graphDb.createNode(label2);
+            node1.setProperty("prop","Patrick hates");
+            node2.setProperty("prop", "neo4j");
+            relationship = node1.createRelationshipTo( node2, RelTypes.KNOWS );
+            relationship.setProperty( "message", "relationships in" );
+
+            System.out.println(node1.getProperty("prop"));
+            System.out.println(relationship.getProperty("message"));
+            System.out.println(node2.getProperty("prop"));
+//            Label label1 = Label.label(nodeType1);
+//            Label label2 = Label.label(nodeType2);
+//
+//            ResourceIterator<Node> node = (graphDb.findNodes(label1));
+//            ResourceIterator<Node> node2 = (graphDb.findNodes(label2));
+//
+//            while(node.hasNext()){
+//                Node firstNode = node.next();
+//               // Node secondNode = node2.next();
+//
+//                System.out.println(firstNode.getProperties(prop1));
+//                System.out.println(firstNode.getSingleRelationship(RelTypes.KNOWS,Direction.OUTGOING));
+//               // System.out.println(secondNode.getProperties(prop2));
+//                //System.out.println(secondNode.getRelationships());
+//
+//            }
+        }
+
+    }
 //    public void updateNodeProperty()
 //    {
 //        try ( Transaction tx = graphDb.beginTx() )

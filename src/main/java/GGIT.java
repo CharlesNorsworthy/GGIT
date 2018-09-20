@@ -14,6 +14,7 @@ import java.util.Scanner;
 
             executeCmd(input);
         }
+
         private static void executeCmd(String input){
             DbUtils database;
             database = new DbUtils();
@@ -24,12 +25,13 @@ import java.util.Scanner;
                 switch (input) {
                     case "init":
                         //database.getNodeById("node", "username", "user1@neo4j.org");
-
-                       // database.createNode("cubicleWorker","status", "peon",5 );
+                        // database.createNode("cubicleWorker","status", "peon",5 );
                         //database.showAllNodes("cubicleWorker","status");
                         //System.out.println(database);
-                        database.deleteNodes("cubicleWorker","status","peon");
-                        database.showAllNodes("cubicleWorker","status");
+                        //database.deleteNodes("cubicleWorker","status","peon");
+                        //database.createRelationship("cubicleWorker","node");
+                        database.showRelationships("node","username","cubicleWorker","status");
+                        //database.showAllNodes("node","username");
 
                     case "clone":
 
