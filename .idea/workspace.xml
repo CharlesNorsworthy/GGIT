@@ -2,69 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1809dbf0-040c-40a7-b3df-9114e69cbdd5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/4.0/taskHistory/taskHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/DbUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GGIT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GUI/EditGraphWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GUI/GUIDriver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GUI/MainMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GUI/VersionControlWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileChanges/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileChanges/last-build.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/built.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/taskHistory/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.3/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/taskHistory/fileSnapshots.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.3/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_neo4j_driver_neo4j_java_driver_1_4_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/GGIT.project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/GGIT.project_main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/GGIT.project_test.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GGIT.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GGIT.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Driver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/HelloWorldExample$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/HelloWorldExample.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GGIT.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Driver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/HelloWorldExample.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/VersionControlling/Branch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/VersionControlling/ChangeSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/VersionControlling/Repository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/VersionControlling/SourceControl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/Graph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/Graphs/DirectedGraph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/Graphs/UndirectedGraph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/Graphs/WeightedDirectedGraph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/Graphs/WeightedUndirectedGraph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/Main/Driver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/VersionControlling/Branch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/VersionControlling/ChangeSet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/VersionControlling/Repository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/out/production/GGIT/VersionControlling/SourceControl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/DatabaseApi.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/GraphApi.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -86,8 +27,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state>
+              <caret column="4" lean-forward="true" selection-start-column="4" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -472,7 +413,31 @@
             <path>
               <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="graphTool" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -586,10 +551,13 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state>
+          <caret column="4" lean-forward="true" selection-start-column="4" selection-end-column="4" />
         </state>
       </provider>
     </entry>
