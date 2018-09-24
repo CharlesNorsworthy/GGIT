@@ -2,7 +2,14 @@
 
 This application is a version/revision control system for graph databases.
 
-Gradle will be looked into to make it easier to build this project.
+Running the Project in IntelliJ (with Gradle)
+===
+To run this project, exit out to the opening menu of IntelliJ. 
+
+* Choose "Import Project..."
+* In the pop-up slect "Import project from external model"
+* Select "Gradle"
+* Click "Next" and let IntelliJ handle building out the project
 
 Software Requirements (Pre-Gradle)
 ===
