@@ -4,7 +4,7 @@ This application is a version/revision control system for graph databases.
 
 Running the Project in IntelliJ (with Gradle)
 ===
-To run this project, exit out to the opening menu of IntelliJ. 
+To run this project, go to the opening menu of IntelliJ.
 
 * Choose "Import Project..."
 * In the pop-up slect "Import project from external model"
