@@ -1,10 +1,14 @@
 package graphTool;
 
-/**
- * The GraphApi class will handle the outward facing api.
- * Possibly utilze Swagger
- */
-public class GraphApi {
+public class DbOps {
+    DbUtils database = new DbUtils();
+    Node root = DbUtils.init();
+
+    DbOps() {
+        database = new DbUtils();
+        database.getConnection();
+    }
+
     public void createObservation() {
 
     }
