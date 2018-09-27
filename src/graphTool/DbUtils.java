@@ -54,12 +54,17 @@ public class DbUtils
         {
 
             //Check for duplicates first
-            Node findDuplicates = graphDb.findNode(label,"id",idVal);
+
+                Node findDuplicates = graphDb.findNode(label, graphTool.Const.UUID, props.get(graphTool.Const.UUID));
 
             if(findDuplicates == null)//If no copies in DB we create new node
             {
                 Node node = graphDb.createNode(label);
-                node.setProperty("id", idVal);
+
+                for(String key : props.keySet())
+                {
+                    node.setProperty(key, props.get(key));
+                }
 
                 depth = assignDepth(node); //auto assign depth according to label
                 node.setProperty("depth", depth);
@@ -68,7 +73,7 @@ public class DbUtils
             else
                 {
 
-                   updateNode(findDuplicates,"id",idVal);//Duplicate was found we just update id for now
+                   updateNode(findDuplicates);//Duplicate was found we just update id for now
 
                 }
 
@@ -76,11 +81,10 @@ public class DbUtils
         }
     }
 
-    public void updateNode(Node node, String id, String idVal){
+    public void updateNode(Node node){
 
         try ( Transaction tx = graphDb.beginTx() )
         {
-            node.setProperty(id,idVal);
 
             tx.success();
 
@@ -226,7 +230,7 @@ public class DbUtils
 
            // printNode(node1);
            // printNode(node2);
-           showAllGraphRelationships();
+           //showAllGraphRelationships();
 
             if((Math.abs(node1_depth - node2_depth) == 1))
                 {
