@@ -9,7 +9,7 @@ public class DbOps {
         database.getConnection();
     }
 
-    public void createObservation() {
+    public void createObservation(HashMap<String, Object> obs) {
 
     }
 
