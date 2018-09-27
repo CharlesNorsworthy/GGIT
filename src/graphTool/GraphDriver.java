@@ -20,7 +20,6 @@ public class GraphDriver{
 
         System.out.println("------------- Graph Tool Driver ------------------\n\n");
         System.out.println("\tMAIN-MENU\n");
-        System.out.println("Select a command to execute:");
         System.out.println("1 - Create Observation");
         System.out.println("2 - Create Knowledge");
         System.out.println("3 - Update Observation");
@@ -29,7 +28,8 @@ public class GraphDriver{
         System.out.println("6 - Delete Knowledge");
         System.out.println("7 - More Commands");
         System.out.println("0 - Exit Program");
-        System.out.println("----------------------------------------------------\n\n");
+        System.out.println("----------------------------------------------------\n");
+        System.out.println("Select a command to execute:");
 
         executeMainCommand(input.nextLine());
     }
@@ -38,12 +38,12 @@ public class GraphDriver{
 
         System.out.println("------------- Graph Tool Driver ------------------\n\n");
         System.out.println("\tMORE-COMMANDS\n");
-        System.out.println("Select a command to execute:");
         System.out.println("1 - Coming Soon");
         System.out.println("2 - Coming Soon");
         System.out.println("3 - Coming Soon");
         System.out.println("0 - Main Menu");
-        System.out.println("----------------------------------------------------\n\n");
+        System.out.println("----------------------------------------------------\n");
+        System.out.println("Select a command to execute:");
 
         executeMoreCommand(input.nextLine());
     }
@@ -106,10 +106,9 @@ public class GraphDriver{
     private void initCreateNode(String label){
         System.out.println("\n...Creating a new " + label + ":\n");
         System.out.print("...Set the following property values: ");
+        System.out.print("[ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]\n");
 
         HashMap<String, Object> propertyToValues = new HashMap<>();
-
-        System.out.print("[ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]\n");
 
         for(String prop : Const.NODE_PROPERTIES)
         {
@@ -122,28 +121,38 @@ public class GraphDriver{
         }
         else if(label == Const.KNOWLEDGE_LABEL)
         {
-            dbOps.createKnowledge(propertyToValues);
+            System.out.println("...Choose available [Observation] to link new [Knowledge] to:");
+
+            boolean valid = false;
+            String obsId = new String();
+
+            while(!valid)
+            {
+                HashMap<String, HashMap<String, Object>> allNodes = dbOps.readAllObservations();
+                for (String key : allNodes.keySet())
+                {
+                    System.out.println("--( { \"" + Const.UUID + "\" : " + key + "} )--");
+                }
+                System.out.println("------------------------------------------------------");
+                System.out.println("Enter id of [Observation]:");
+
+                obsId = input.nextLine();
+                if(allNodes.keySet().contains(obsId))
+                {
+                    valid = true;
+                }
+                else
+                {
+                    System.out.println("Invalid [Observation] id.\n\n\n\n");
+                    input.next();
+                }
+            }
+            dbOps.createKnowledge(obsId, propertyToValues);
         }
         else
         {
             System.out.println("Invalid Label.\n\n\n\n");
             input.next();
-        }
-    }
-
-    private void HandleValueInput(String prop, HashMap<String,Object> propertyToValues){
-        System.out.println("Enter a new value for \"" + prop +"\":");
-        System.out.print("[\"" + prop +"\"] -> ");
-        String value = input.nextLine();
-
-        if(tryParseDouble(value))
-        {
-            Double dValue = Double.parseDouble(value);
-            propertyToValues.put(prop, dValue);
-        }
-        else
-        {
-            propertyToValues.put(prop, value);
         }
     }
 
@@ -159,8 +168,16 @@ public class GraphDriver{
         if(label == Const.OBSERVATION_LABEL)
         {
             readNode = dbOps.readObservation(idValue);
-            EditNodeProperties(readNode, propertyToValues);
-            dbOps.updateObservation(idValue, propertyToValues);
+            if(readNode != null)
+            {
+                EditNodeProperties(readNode, propertyToValues);
+                dbOps.updateObservation(idValue, propertyToValues);
+            }
+            else
+            {
+                System.out.println("Invalid [Observation] id.\n\n\n\n");
+                input.next();
+            }
         }
         else if(label == Const.KNOWLEDGE_LABEL)
         {
@@ -172,61 +189,6 @@ public class GraphDriver{
         {
             System.out.println("Invalid Label.\n\n\n\n");
             input.next();
-        }
-    }
-
-    private void EditNodeProperties(HashMap<String,Object> readNode, HashMap<String,Object> propertyToValues){
-        if(readNode != null)
-        {
-            System.out.println("\nRetrieved node with properties: [ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]");
-
-            String chooseProp = new String();
-
-            while (chooseProp != "done")
-            {
-                for (String prop : readNode.keySet())
-                {
-                    System.out.println("[\"" + prop + "\"] <- {" + readNode.get(prop) + "}");
-                }
-                System.out.println("--------------------------------------------------------");
-                System.out.print("Enter property to edit: (Type DONE to when finished)");
-
-                boolean valid = false;
-                while (!valid)
-                {
-                    chooseProp = input.nextLine();
-
-                    switch (chooseProp.toLowerCase())
-                    {
-                        case Const.UUID:
-                            HandleValueInput(Const.UUID, propertyToValues);
-                            valid = true;
-                            break;
-                        case Const.NAME:
-                            HandleValueInput(Const.NAME, propertyToValues);
-                            valid = true;
-                            break;
-                        case Const.LATITUDE:
-                            HandleValueInput(Const.LATITUDE, propertyToValues);
-                            valid = true;
-                            break;
-                        case Const.LONGITUDE:
-                            HandleValueInput(Const.LONGITUDE, propertyToValues);
-                            valid = true;
-                            break;
-                        case Const.DESCRIPTION:
-                            HandleValueInput(Const.DESCRIPTION, propertyToValues);
-                            valid = true;
-                            break;
-                        case "done":
-                            System.out.print("...Finishing property edit.");
-                            valid = true;
-                            break;
-                        default:
-                            System.out.println("Invalid property. Choose a valid node property:");
-                    }
-                }
-            }
         }
     }
 
@@ -261,7 +223,7 @@ public class GraphDriver{
         }
     }
 
-    boolean tryParseDouble(String value) {
+    boolean TryParseDouble(String value) {
         try {
             Double.parseDouble(value);
             return true;
@@ -269,4 +231,78 @@ public class GraphDriver{
             return false;
         }
     }
+
+    private void EditNodeProperties(HashMap<String,Object> readNode, HashMap<String,Object> propertyToValues){
+        System.out.println("\nRetrieved node with properties: [ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]");
+
+        String chooseProp = new String();
+
+        while (chooseProp != "done")
+        {
+            for (String prop : readNode.keySet())
+            {
+                System.out.println("[\"" + prop + "\"] <- {" + readNode.get(prop) + "}");
+            }
+            System.out.println("--------------------------------------------------------");
+            System.out.print("Enter property to edit: (Type DONE to when finished)");
+
+            boolean valid = false;
+            while (!valid)
+            {
+                chooseProp = input.nextLine();
+
+                switch (chooseProp.toLowerCase())
+                {
+                    case Const.UUID:
+                        HandleValueInput(Const.UUID, propertyToValues);
+                        valid = true;
+                        break;
+                    case Const.NAME:
+                        HandleValueInput(Const.NAME, propertyToValues);
+                        valid = true;
+                        break;
+                    case Const.LATITUDE:
+                        HandleValueInput(Const.LATITUDE, propertyToValues);
+                        valid = true;
+                        break;
+                    case Const.LONGITUDE:
+                        HandleValueInput(Const.LONGITUDE, propertyToValues);
+                        valid = true;
+                        break;
+                    case Const.DESCRIPTION:
+                        HandleValueInput(Const.DESCRIPTION, propertyToValues);
+                        valid = true;
+                        break;
+                    case "done":
+                        System.out.print("...Finishing property edit.");
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid property. Choose a valid node property:");
+                }
+            }
+        }
+    }
+
+    private void HandleValueInput(String prop, HashMap<String,Object> propertyToValues){
+        System.out.println("Enter a new value for \"" + prop +"\":");
+        System.out.print("[\"" + prop +"\"] -> ");
+        String value = input.nextLine();
+
+        if(TryParseDouble(value))
+        {
+            Double dValue = Double.parseDouble(value);
+            propertyToValues.put(prop, dValue);
+        }
+        else
+        {
+            propertyToValues.put(prop, value);
+        }
+    }
+
+    public static void main(String[] args){
+        GraphDriver driver = new GraphDriver();
+        driver.Drive();
+    }
 }
+
