@@ -16,23 +16,23 @@ import java.util.Scanner;
         }
 
         private static void executeCmd(String input){
-            DbUtils database;
-            database = new DbUtils();
-            database.getConnection();
+            graphTool.GraphApi database;
+            database = new graphTool.GraphApi();
             try {
                 Scanner sc = new Scanner(System.in);
                 menu();
                 switch (input) {
                     case "init":
-                        //database.getNodeById("node", "username", "user1@neo4j.org");
-                        //database.createNode("cubicleWorker","status", "peon",5 );
-                        //database.showAllNodes("cubicleWorker","status");
-                        //System.out.println(database);
-                        database.deleteNodes("cubicleWorker","status","peon");
-                        database.deleteNodes("node","status","username");
-                        //database.createRelationship("cubicleWorker","node");
-                        database.showRelationships("node","username","cubicleWorker","status");
-                        //database.showAllNodes("node","username");
+
+//
+                        database.createRelationship("Observation","thermal","Knowledge","sonarData");
+                        database.createRelationship("Root","root","Observation","thermal");
+                        database.createObservation("thermal");
+                        database.createObservation("flight");
+                        database.showObservationByType("thermal");
+                        database.showObservationByType("flight");
+                        database.showRoot("root");
+
 
                     case "clone":
 
