@@ -1,3 +1,5 @@
+package graphTool;
+
 /**
  * Const holds variables used throughout GGIT/graphTool
  */
@@ -16,6 +18,8 @@ public class Const {
     /**
      * Database Labels
      */
+    public static final String ROOT_LABEL = "ROOT";
+
     public static final String OBSERVATION_LABEL = "OBSERVATION";
 
     public static final String KNOWLEDGE_LABEL = "KNOWLEDGE";

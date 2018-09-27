@@ -1,13 +1,19 @@
+package graphTool;
+
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class DbUtils
 {
     GraphDatabaseService graphDb;
+
+    Node root;
 
     private void connectDatabase()
     {
@@ -30,27 +36,38 @@ public class DbUtils
         } );
     }
 
+    public List<Node> getNodesByType(String observationLabel) {
+        List<Node> nodes = new ArrayList<>();
+        return nodes;
+    }
+
 
     private enum RelTypes implements RelationshipType
     {
         KNOWS
     }
 
-    public void createNode(String nodeType,String prop, String propVal, int num)
+    public Node init() {
+        this.root = this.graphDb.createNode(Label.label(Const.ROOT_LABEL));
+        return root;
+    }
+
+    public Node createNode(String nodeType, HashMap<String, Object> props)
     {
+        Node node;
         try ( Transaction tx = graphDb.beginTx() )
         {
             Label label = Label.label(nodeType);
 
-            // Create some users
-            for ( int id = 1; id <= num; id++ )
-            {
-                Node userNode = graphDb.createNode( label );
-                userNode.setProperty( prop, propVal );
+            node = graphDb.createNode( label );
+            for (String prop: props.keySet()) {
+                node.setProperty(prop, props.get(prop));
             }
             System.out.println( nodeType +  " created" );
             tx.success();
         }
+
+        return node;
     }
 
     public void createDefaultNodes(String name ,int num)
