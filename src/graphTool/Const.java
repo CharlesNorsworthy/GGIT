@@ -1,5 +1,9 @@
 package graphTool;
 
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,16 +29,16 @@ public class Const {
     /**
      * Database Labels
      */
-    public static final String ROOT_LABEL = "ROOT";
+    public static final Label ROOT_LABEL = Label.label("ROOT");
 
-    public static final String OBSERVATION_LABEL = "OBSERVATION";
+    public static final Label OBSERVATION_LABEL = Label.label("OBSERVATION");
 
-    public static final String KNOWLEDGE_LABEL = "KNOWLEDGE";
+    public static final Label KNOWLEDGE_LABEL = Label.label("KNOWLEDGE");
 
     /**
      * Database Relationships
      */
-    public static final String RELATE_ROOT_OBS = "Observation";
+    public static final RelationshipType RELATE_ROOT_OBSERVATION = RelationshipType.withName("Observation");
 
-    public static final String RELATE_OBS_KNOW = "Knowledge";
+    public static final RelationshipType RELATE_OBSERVATION_KNOWLEDGE = RelationshipType.withName("Knowledge");
 }
