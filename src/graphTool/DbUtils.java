@@ -84,19 +84,16 @@ public class DbUtils
         }
     }
 
-    public int assignDepth(Node node)
+el    public int checkDepth(Label label)
     {
-
-        String label = node.getLabels().toString();
-        System.out.println(label);
         switch(label){
-            case "[Root]":
+            case Const.ROOT_LABEL:
                  return 0;
 
-            case "[Observation]":
+            case Const.OBSERVATION_LABEL:
                  return 1;
 
-            case "[Knowledge]":
+            case Const.KNOWLEDGE_LABEL:
                  return 2;
 
         }
@@ -239,21 +236,17 @@ public class DbUtils
         }
     }
 
-    public void createRelationship(String nodeType1, Node node1, String nodeType2, Node node2)
+    public void createRelationship(Label label1, Node node1, Label label2, Node node2)
     {
 
         Relationship relationship;
 
         try( Transaction tx = graphDb.beginTx())
         {
-            Label label1 = Label.label(nodeType1);
-            Label label2 = Label.label(nodeType2);
 
-            int node1_depth = (int)(node1.getProperty("depth"));
-            int node2_depth =(int)(node2.getProperty("depth"));
+            int node1_depth = checkDepth(label1);
+            int node2_depth = checkDepth(label2);
 
-           // printNode(node1);
-           // printNode(node2);
            showAllGraphRelationships();
 
             if((Math.abs(node1_depth - node2_depth) == 1))
