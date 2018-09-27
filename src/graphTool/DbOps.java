@@ -16,7 +16,7 @@ public class DbOps {
 
     public void createObservation(HashMap<String, Object> props) {
         Node obsNode = db.createNode(Const.OBSERVATION_LABEL, props);
-        db.createRelationship(root, obsNode);
+        db.createRelationship(Const.ROOT_LABEL, root, Const.OBSERVATION_LABEL, obsNode);
     }
 
     public HashMap<String, Object> readObservation(String id) {
