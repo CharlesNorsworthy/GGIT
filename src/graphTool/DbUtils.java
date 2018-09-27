@@ -1,19 +1,15 @@
 package graphTool;
-
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class DbUtils
 {
     GraphDatabaseService graphDb;
-
-    Node root;
 
     private void connectDatabase()
     {
@@ -36,38 +32,78 @@ public class DbUtils
         } );
     }
 
-    public List<Node> getNodesByType(String observationLabel) {
-        List<Node> nodes = new ArrayList<>();
-        return nodes;
-    }
-
 
     private enum RelTypes implements RelationshipType
     {
-        KNOWS
+        Observ_to_Know,Root_to_Observ
+
     }
 
-    public Node init() {
-        this.root = this.graphDb.createNode(Label.label(Const.ROOT_LABEL));
-        return root;
-    }
-
-    public Node createNode(String nodeType, HashMap<String, Object> props)
+    private enum Direction implements RelationshipType
     {
-        Node node;
+        OUTGOING
+
+    }
+
+    public void createNode(String nodeType,HashMap<String, Object> props)
+    {
+        int depth;
+        Label label = Label.label(nodeType);
+
         try ( Transaction tx = graphDb.beginTx() )
         {
-            Label label = Label.label(nodeType);
 
-            node = graphDb.createNode( label );
-            for (String prop: props.keySet()) {
-                node.setProperty(prop, props.get(prop));
+            //Check for duplicates first
+            Node findDuplicates = graphDb.findNode(label,"id",idVal);
+
+            if(findDuplicates == null)//If no copies in DB we create new node
+            {
+                Node node = graphDb.createNode(label);
+                node.setProperty("id", idVal);
+
+                depth = assignDepth(node); //auto assign depth according to label
+                node.setProperty("depth", depth);
+
             }
-            System.out.println( nodeType +  " created" );
+            else
+                {
+
+                   updateNode(findDuplicates,"id",idVal);//Duplicate was found we just update id for now
+
+                }
+
             tx.success();
         }
+    }
 
-        return node;
+    public void updateNode(Node node, String id, String idVal){
+
+        try ( Transaction tx = graphDb.beginTx() )
+        {
+            node.setProperty(id,idVal);
+
+            tx.success();
+
+        }
+    }
+
+    public int assignDepth(Node node)
+    {
+
+        String label = node.getLabels().toString();
+        System.out.println(label);
+        switch(label){
+            case "[Root]":
+                 return 0;
+
+            case "[Observation]":
+                 return 1;
+
+            case "[Knowledge]":
+                 return 2;
+
+        }
+        return 0;
     }
 
     public void createDefaultNodes(String name ,int num)
@@ -87,7 +123,7 @@ public class DbUtils
         }
     }
 
-    public void showAllNodes(String nodeName,String prop)
+    public void showAllNodesofProp(String nodeName,String prop)
     {
 
         Label label = Label.label(nodeName);
@@ -115,26 +151,24 @@ public class DbUtils
 
     }
 
-    public void getNodeById(String nodeName,String prop, String id){
-
-        Label label = Label.label(nodeName);
+    public void getNodeById(String nodeType,String prop,String id){
+        Label label = Label.label(nodeType);
 
         try ( Transaction tx = graphDb.beginTx() )
         {
-            try ( ResourceIterator<Node> users =
-                          graphDb.findNodes( label, prop, id) )
+            try ( ResourceIterator<Node> users = graphDb.findNodes(label, prop, id))
+
             {
                 ArrayList<Node> userNodes = new ArrayList<>();
-                while ( users.hasNext() )
+                while (users.hasNext())
                 {
-                    userNodes.add( users.next() );
+                    userNodes.add(users.next());
 
                 }
-
-                for ( Node node : userNodes )
+                for (Node node : userNodes)
                 {
-                    System.out.println(
-                            "The username of user " + id + " is " + node.getProperty( prop ) );
+                    System.out.println( "The username of user " + id + " is " + node.getProperty(prop));
+
                 }
             }
             tx.success();
@@ -158,162 +192,145 @@ public class DbUtils
         }
     }
 
-    public void createRelationship(String nodeType1,String nodeType2 )
+    public void deleteNodes(String nodeType)
     {
+        try ( Transaction tx = graphDb.beginTx())
+        {
+            Label label = Label.label(nodeType);
+            ResourceIterator<Node> nodes = (graphDb.findNodes(label));
+
+            while(nodes.hasNext())
+            {
+                Node current = nodes.next();
+                current.delete();
+            }
+            tx.success();
+        }
+    }
+
+    public void createRelationship(String nodeType1,String node1_Id,String nodeType2,String node2_Id)
+    {
+
         Relationship relationship;
+
         try( Transaction tx = graphDb.beginTx())
         {
             Label label1 = Label.label(nodeType1);
             Label label2 = Label.label(nodeType2);
 
-            ResourceIterator<Node> node = (graphDb.findNodes(label1));
-            ResourceIterator<Node> node2 = (graphDb.findNodes(label2));
+            Node node1 = (graphDb.findNode(label1,"id",node1_Id));
+            Node node2 = (graphDb.findNode(label2, "id",node2_Id));
 
-            while(node.hasNext()){
-                Node firstNode = node.next();
-                Node secondNode = node2.next();
+            int node1_depth = (int)(node1.getProperty("depth"));
+            int node2_depth =(int)(node2.getProperty("depth"));
 
-                relationship = firstNode.createRelationshipTo( secondNode, RelTypes.KNOWS );
-                relationship.setProperty( "link", "we are related " );
+           // printNode(node1);
+           // printNode(node2);
+           showAllGraphRelationships();
+
+            if((Math.abs(node1_depth - node2_depth) == 1))
+                {
+                    if (node1_depth < node2_depth)
+                    {
+                        RelTypes relTypes = getRelationshipType(node1, node2);
+                        relationship = node1.createRelationshipTo(node2, relTypes);
+
+                    }
+
+                    if (node1_depth > node2_depth)
+                    {
+                        RelTypes relTypes = getRelationshipType(node2, node1);
+                        relationship = node2.createRelationshipTo(node1, relTypes);
+
+                    }
+
+                }
+                else
+                    {
+                        System.out.println("nodes cannot be connected");
+
+                    }
+                tx.success();
             }
+    }
+
+    public void printNode(Node node)
+    {
+        System.out.println("Label: "+ node.getLabels() + " id:" + node.getProperty("id") + " relationship:" + node.getRelationshipTypes() + " #relationships: " + node.getRelationships());
+    }
+
+    public void printNode(String labelName,String nodeType)
+    {
+
+        Label label = Label.label(labelName);
+        try( Transaction tx = graphDb.beginTx())
+        {
+            Node node = graphDb.findNode(label,"id",nodeType);
+            System.out.println("Label: "+ node.getLabels() + " id:" + node.getProperty("id") + " depth: " + node.getProperty("depth") +" relationship:" + node.getRelationshipTypes() + " #relationships: " + node.getRelationships());
+
+            tx.success();
+
         }
     }
 
-    public void showRelationships(String nodeType1, String prop1,String nodeType2,String prop2){
+    public void showAllGraphRelationships()
+    {
+        RelationshipType relationship;
+
+        try( Transaction tx = graphDb.beginTx())
+        {
+           // ResourceIterable<RelationshipType> allRelationships = graphDb.getAllRelationshipTypes();
+           // ResourceIterator<RelationshipType> relationshipTypes = graphDb.getAllRelationshipTypes();
+//            while(relationshipTypes.hasNext())
+//            {
+//                relationship = relationshipTypes.next();
+//                System.out.println(relationship);
+//            }
+            //relationships.showAllGraphRelationships();
+
+            tx.success();
+        }
+    }
+
+    private RelTypes getRelationshipType(Node node1, Node node2)
+    {
+        if((int)node1.getProperty("depth") == 0)
+        {
+            return RelTypes.Root_to_Observ;
+
+        }
+        else if((int)node1.getProperty("depth") == 1)
+        {
+            return  RelTypes.Observ_to_Know;
+
+        }
+        else{
+            return null;
+        }
+    }
+
+    public void showRelationships(String nodeType1, String prop1,String nodeType2,String prop2)
+    {
+
         Relationship relationship;
+
         try( Transaction tx = graphDb.beginTx())
         {
 
-             Label label1 = Label.label("a");
-             Label label2 = Label.label("b");
-             Node node1 = graphDb.createNode(label1);
-             Node node2 = graphDb.createNode(label2);
-            node1.setProperty("prop","Patrick hates");
-            node2.setProperty("prop", "neo4j");
-            relationship = node1.createRelationshipTo( node2, RelTypes.KNOWS );
-            relationship.setProperty( "message", "relationships in" );
+            Label label1 = Label.label(nodeType1);
+            Label label2 = Label.label(nodeType2);
 
-            System.out.println(node1.getProperty("prop"));
-            System.out.println(relationship.getProperty("message"));
-            System.out.println(node2.getProperty("prop"));
-//            Label label1 = Label.label(nodeType1);
-//            Label label2 = Label.label(nodeType2);
-//
-//            ResourceIterator<Node> node = (graphDb.findNodes(label1));
-//            ResourceIterator<Node> node2 = (graphDb.findNodes(label2));
-//
-//            while(node.hasNext()){
-//                Node firstNode = node.next();
-//               // Node secondNode = node2.next();
-//
-//                System.out.println(firstNode.getProperties(prop1));
-//                System.out.println(firstNode.getSingleRelationship(RelTypes.KNOWS,Direction.OUTGOING));
-//               // System.out.println(secondNode.getProperties(prop2));
-//                //System.out.println(secondNode.getRelationships());
-//
-//            }
+            Node node1 = graphDb.createNode(label1);
+            Node node2 = graphDb.createNode(label2);
+
+
         }
 
     }
-//    public void updateNodeProperty()
-//    {
-//        try ( Transaction tx = graphDb.beginTx() )
-//        {
-//            Label label = Label.label( "User" );
-//            int idToFind = 45;
-//            String nameToFind = "user" + idToFind + "@neo4j.org";
-//
-//            ResourceIterator<Node>loop;
-//            for ( Node node : loop =( graphDb.findNodes( label, "username", nameToFind ) ) )
-//            {
-//                node.setProperty( "username", "user" + (idToFind + 1) + "@neo4j.org" );
-//            }
-//            tx.success();
-//        }
-//    }
 
     public void getConnection()
     {
         connectDatabase();
     }
-//    private final Driver driver;
-//
-//    public DbConnection()
-//    {
-//
-//        driver = GraphDatabase.driver("bolt://localhost:7687",AuthTokens.basic( "neo4j", "password"));
-//    }
-//
-//
-//    public DbConnection( String uri, String user, String password )
-//    {
-//        driver = GraphDatabase.driver( uri, AuthTokens.basic( user, password ) );
-//    }
-//
-//    @Override
-//    public void close() throws Exception
-//    {
-//        driver.close();
-//    }
-//
-//    public void addNode(String[] args){
-//        //Create a node with 1 basic property
-//        try ( Session session = driver.session() )
-//        {
-//            session.run("CREATE " + "(" + args[0] + ":" + args[1] + "{" + args[2] + ":$" + args[2] + "})",
-//                        parameters( args[2], args[3] ) );
-//        }
-//    }
-//
-//    public StatementResult showNodes(String[] args){
-//           Session session = driver.session();
-//
-//        {
-//            StatementResult result = session.run( "MATCH (" + args[0] + ":" + args[1] +") RETURN " + args[0] +"."+ args[2]);
-//            while(result.hasNext() )
-//            {
-//                Record record = result.next();
-//                System.out.println( String.format( record.get(args[0]+"."+ args[2]).asString()) );
-//            }
-//            return result;
-//        }
-//
-//    }
-//
-//    public void queryDatabase(String query, String[] params) {
-//        //String[] split = params.;
-//        try ( Session session = driver.session() )
-//        {
-//            session.run(query, parameters( ) );
-//
-//        }
-//    }
-//
-//    public void printGreeting( final String message )
-//    {
-//        try ( Session session = driver.session() )
-//        {
-//            String greeting = session.writeTransaction( new TransactionWork<String>()
-//            {
-//                @Override
-//                public String execute( Transaction tx )
-//                {
-//                    StatementResult result = tx.run( "CREATE (a:Greeting) " +
-//                                    "SET a.message = $message " +
-//                                    "RETURN a.message + ', from node ' + id(a)",
-//                                     parameters( "message", message ) );
-//                    return result.single().get( 0 ).asString();
-//                }
-//            } );
-//            System.out.println( greeting );
-//        }
-//    }
-//
-//    public static void main( String... args ) throws Exception
-//    {
-//        try ( DbConnection greeter = new DbConnection( "bolt://localhost:7687", "neo4j", "password" ) )
-//        {
-//            greeter.printGreeting( "hello, world" );
-//        }
-//    }
+
 }
