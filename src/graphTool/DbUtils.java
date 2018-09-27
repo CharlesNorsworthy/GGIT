@@ -4,6 +4,7 @@ import org.neo4j.graphdb.factory.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class DbUtils
@@ -44,7 +45,7 @@ public class DbUtils
 
     }
 
-    public void createNode(String nodeType,String idVal)
+    public void createNode(String nodeType,HashMap<String, Object> props)
     {
         int depth;
         Label label = Label.label(nodeType);

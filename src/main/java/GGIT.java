@@ -24,15 +24,15 @@ import java.util.Scanner;
                 switch (input) {
                     case "init":
 
+////
+//                        database.createRelationship("Observation","thermal","Knowledge","sonarData");
+//                        database.createRelationship("Root","root","Observation","thermal");
+//                        database.createObservation("thermal");
+//                        database.createObservation("flight");
+//                        database.showObservationByType("thermal");
+//                        database.showObservationByType("flight");
+//                        database.showRoot("root");
 //
-                        database.createRelationship("Observation","thermal","Knowledge","sonarData");
-                        database.createRelationship("Root","root","Observation","thermal");
-                        database.createObservation("thermal");
-                        database.createObservation("flight");
-                        database.showObservationByType("thermal");
-                        database.showObservationByType("flight");
-                        database.showRoot("root");
-
 
                     case "clone":
 
