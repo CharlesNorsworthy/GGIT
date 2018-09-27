@@ -2,6 +2,7 @@ package graphTool;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import org.neo4j.graphdb.Label;
 
 public class GraphDriver{
 
@@ -103,7 +104,7 @@ public class GraphDriver{
         }
     }
 
-    private void initCreateNode(String label){
+    private void initCreateNode(Label label){
         System.out.println("\n...Creating a new " + label + ":\n");
         System.out.print("...Set the following property values: ");
         System.out.print("[ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]\n");
@@ -156,7 +157,7 @@ public class GraphDriver{
         }
     }
 
-    private void initUpdateNode(String label){
+    private void initUpdateNode(Label label){
         System.out.println("\n...Update an existing " + label + ":\n");
         System.out.print("...Enter the Id value for the node being updated: ");
 
@@ -192,7 +193,7 @@ public class GraphDriver{
         }
     }
 
-    private void initDeleteNode(String label){
+    private void initDeleteNode(Label label){
         System.out.println("\n...Update an existing " + label + ":\n");
         System.out.print("...Enter the Id value for the node being updated: ");
 
