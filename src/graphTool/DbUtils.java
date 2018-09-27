@@ -1,3 +1,5 @@
+package graphTool;
+
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
 

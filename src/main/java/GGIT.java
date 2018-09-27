@@ -1,10 +1,14 @@
+import graphTool.GraphDriver;
+
 /** GGIT is the driver class for this Graph Database Version Control System
  * Command line input drives this class
  */
 public class GGIT
 {
     public static void main(String args[]) {
-        executeCmd(args);
+        GraphDriver graphDriver = new GraphDriver();
+        graphDriver.Drive();
+        //executeCmd(args);
     }
 
     private static void executeCmd(String args[]){

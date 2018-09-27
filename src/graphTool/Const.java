@@ -1,3 +1,9 @@
+package graphTool;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Const holds variables used throughout GGIT/graphTool
  */
@@ -13,6 +19,10 @@ public class Const {
 
     public static final String NAME = "name";
 
+    public static final String DESCRIPTION = "description";
+
+    public static List<String> NODE_PROPERTIES = Arrays.asList( UUID, NAME, LATITUDE, LONGITUDE, DESCRIPTION );
+
     /**
      * Database Labels
      */
@@ -26,4 +36,11 @@ public class Const {
     public static final String RELATE_ROOT_OBS = "Observation";
 
     public static final String RELATE_OBS_KNOW = "Knowledge";
+    /**
+     * Menu Selectors
+     */
+    public static final int OBSERVATION_MENU_ID = 1;
+    public static final int KNOWLEDGE_MENU_ID = 2;
+    public static final int RELATIONSHIP_MENU_ID = 3;
+
 }

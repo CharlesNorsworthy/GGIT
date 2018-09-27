@@ -1,7 +1,9 @@
 package graphTool;
 
+import java.util.HashMap;
+
 public class DbOps {
-    DbUtils database = new DbUtils();
+    DbUtils database;
     Node root = DbUtils.init();
 
     DbOps() {
@@ -13,31 +15,27 @@ public class DbOps {
 
     }
 
-    public void readObservation() {
+    public HashMap readObservation(String UUID) {
+        return null;
+    }
+
+    public void updateObservation(String UUID, HashMap<String, Object> obs) {
 
     }
 
-    public void updateObservation() {
+    public void deleteObservation(String UUID) {
 
     }
 
-    public void deleteObservation() {
+    public void createKnowledge(HashMap<String, Object> knw) {
 
     }
 
-    public void createKnowledge() {
-
+    public HashMap readKnowledge(String UUID) {
+        return null;
     }
 
-    public void readKnowledge() {
+    public void updateKnowledge(String UUID, HashMap<String, Object> knw) { }
 
-    }
-
-    public void updateKnowledge() {
-
-    }
-
-    public void deleteKnowledge() {
-
-    }
+    public void deleteKnowledge(String UUID) { }
 }

@@ -7,13 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cc32833-9d98-4331-ba89-09f4e942cfb4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/graphTool/GraphDriver" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphTool/api.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/api.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/Const.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/DbOps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/DbOps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/DbUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/DbUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/GraphDriver" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/GraphDriver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/api.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/GraphApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GGIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GGIT.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -32,11 +35,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="api.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+      <file leaf-file-name="GraphApi.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+              <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DbOps.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/graphTool/DbOps.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="472">
+              <caret line="40" column="1" lean-forward="true" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
+              <folding>
+                <element signature="method#createObservation#0;class#DbOps#0" />
+                <element signature="method#updateObservation#0;class#DbOps#0" />
+                <element signature="method#deleteObservation#0;class#DbOps#0" />
+                <element signature="method#createKnowledge#0;class#DbOps#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -44,17 +62,20 @@
       <file leaf-file-name="GraphDriver" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/graphTool/GraphDriver">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="10" column="41" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="265">
+              <caret line="199" column="20" selection-start-line="199" selection-start-column="20" selection-end-line="199" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#&lt;unnamed&gt;#0;class#GraphDriver#0" />
+                <element signature="method#showMoreOptions#0;class#GraphDriver#0" />
+                <element signature="method#executeMainCommand#0;class#GraphDriver#0" />
+                <element signature="method#executeMoreCommand#0;class#GraphDriver#0" />
+                <element signature="method#HandleValueInput#0;class#GraphDriver#0" />
+                <element signature="e#8811#8812#0" expanded="true" />
+                <element signature="e#8842#8843#0" expanded="true" />
+                <element signature="method#Drive#0;class#GraphDriver#0" />
+                <element signature="method#tryParseDouble#0;class#GraphDriver#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -62,8 +83,35 @@
       <file leaf-file-name="GGIT.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+            <state>
+              <caret column="16" selection-start-column="16" selection-end-column="16" />
+              <folding>
+                <element signature="method#executeCmd#0;class#GGIT#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DbUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Const.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/graphTool/Const.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="23" column="64" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="64" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -431,8 +479,12 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/graphTool/RESTdemo/RESTapp.java" />
         <option value="$PROJECT_DIR$/src/graphTool/RESTdemo/RESTdemo.java" />
+        <option value="$PROJECT_DIR$/src/graphTool/Const.java" />
+        <option value="$PROJECT_DIR$/src/graphTool/DbUtils.java" />
         <option value="$PROJECT_DIR$/src/graphTool/api.java" />
+        <option value="$PROJECT_DIR$/src/main/java/GraphDriver" />
         <option value="$PROJECT_DIR$/src/main/java/GGIT.java" />
+        <option value="$PROJECT_DIR$/src/graphTool/DbOps.java" />
         <option value="$PROJECT_DIR$/src/graphTool/GraphDriver" />
       </list>
     </option>
@@ -454,9 +506,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
+    <option name="x" value="-8" />
     <option name="width" value="1933" />
-    <option name="height" value="1039" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -487,13 +539,13 @@
               <item name="1" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="1" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -506,9 +558,10 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -530,7 +583,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.GGIT">
+    <configuration name="GGIT" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GGIT" />
+      <module name="1_main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="1_main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="graphTool.Main" />
+      <module name="1" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -643,6 +717,19 @@
         <option name="BuildArtifacts" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Tomcat Server.Tomcat REST demo" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Main (1)" />
+      <item itemvalue="Application.GGIT" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GGIT" />
+        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -659,30 +746,31 @@
       <workItem from="1537928605113" duration="3780000" />
       <workItem from="1537999209680" duration="240000" />
       <workItem from="1538005071927" duration="9421000" />
-      <workItem from="1538018534414" duration="2245000" />
+      <workItem from="1538018534414" duration="20183000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20369000" />
+    <option name="totallyTimeSpent" value="38307000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1546" height="831" extended-state="0" />
+    <frame x="-6" y="0" width="1546" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.32420748" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Application Servers" order="8" weight="0.3266187" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3299712" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3294964" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="4" sideWeight="0.49786323" visible="true" weight="0.26716015" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32708934" />
+      <window_info content_ui="combo" id="Project" order="4" sideWeight="0.49786323" visible="true" weight="0.2806191" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.3266187" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="0" sideWeight="0.50213677" side_tool="true" weight="0.26312247" />
@@ -698,7 +786,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32564843" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -708,7 +795,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+    <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="37" column="5" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
@@ -726,6 +813,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="39" selection-start-line="1" selection-start-column="39" selection-end-line="1" selection-end-column="39" />
+          <folding>
+            <element signature="method#executeCmd#0;class#GGIT#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -761,7 +851,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+    <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
@@ -771,7 +861,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+    <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-70" />
       </provider>
@@ -793,7 +883,7 @@
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+    <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
@@ -817,23 +907,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4470" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/out/artifacts/rest_tomcat_rest_demo_war_exploded/WEB-INF/classes/GGIT.class" />
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+    <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="37" column="5" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
@@ -860,34 +938,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/DbOps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="41" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/graphTool/GUI/graphApi.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphTool/GraphApi.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
+          <folding>
+            <element signature="method#executeCmd#0;class#GGIT#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphTool/Const.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="23" column="64" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphTool/DbOps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="40" column="1" lean-forward="true" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
+          <folding>
+            <element signature="method#createObservation#0;class#DbOps#0" />
+            <element signature="method#updateObservation#0;class#DbOps#0" />
+            <element signature="method#deleteObservation#0;class#DbOps#0" />
+            <element signature="method#createKnowledge#0;class#DbOps#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/graphTool/GraphDriver">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="10" column="41" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
+        <state relative-caret-position="265">
+          <caret line="199" column="20" selection-start-line="199" selection-start-column="20" selection-end-line="199" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#&lt;unnamed&gt;#0;class#GraphDriver#0" />
+            <element signature="method#showMoreOptions#0;class#GraphDriver#0" />
+            <element signature="method#executeMainCommand#0;class#GraphDriver#0" />
+            <element signature="method#executeMoreCommand#0;class#GraphDriver#0" />
+            <element signature="method#HandleValueInput#0;class#GraphDriver#0" />
+            <element signature="e#8811#8812#0" expanded="true" />
+            <element signature="e#8842#8843#0" expanded="true" />
+            <element signature="method#Drive#0;class#GraphDriver#0" />
+            <element signature="method#tryParseDouble#0;class#GraphDriver#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -969,7 +1095,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Gradle: com.github.ben-manes.caffeine:caffeine:2.6.2</last-edited>
+          <last-edited>Gradle: org.neo4j:neo4j-cypher-compiler-3.1:3.1.9</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
