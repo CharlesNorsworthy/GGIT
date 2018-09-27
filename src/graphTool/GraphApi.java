@@ -1,17 +1,13 @@
 package graphTool;
 
-<<<<<<< HEAD
 import org.neo4j.graphdb.Node;
 
-=======
->>>>>>> 12f1d15a1b2be46d153f0793ee21072665952df6
 /**
  * The GraphApi class will handle the outward facing api.
  * Possibly utilze Swagger
  */
 public class GraphApi {
 
-<<<<<<< HEAD
     graphTool.DbUtils database;
 
     public GraphApi(){
@@ -82,40 +78,7 @@ public class GraphApi {
 
     }
 
-    public void deleteAllRootsOfProperty(String prop, String propVal)
-    {
+    public void deleteAllRootsOfProperty(String prop, String propVal) {
         database.deleteNodes("Root", prop, propVal);
-=======
-    public void createObservation() {
-
-    }
-
-    public void readObservation() {
-
-    }
-
-    public void updateObservation() {
-
-    }
-
-    public void deleteObservation() {
-
-    }
-
-    public void createKnowledge() {
-
-    }
-
-    public void readKnowledge() {
-
-    }
-
-    public void updateKnowledge() {
-
-    }
-
-    public void deleteKnowledge() {
->>>>>>> 12f1d15a1b2be46d153f0793ee21072665952df6
-
     }
 }
