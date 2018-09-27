@@ -1,4 +1,17 @@
+import graphTool.GraphDriver;
 
+/** GGIT is the driver class for this Graph Database Version Control System
+ * Command line input drives this class
+ */
+public class GGIT
+{
+    public static void main(String args[]) {
+        GraphDriver graphDriver = new GraphDriver();
+        graphDriver.Drive();
+        //executeCmd(args);
+    }
+
+<<<<<<< HEAD
 import java.util.Scanner;
 
     public class GGIT
@@ -73,24 +86,49 @@ import java.util.Scanner;
                 }
             } catch (UnsupportedOperationException exception) {
                 System.out.println(exception);
+=======
+    private static void executeCmd(String args[]){
+        try {
+            String input = args[0];
+            switch (input) {
+                case "init":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "clone":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "add":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "commit":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "push":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "status":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "remote":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "checkout":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "branch":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "pull":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "merge":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "diff":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "log":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "fetch":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "reset":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                case "grep":
+                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                default:
+                    System.out.println("The user must enter a command");
+>>>>>>> 12f1d15a1b2be46d153f0793ee21072665952df6
             }
-
-        }
-
-        public static void menu () {
-            System.out.println("Please select an option");
-            System.out.println("1: Initilize Database");
-            System.out.println("2: clone");
-            System.out.println("3: add");
-            System.out.println("4: commit");
-//            System.out.println("5: push");
-//            System.out.println("6: pull");
-//            System.out.println("7: fetch");
-//            System.out.println("8: merge");
-//            System.out.println("9: status");
-//            System.out.println("10: remote");
-//            System.out.println("11: checkout");
+        } catch (UnsupportedOperationException e) {
+            System.out.println(e);
         }
     }
-
-
+}
