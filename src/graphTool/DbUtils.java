@@ -1,15 +1,28 @@
 package graphTool;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
+import org.neo4j.graphdb.traversal.Evaluators;
+import org.neo4j.graphdb.traversal.TraversalDescription;
+import org.neo4j.graphdb.traversal.Traverser;
+import org.neo4j.unsafe.impl.batchimport.cache.idmapping.string.DuplicateInputIdException;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class DbUtils
 {
+    Node root;
+
     GraphDatabaseService graphDb;
+
+    public Node init() {
+        this.root = this.graphDb.createNode(Const.ROOT_LABEL);
+        return this.root;
+    }
 
     private void connectDatabase()
     {
@@ -32,48 +45,32 @@ public class DbUtils
         } );
     }
 
-
-    private enum RelTypes implements RelationshipType
+    public Node createNode(Label label,HashMap<String, Object> props)
     {
-        Observ_to_Know,Root_to_Observ
-
-    }
-
-    private enum Direction implements RelationshipType
-    {
-        OUTGOING
-
-    }
-
-    public void createNode(String nodeType,HashMap<String, Object> props)
-    {
-        int depth;
-        Label label = Label.label(nodeType);
+        Node node;
 
         try ( Transaction tx = graphDb.beginTx() )
         {
 
             //Check for duplicates first
-            Node findDuplicates = graphDb.findNode(label,"id",idVal);
-
-            if(findDuplicates == null)//If no copies in DB we create new node
+            if(graphDb.findNode(label, Const.UUID, props.get(Const.UUID)) == null)//If no copies in DB we create new node
             {
-                Node node = graphDb.createNode(label);
-                node.setProperty("id", idVal);
+                node = graphDb.createNode(label);
 
-                depth = assignDepth(node); //auto assign depth according to label
-                node.setProperty("depth", depth);
-
-            }
-            else
-                {
-
-                   updateNode(findDuplicates,"id",idVal);//Duplicate was found we just update id for now
-
+                for (String key: props.keySet()) {
+                    node.setProperty(key, props.get(key));
                 }
-
-            tx.success();
+                tx.success();
+                return node;
+            } else {
+                tx.failure();
+                throw new IllegalArgumentException("ERROR :: A node already exists in the database for id: " + props.get(Const.UUID));
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
         }
+
+        return null;
     }
 
     public void updateNode(Node node, String id, String idVal){
@@ -173,7 +170,41 @@ public class DbUtils
             }
             tx.success();
         }
+    }
 
+    public List<Node> getNodesByType(Label type) {
+        try
+        {
+            List<Node> results = new ArrayList<>();
+            int depth = 0;
+            if (type.equals(Const.OBSERVATION_LABEL))
+            {
+                depth = 1;
+            }
+            else if (type.equals(Const.KNOWLEDGE_LABEL))
+            {
+                depth = 2;
+            }
+            TraversalDescription td = graphDb.traversalDescription()
+                    .breadthFirst()
+                    .relationships(Const.RELATE_ROOT_OBSERVATION, Direction.OUTGOING)
+                    .relationships(Const.RELATE_OBSERVATION_KNOWLEDGE, Direction.OUTGOING)
+                    .evaluator(Evaluators.toDepth(depth));
+            Traverser traverser = td.traverse(this.root);
+            for (Path path : traverser)
+            {
+                if (path.length() == depth && path.endNode().hasLabel(type))
+                {
+                    results.add(path.endNode());
+                }
+            }
+            return results;
+        }
+        catch (Exception e)
+        {
+            logger.error("get by type failed", e);
+            return new ArrayList<>();
+        }
     }
 
     public void deleteNodes(String nodeType,String prop, String propVal)
@@ -208,7 +239,7 @@ public class DbUtils
         }
     }
 
-    public void createRelationship(String nodeType1,String node1_Id,String nodeType2,String node2_Id)
+    public void createRelationship(String nodeType1, Node node1, String nodeType2, Node node2)
     {
 
         Relationship relationship;
@@ -217,9 +248,6 @@ public class DbUtils
         {
             Label label1 = Label.label(nodeType1);
             Label label2 = Label.label(nodeType2);
-
-            Node node1 = (graphDb.findNode(label1,"id",node1_Id));
-            Node node2 = (graphDb.findNode(label2, "id",node2_Id));
 
             int node1_depth = (int)(node1.getProperty("depth"));
             int node2_depth =(int)(node2.getProperty("depth"));
