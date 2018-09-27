@@ -1,6 +1,5 @@
 package graphTool;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +25,8 @@ public class Const {
     /**
      * Database Labels
      */
+    public static final String ROOT_LABEL = "ROOT";
+
     public static final String OBSERVATION_LABEL = "OBSERVATION";
 
     public static final String KNOWLEDGE_LABEL = "KNOWLEDGE";
@@ -36,11 +37,4 @@ public class Const {
     public static final String RELATE_ROOT_OBS = "Observation";
 
     public static final String RELATE_OBS_KNOW = "Knowledge";
-    /**
-     * Menu Selectors
-     */
-    public static final int OBSERVATION_MENU_ID = 1;
-    public static final int KNOWLEDGE_MENU_ID = 2;
-    public static final int RELATIONSHIP_MENU_ID = 3;
-
 }
