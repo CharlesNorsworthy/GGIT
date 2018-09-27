@@ -5,6 +5,7 @@ package graphTool;
  * Possibly utilze Swagger
  */
 public class GraphApi {
+
     public void createObservation() {
 
     }
