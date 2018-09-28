@@ -84,20 +84,25 @@ public class DbUtils
         }
     }
 
-el    public int checkDepth(Label label)
+    public int checkDepth(Label label)
     {
-        switch(label){
-            case Const.ROOT_LABEL:
-                 return 0;
-
-            case Const.OBSERVATION_LABEL:
-                 return 1;
-
-            case Const.KNOWLEDGE_LABEL:
-                 return 2;
-
+        Label depth = Const.ROOT_LABEL;
+        if(label == depth) {
+            return 0;
         }
+
+        depth = Const.OBSERVATION_LABEL;
+        if(label == depth){
+            return 1;
+        }
+
+        depth = Const.KNOWLEDGE_LABEL;
+        if(label == depth){
+            return 2;
+        }
+
         return 0;
+
     }
 
     public void createDefaultNodes(String name ,int num)
@@ -199,7 +204,7 @@ el    public int checkDepth(Label label)
         }
         catch (Exception e)
         {
-            logger.error("get by type failed", e);
+            //logger.error("get by type failed", e);
             return new ArrayList<>();
         }
     }
@@ -253,14 +258,14 @@ el    public int checkDepth(Label label)
                 {
                     if (node1_depth < node2_depth)
                     {
-                        RelTypes relTypes = getRelationshipType(node1, node2);
+                        RelationshipType relTypes = getRelationshipType(node1, node2);
                         relationship = node1.createRelationshipTo(node2, relTypes);
 
                     }
 
                     if (node1_depth > node2_depth)
                     {
-                        RelTypes relTypes = getRelationshipType(node2, node1);
+                        RelationshipType relTypes = getRelationshipType(node2, node1);
                         relationship = node2.createRelationshipTo(node1, relTypes);
 
                     }
@@ -313,16 +318,16 @@ el    public int checkDepth(Label label)
         }
     }
 
-    private RelTypes getRelationshipType(Node node1, Node node2)
+    private RelationshipType getRelationshipType(Node node1, Node node2)
     {
         if((int)node1.getProperty("depth") == 0)
         {
-            return RelTypes.Root_to_Observ;
+            return Const.RELATE_ROOT_OBSERVATION;
 
         }
         else if((int)node1.getProperty("depth") == 1)
         {
-            return  RelTypes.Observ_to_Know;
+            return  Const.RELATE_OBSERVATION_KNOWLEDGE;
 
         }
         else{
