@@ -9,9 +9,9 @@ public class DbUtils
 {
     GraphDatabaseService graphDb;
 
-    private void connectDatabase()
+    private void connectDatabase(String pathName)
     {
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File("\\C:\\Neo4J"));
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File(pathName));
         registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
     }
 
@@ -31,7 +31,7 @@ public class DbUtils
     }
 
 
-    private enum RelTypes implements RelationshipType
+    enum RelTypes implements RelationshipType
     {
         KNOWS
     }
@@ -70,7 +70,7 @@ public class DbUtils
         }
     }
 
-    public void showAllNodes(String nodeName,String prop)
+    public void showAllNodes(String nodeName, String prop)
     {
 
         Label label = Label.label(nodeName);
@@ -215,9 +215,9 @@ public class DbUtils
 //        }
 //    }
 
-    public void getConnection()
+    public void getConnection(String pathName)
     {
-        connectDatabase();
+        connectDatabase(pathName);
     }
 //    private final Driver driver;
 //

@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
     public class GGIT
@@ -13,12 +12,14 @@ import java.util.Scanner;
             String input = sc.nextLine();
 
             executeCmd(input);
+
         }
 
         private static void executeCmd(String input){
+            String pathName = "C:\\Neo4J";
             DbUtils database;
             database = new DbUtils();
-            database.getConnection();
+            database.getConnection(pathName);
             try {
                 Scanner sc = new Scanner(System.in);
                 menu();
@@ -30,7 +31,7 @@ import java.util.Scanner;
                         //System.out.println(database);
                         //database.deleteNodes("cubicleWorker","status","peon");
                         //database.createRelationship("cubicleWorker","node");
-                        database.showRelationships("node","username","cubicleWorker","status");
+                        //database.showRelationships("node","username","cubicleWorker","status");
                         //database.showAllNodes("node","username");
 
                     case "clone":

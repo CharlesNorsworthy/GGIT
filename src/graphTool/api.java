@@ -1,10 +1,10 @@
-package graphTool;
+
 
 /**
  * The GraphApi class will handle the outward facing api.
  * Possibly utilze Swagger
  */
-public class GraphApi {
+class GraphApi {
     public void createNode() {
 
     }
