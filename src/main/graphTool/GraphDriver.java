@@ -56,8 +56,8 @@ public class GraphDriver{
 
         System.out.println("------------- Graph Tool Driver ------------------\n\n");
         System.out.println("\tMORE-COMMANDS\n");
-        System.out.println("1 - Coming Soon");
-        System.out.println("2 - Coming Soon");
+        System.out.println("1 - List all Observations");
+        System.out.println("2 - List all Knowledges");
         System.out.println("3 - Coming Soon");
         System.out.println("0 - Main Menu");
         System.out.println("----------------------------------------------------\n");
@@ -122,7 +122,7 @@ public class GraphDriver{
     }
 
     private void initCreateNode(Label label){
-        System.out.println("\n...Creating a new " + label + ":\n");
+        System.out.println("\n...Creating a new " + label.name() + ":\n");
         System.out.print("...Set the following property values: ");
         System.out.print("[ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]\n");
 
@@ -175,7 +175,7 @@ public class GraphDriver{
     }
 
     private void initUpdateNode(Label label){
-        System.out.println("\n...Update an existing " + label + ":\n");
+        System.out.println("\n...Update an existing " + label.name() + ":\n");
         System.out.print("...Enter the Id value for the node being updated: ");
 
         String idValue = input.nextLine();
@@ -211,7 +211,7 @@ public class GraphDriver{
     }
 
     private void initDeleteNode(Label label){
-        System.out.println("\n...Update an existing " + label + ":\n");
+        System.out.println("\n...Update an existing " + label.name() + ":\n");
         System.out.print("...Enter the Id value for the node being updated: ");
 
         String idValue = input.nextLine();
