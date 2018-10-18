@@ -5,18 +5,20 @@ import java.io.File;
 
 public class TestMerge {
 
-    public static void main(String args[]) {
+    public static void main(String args[]){
 
         GraphDatabaseService testGraph1 = createTestGraph1();
         GraphDatabaseService testGraph2 = createTestGraph2();
         GraphDatabaseService mergedGraph = Merge.mergeMe(testGraph1, testGraph2);
 
         /* View the graph */
-        ResourceIterable<Node> mergedGraphAllNodes = mergedGraph.getAllNodes();
-        for(Node node: mergedGraphAllNodes){
-            System.out.println(node);
-            System.out.println(node.getRelationships());
-            System.out.println("--------------------------------------");
+        try (ResourceIterator<Node> mergedGraphAllNodesIterator = DbUtils.getAllNodesIterator(mergedGraph)) {
+            while (mergedGraphAllNodesIterator.hasNext()) {
+                Node node = mergedGraphAllNodesIterator.next();
+                //System.out.println(node.getProperty("ID"));
+                //System.out.println(node.getRelationships());
+                System.out.println("--------------------------------------");
+            }
         }
     }
 

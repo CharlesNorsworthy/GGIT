@@ -53,6 +53,43 @@ public class DbUtils
         }
     }
 
+    static void putNodeInGraph(GraphDatabaseService graph, Node node){
+        try(Transaction tx = graph.beginTx()){ //TODO: put in relationships and ids
+            String id = (String) node.getProperty("ID");
+            Node newNode = graph.createNode();
+            newNode.setProperty("ID", id);
+
+            tx.success();
+        }
+    }
+
+    public static String getNodeID(GraphDatabaseService graph, Node node){
+        String ID;
+        try(Transaction tx = graph.beginTx()){
+            ID = node.getProperty("ID").toString();
+            tx.success();
+        }
+        return ID;
+    }
+
+    public static boolean testIteratorHasNext(GraphDatabaseService graph, ResourceIterable<Node> iterator){
+        boolean result;
+        try(Transaction tx = graph.beginTx()){
+            result = iterator.iterator().hasNext();
+            tx.success();
+        }
+        return result;
+    }
+
+    public static Node getNextNodeFromIterator(GraphDatabaseService graph, ResourceIterable<Node> iterator){
+        Node nextNode;
+        try(Transaction tx = graph.beginTx()){
+            nextNode = iterator.iterator().next();
+            tx.success();
+        }
+        return nextNode;
+    }
+
     public void createDefaultNodes(String name ,int num)
     {
         try ( Transaction tx = graphDb.beginTx() )
@@ -96,6 +133,18 @@ public class DbUtils
             tx.success();
         }
 
+    }
+
+    static ResourceIterator<Node> getAllNodesIterator(GraphDatabaseService graph){
+        ResourceIterator<Node> allIterableNodes;
+        try(Transaction tx = graph.beginTx()){
+            ResourceIterable<Node> iterable = graph.getAllNodes();
+            allIterableNodes = iterable.iterator();
+
+            tx.success();
+        }
+
+        return allIterableNodes;
     }
 
     public void getNodeById(String nodeName,String prop, String id){

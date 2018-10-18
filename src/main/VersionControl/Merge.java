@@ -22,36 +22,26 @@ class Merge {
 
         GraphDatabaseService mergedGraph = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\MergedGraph"));
 
-        try(Transaction tx = mergedGraph.beginTx()){
+        //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
+        try (ResourceIterator<Node> graph1AllNodesIterator = DbUtils.getAllNodesIterator(graph1); ResourceIterator<Node> graph2AllNodesIterator = DbUtils.getAllNodesIterator(graph2)) {
+            //Node nextNode1, nextNode2;
+            while (graph1AllNodesIterator.hasNext() || graph1AllNodesIterator.hasNext()) {
 
-            mergedGraph.createNode();
+                //Preemptively add the first node to graph 1.
+                Node nextNode1 = graph1AllNodesIterator.next();
+                DbUtils.putNodeInGraph(mergedGraph, nextNode1);
 
-            //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
-            ResourceIterable<Node> graph1AllNodes = graph1.getAllNodes();
-            ResourceIterable<Node> graph2AllNodes = graph2.getAllNodes();
+                //Only add the next node from graph 2 if it doesn't have the same id as the next node from graph 1.
+                //So you won't add the same node twice.
+                Node nextNode2 = graph2AllNodesIterator.next();
 
-            Node nextNode1, nextNode2;
-            while(graph1AllNodes.iterator().hasNext() || graph2AllNodes.iterator().hasNext()){
-
-                try {
-                    //Preemptively add the first node to graph 1.
-                    nextNode1 = graph1AllNodes.iterator().next();
-                    mergedGraph.createNode((Label) nextNode1);
-                    //create relationship
-                    nextNode1.getRelationships();
-
-                    //Only add the next node from graph 2 if it doesn't have the same id as the next node from graph 1.
-                    //So you won't add the same node twice.
-                    nextNode2 = graph2AllNodes.iterator().next();
-                    //create relationship
-                    nextNode2.getRelationships();
-                    if(nextNode1.getProperty("ID") != nextNode2.getProperty("ID")){
-                        mergedGraph.createNode((Label) nextNode2);
-                    }
-                } catch(Exception ignored){}
+                //If the ids of the next nodes aren't equal, put in the next node from the second graph
+                if (!DbUtils.getNodeID(graph1, nextNode1).equals(DbUtils.getNodeID(graph2, nextNode2))) {
+                    DbUtils.putNodeInGraph(mergedGraph, nextNode2);
+                }
             }
-            tx.success();
         }
-        return mergedGraph;
+
+    return mergedGraph;
     }
 }
