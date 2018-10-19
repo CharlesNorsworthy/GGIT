@@ -90,7 +90,11 @@ public class GraphDriver{
             String input = args;
             switch (input) {
                 case "1":
+                    initReadAllNodes(Const.OBSERVATION_LABEL);
+                    break;
                 case "2":
+                    initReadAllNodes(Const.KNOWLEDGE_LABEL);
+                    break;
                 case "3":
                     throw new UnsupportedOperationException("The \"Coming Soon\" command is not currently supported. We'll get to it one day");
                 case "0":
@@ -210,6 +214,30 @@ public class GraphDriver{
         else
         {
             System.out.println("Invalid Label.\n\n\n\n");
+            input.next();
+        }
+    }
+
+    private void initReadAllNodes(Label label){
+        HashMap<String, HashMap<String, Object>> nodes;
+        if(label == Const.OBSERVATION_LABEL)
+        {
+            nodes = dbOps.readAllObservations();
+            System.out.println("OBSERVATIONS-----");
+            for(String nodeId : nodes.keySet()){
+                System.out.println("[{ id: \"" + nodeId + "\"}] -");
+            }
+        }
+        else if(label == Const.KNOWLEDGE_LABEL)
+        {
+            nodes = dbOps.readAllKnowledges();
+            System.out.println("KNOWLEDGES-----");
+            for(String nodeId : nodes.keySet()){
+                System.out.println("[{ id: \"" + nodeId + "\"}] -");
+            }
+        }
+        else {
+            System.out.println("Invalid label ....\n");
             input.next();
         }
     }
