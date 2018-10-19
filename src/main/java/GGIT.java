@@ -1,5 +1,3 @@
-import graphTool.GraphDriver;
-
 /** GGIT is the driver class for this Graph Database Version Control System
  * Command line input drives this class
  */

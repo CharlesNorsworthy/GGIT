@@ -1,5 +1,3 @@
-package graphTool;
-
 import java.util.HashMap;
 import java.util.Scanner;
 import org.neo4j.graphdb.Label;
@@ -13,8 +11,27 @@ public class GraphDriver{
 
     public GraphDriver(){
         input = new Scanner(System.in);
-        dbOps = new DbOps();
+        String path = setPath();
+        dbOps = new DbOps(path);
         running = true;
+    }
+
+    private String setPath() {
+        String ans, path = null;
+
+        System.out.println("Would you like to use the default database path? (YES or NO)");
+        ans = input.nextLine();
+        if (ans.equals("YES") || ans.equals("yes") || ans.equals("Yes")) {
+            path = "\\C:\\Neo4J";
+        } else if (ans.equals("NO") || ans.equals("no") || ans.equals("No")) {
+            System.out.println("Enter in a path for the database: ");
+            path = input.nextLine();
+        } else {
+            System.out.println("Enter 'YES' or 'NO'");
+            setPath();
+        }
+
+        return path;
     }
 
     private void showMainMenu(){

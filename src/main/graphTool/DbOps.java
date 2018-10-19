@@ -1,17 +1,21 @@
-package graphTool;
-
 import org.neo4j.graphdb.Node;
+import scala.collection.immutable.Stream;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class DbOps {
-    DbUtils db = new DbUtils();
-    Node root = db.init();
+    DbUtils db;
 
-    DbOps() {
-        db = new DbUtils();
-        db.getConnection();
+    Node root;
+
+    /** DbOps Constructor
+     *  The user must enter in a path for the database to be initialized.
+     * @param dbPath
+     */
+    DbOps(String dbPath) {
+        db = new DbUtils(dbPath);
+        root = db.initRoot();
     }
 
     public void createObservation(HashMap<String, Object> props) {
@@ -20,7 +24,7 @@ public class DbOps {
     }
 
     public HashMap<String, Object> readObservation(String id) {
-        return (db.getNodeById(id)).getAllProperties();
+        return (HashMap) (db.getNodeById(Const.OBSERVATION_LABEL, id)).getAllProperties();
     }
 
     public HashMap<String, HashMap<String, Object>> readAllObservations() {
@@ -33,7 +37,8 @@ public class DbOps {
     }
 
     public void updateObservation(String id, HashMap<String, Object> props) {
-        db.updateNode(id, props);
+        Node node = db.getNodeById(Const.OBSERVATION_LABEL, id);
+        db.updateNode(node, id, props);
     }
 
     public void deleteObservation(String id) {
@@ -42,12 +47,12 @@ public class DbOps {
 
     public void createKnowledge(String obsId, HashMap<String, Object> props) {
         Node knowNode = db.createNode(Const.KNOWLEDGE_LABEL, props);
-        Node obsNode = db.getNodeById(obsId);
-        db.createRelationship(obsNode, knowNode);
+        Node obsNode = db.getNodeById(Const.OBSERVATION_LABEL, obsId);
+        db.createRelationship(Const.OBSERVATION_LABEL, obsNode, Const.KNOWLEDGE_LABEL, knowNode);
     }
 
     public HashMap<String, Object> readKnowledge(String id) {
-        HashMap<String, Object> props = (db.getNodeById(id)).getAllProperties();
+        HashMap<String, Object> props = (HashMap) (db.getNodeById(Const.KNOWLEDGE_LABEL, id)).getAllProperties();
         return props;
     }
 
@@ -61,7 +66,8 @@ public class DbOps {
     }
 
     public void updateKnowledge(String id, HashMap<String, Object> props) {
-        db.updateNode(id, props);
+        Node node = db.getNodeById(Const.KNOWLEDGE_LABEL, id);
+        db.updateNode(node, id, props);
     }
 
     public void deleteKnowledge(String id) {

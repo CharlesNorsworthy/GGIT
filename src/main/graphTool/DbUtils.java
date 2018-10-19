@@ -1,4 +1,3 @@
-package graphTool;
 import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
@@ -15,19 +14,45 @@ import java.util.List;
 
 public class DbUtils
 {
-    Node root;
+    private static int succeeded;
 
-    GraphDatabaseService graphDb;
+    private static Node root;
 
-    public Node init() {
-        this.root = this.graphDb.createNode(Const.ROOT_LABEL);
-        return this.root;
+    private static GraphDatabaseService graphDb;
+
+    public DbUtils(String dbPath) {
+        this.getConnection(dbPath);
     }
 
-    private void connectDatabase()
+    public Node initRoot() {
+        try (Transaction tx = graphDb.beginTx()) {
+            root = this.graphDb.createNode(Const.ROOT_LABEL);
+            tx.success();
+            return root;
+        } catch (Exception e) {
+            System.out.println("Unable to create 'root' node for the graph database.");
+        }
+        return null;
+    }
+
+    private void connectDatabase(String dbPath)
     {
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File("\\C:\\Neo4J"));
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File(dbPath));
         registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
+    }
+
+    /**
+     * Handle the success and failure for a database transaction
+     * @param tx
+     */
+    private static void handleTx(Transaction tx) {
+        if (succeeded == 0) {
+            tx.success();
+        } else {
+            tx.failure();
+        }
+        tx.close();
+        succeeded = 0;
     }
 
     private static void registerShutdownHook( final GraphDatabaseService graphDb )
@@ -43,6 +68,23 @@ public class DbUtils
                 graphDb.shutdown();
             }
         } );
+    }
+
+    private RelationshipType getRelationshipType(Node node)
+    {
+        if (node.hasLabel(Const.ROOT_LABEL))
+        {
+            return Const.RELATE_ROOT_OBSERVATION;
+
+        }
+        else if (node.hasLabel(Const.OBSERVATION_LABEL))
+        {
+            return  Const.RELATE_OBSERVATION_KNOWLEDGE;
+
+        }
+        else{
+            return null;
+        }
     }
 
     public Node createNode(Label label,HashMap<String, Object> props)
@@ -61,6 +103,7 @@ public class DbUtils
                     node.setProperty(key, props.get(key));
                 }
                 tx.success();
+                tx.close();
                 return node;
             } else {
                 tx.failure();
@@ -73,7 +116,7 @@ public class DbUtils
         return null;
     }
 
-    public void updateNode(Node node, String id, String idVal){
+    public void updateNode(Node node, String id, Object idVal){
 
         try ( Transaction tx = graphDb.beginTx() )
         {
@@ -84,25 +127,16 @@ public class DbUtils
         }
     }
 
-    public int checkDepth(Label label)
+    public int getDepth(Label label)
     {
-        Label depth = Const.ROOT_LABEL;
-        if(label == depth) {
+        if (label == Const.ROOT_LABEL) {
             return 0;
-        }
-
-        depth = Const.OBSERVATION_LABEL;
-        if(label == depth){
+        } else if (label == Const.OBSERVATION_LABEL) {
             return 1;
-        }
-
-        depth = Const.KNOWLEDGE_LABEL;
-        if(label == depth){
+        } else if (label == Const.KNOWLEDGE_LABEL) {
             return 2;
         }
-
-        return 0;
-
+        throw new IllegalArgumentException("ERROR :: The label given {" + label + "} does match any labels in the database!");
     }
 
     public void createDefaultNodes(String name ,int num)
@@ -150,28 +184,24 @@ public class DbUtils
 
     }
 
-    public void getNodeById(String nodeType,String prop,String id){
-        Label label = Label.label(nodeType);
+    public Node getNodeById(Label label, String id){
+        Node node = null;
 
         try ( Transaction tx = graphDb.beginTx() )
         {
-            try ( ResourceIterator<Node> users = graphDb.findNodes(label, prop, id))
-
-            {
-                ArrayList<Node> userNodes = new ArrayList<>();
-                while (users.hasNext())
-                {
-                    userNodes.add(users.next());
-
-                }
-                for (Node node : userNodes)
-                {
-                    System.out.println( "The username of user " + id + " is " + node.getProperty(prop));
-
-                }
+            node = graphDb.findNode(label, Const.UUID, id);
+            if (node != null) {
+                tx.success();
+                return node;
+            } else {
+                tx.failure();
+                throw new NotFoundException("ERROR :: There is no node with id '" + id + "' in the database.");
             }
-            tx.success();
+        } catch (Exception e) {
+            System.out.println(e);
         }
+
+        return node;
     }
 
     public List<Node> getNodesByType(Label type) {
@@ -204,7 +234,7 @@ public class DbUtils
         }
         catch (Exception e)
         {
-            //logger.error("get by type failed", e);
+//            logger.error("get by type failed", e);
             return new ArrayList<>();
         }
     }
@@ -241,122 +271,95 @@ public class DbUtils
         }
     }
 
+    public void deleteNode(String id) {
+    }
+
     public void createRelationship(Label label1, Node node1, Label label2, Node node2)
     {
-
         Relationship relationship;
+        RelationshipType rt;
+        int node1_depth = getDepth(label1);
+        int node2_depth = getDepth(label2);
 
-        try( Transaction tx = graphDb.beginTx())
-        {
-
-            int node1_depth = checkDepth(label1);
-            int node2_depth = checkDepth(label2);
-
-           showAllGraphRelationships();
-
-            if((Math.abs(node1_depth - node2_depth) == 1))
-                {
-                    if (node1_depth < node2_depth)
-                    {
-                        RelationshipType relTypes = getRelationshipType(node1, node2);
-                        relationship = node1.createRelationshipTo(node2, relTypes);
-
-                    }
-
-                    if (node1_depth > node2_depth)
-                    {
-                        RelationshipType relTypes = getRelationshipType(node2, node1);
-                        relationship = node2.createRelationshipTo(node1, relTypes);
-
-                    }
-
+        try( Transaction tx = graphDb.beginTx()) {
+            if ((Math.abs(node1_depth - node2_depth) == 1)) {
+                if (node1_depth < node2_depth) {
+                    rt = getRelationshipType(node1);
+                    relationship = node1.createRelationshipTo(node2, rt);
+                    tx.success();
+                } else if (node1_depth > node2_depth) {
+                    rt = getRelationshipType(node2);
+                    relationship = node2.createRelationshipTo(node1, rt);
+                    tx.success();
                 }
-                else
-                    {
-                        System.out.println("nodes cannot be connected");
-
-                    }
-                tx.success();
+            } else {
+                tx.failure();
+                throw new IllegalArgumentException("ERROR :: The nodes cannot be related!");
             }
-    }
-
-    public void printNode(Node node)
-    {
-        System.out.println("Label: "+ node.getLabels() + " id:" + node.getProperty("id") + " relationship:" + node.getRelationshipTypes() + " #relationships: " + node.getRelationships());
-    }
-
-    public void printNode(String labelName,String nodeType)
-    {
-
-        Label label = Label.label(labelName);
-        try( Transaction tx = graphDb.beginTx())
-        {
-            Node node = graphDb.findNode(label,"id",nodeType);
-            System.out.println("Label: "+ node.getLabels() + " id:" + node.getProperty("id") + " depth: " + node.getProperty("depth") +" relationship:" + node.getRelationshipTypes() + " #relationships: " + node.getRelationships());
-
-            tx.success();
-
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
         }
     }
 
-    public void showAllGraphRelationships()
+//    public void printNode(Node node)
+//    {
+//        System.out.println("Label: "+ node.getLabels() + " id:" + node.getProperty("id") + " relationship:" + node.getRelationshipTypes() + " #relationships: " + node.getRelationships());
+//    }
+//
+//    public void printNode(String labelName,String nodeType)
+//    {
+//
+//        Label label = Label.label(labelName);
+//        try( Transaction tx = graphDb.beginTx())
+//        {
+//            Node node = graphDb.findNode(label,"id",nodeType);
+//            System.out.println("Label: "+ node.getLabels() + " id:" + node.getProperty("id") + " depth: " + node.getProperty("depth") +" relationship:" + node.getRelationshipTypes() + " #relationships: " + node.getRelationships());
+//
+//            tx.success();
+//
+//        }
+//    }
+
+//    public void showAllGraphRelationships()
+//    {
+//        RelationshipType relationship;
+//
+//        try( Transaction tx = graphDb.beginTx())
+//        {
+//           // ResourceIterable<RelationshipType> allRelationships = graphDb.getAllRelationshipTypes();
+//           // ResourceIterator<RelationshipType> relationshipTypes = graphDb.getAllRelationshipTypes();
+////            while(relationshipTypes.hasNext())
+////            {
+////                relationship = relationshipTypes.next();
+////                System.out.println(relationship);
+////            }
+//            //relationships.showAllGraphRelationships();
+//
+//            tx.success();
+//        }
+//    }
+
+//    public List<Relationship> getRelationships(Label label, Node node)
+//    {
+//        Relationship relationship;
+//
+//        try(Transaction tx = graphDb.beginTx())
+//        {
+//
+//            Label label1 = Label.label(nodeType1);
+//            Label label2 = Label.label(nodeType2);
+//
+//            Node node1 = graphDb.createNode(label1);
+//            Node node2 = graphDb.createNode(label2);
+//
+//
+//        }
+//
+//    }
+
+    public void getConnection(String dbPath)
     {
-        RelationshipType relationship;
-
-        try( Transaction tx = graphDb.beginTx())
-        {
-           // ResourceIterable<RelationshipType> allRelationships = graphDb.getAllRelationshipTypes();
-           // ResourceIterator<RelationshipType> relationshipTypes = graphDb.getAllRelationshipTypes();
-//            while(relationshipTypes.hasNext())
-//            {
-//                relationship = relationshipTypes.next();
-//                System.out.println(relationship);
-//            }
-            //relationships.showAllGraphRelationships();
-
-            tx.success();
-        }
-    }
-
-    private RelationshipType getRelationshipType(Node node1, Node node2)
-    {
-        if((int)node1.getProperty("depth") == 0)
-        {
-            return Const.RELATE_ROOT_OBSERVATION;
-
-        }
-        else if((int)node1.getProperty("depth") == 1)
-        {
-            return  Const.RELATE_OBSERVATION_KNOWLEDGE;
-
-        }
-        else{
-            return null;
-        }
-    }
-
-    public void showRelationships(String nodeType1, String prop1,String nodeType2,String prop2)
-    {
-
-        Relationship relationship;
-
-        try( Transaction tx = graphDb.beginTx())
-        {
-
-            Label label1 = Label.label(nodeType1);
-            Label label2 = Label.label(nodeType2);
-
-            Node node1 = graphDb.createNode(label1);
-            Node node2 = graphDb.createNode(label2);
-
-
-        }
-
-    }
-
-    public void getConnection()
-    {
-        connectDatabase();
+        connectDatabase(dbPath);
     }
 
 }

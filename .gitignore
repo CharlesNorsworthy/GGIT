@@ -1,10 +1,4 @@
 out/
-.idea
 *.xml
-.idea/workspace.xml
-.idea/workspace.xml
-.idea/gradle.xml
-.idea/misc.xml
-.gradle/4.0/fileHashes/fileHashes.bin
-.gradle/4.0/fileHashes/fileHashes.bin
-.idea/workspace.xml
+.idea/
+
