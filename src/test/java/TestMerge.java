@@ -2,23 +2,34 @@ import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 import java.io.File;
+import java.util.Iterator;
 
 public class TestMerge {
 
     public static void main(String args[]){
 
+        System.out.println("Testing current functionality with graph merging: ");
         GraphDatabaseService testGraph1 = createTestGraph1();
         GraphDatabaseService testGraph2 = createTestGraph2();
         GraphDatabaseService mergedGraph = Merge.mergeMe(testGraph1, testGraph2);
+        System.out.println("Merged graph created with the following nodes: ");
 
         /* View the graph */
         try (ResourceIterator<Node> mergedGraphAllNodesIterator = DbUtils.getAllNodesIterator(mergedGraph)) {
             while (mergedGraphAllNodesIterator.hasNext()) {
                 Node node = mergedGraphAllNodesIterator.next();
-                //System.out.println(node.getProperty("ID"));
-                //System.out.println(node.getRelationships());
-                System.out.println("--------------------------------------");
+                System.out.println(DbUtils.getNodeID(mergedGraph, node));
+                //Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(mergedGraph, node);
+                //System.out.print(" With relationships: ");
+//                while(relsItr.hasNext()){
+//                    Relationship rel = relsItr.next();
+//                    System.out.print(rel + " ");
+//                }
             }
+            //System.out.println();
+            //System.out.println("The merged graph has the following relationships: ");
+        } catch (Exception e){
+            System.out.println("Exception");
         }
     }
 
@@ -37,6 +48,12 @@ public class TestMerge {
 
             relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
             relationship.setProperty( "message", "knows1" );
+
+            System.out.println("Graph 1 created.");
+            System.out.println("Node with ID = 1 created.");
+            System.out.println("Node with ID = 2 created.");
+            System.out.println("Relationship between node 1 and 2 created.");
+            System.out.println();
 
             tx.success();
         }
@@ -58,6 +75,12 @@ public class TestMerge {
 
             relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
             relationship.setProperty( "message", "knows2" );
+
+            System.out.println("Graph 2 created.");
+            System.out.println("Node with ID = 1 created.");
+            System.out.println("Node with ID = 3 created.");
+            System.out.println("Relationship between node 1 and 3 created.");
+            System.out.println();
 
             tx.success();
         }

@@ -3,6 +3,7 @@ import org.neo4j.graphdb.factory.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class DbUtils
@@ -53,20 +54,75 @@ public class DbUtils
         }
     }
 
-    static void putNodeInGraph(GraphDatabaseService graph, Node node){
-        try(Transaction tx = graph.beginTx()){ //TODO: put in relationships and ids
-            String id = (String) node.getProperty("ID");
+    static void putNodeInGraph(GraphDatabaseService graph, String id){
+        try(Transaction tx = graph.beginTx()){ //TODO: put in relationships
             Node newNode = graph.createNode();
+            //String id = getNodeID(graph, node);
             newNode.setProperty("ID", id);
 
             tx.success();
         }
     }
 
-    public static String getNodeID(GraphDatabaseService graph, Node node){
+    static RelationshipType getRelationshipType(GraphDatabaseService graph, Node node, Relationship relationship){
+        RelationshipType relType;
+        try(Transaction tx = graph.beginTx()){
+            relType = relationship.getType();
+            tx.success();
+        }
+        return relType;
+    }
+
+    static void connectNodeInGraphByRelationship(GraphDatabaseService graph, Node node, Iterator<Relationship> relsIter){
+        try(Transaction tx = graph.beginTx()){
+            Relationship relationship;
+            while (relsIter.hasNext()){
+                relationship = relsIter.next();
+                RelationshipType relType = getRelationshipType(graph, node, relationship);
+                Node[] relNodes = relationship.getNodes();
+                for(Node relNode : relNodes){
+                    node.createRelationshipTo(relNode, relType);
+                }
+            }
+            tx.success();
+        }
+    }
+
+    static void createRelationshipBetween(GraphDatabaseService graph, Node node1, Node node2, RelationshipType relType){
+        try(Transaction tx = graph.beginTx()){
+            node1.createRelationshipTo(node2, relType);
+            tx.success();
+        }
+    }
+
+    static Iterator<Relationship> getRelationshipIterator(GraphDatabaseService graph, Node node){
+        Iterator<Relationship> relsIterator;
+        try(Transaction tx = graph.beginTx()){
+            Iterable<Relationship> rels = node.getRelationships();
+            relsIterator = rels.iterator();
+            tx.success();
+        }
+        return relsIterator;
+    }
+
+    static void printRelationships(GraphDatabaseService graph, Node node, Iterator<Relationship> relsIter){
+
+    }
+
+    static Node[] getRelationshipNodes(GraphDatabaseService graph, Relationship relationship){
+        Node[] relationshipNodes;
+        try(Transaction tx = graph.beginTx()){
+            relationshipNodes = relationship.getNodes();
+            tx.success();
+        }
+        return relationshipNodes;
+    }
+
+    static String getNodeID(GraphDatabaseService graph, Node node){
         String ID;
         try(Transaction tx = graph.beginTx()){
             ID = node.getProperty("ID").toString();
+            //ID = String.valueOf(node.getId());
             tx.success();
         }
         return ID;
@@ -190,7 +246,7 @@ public class DbUtils
         }
     }
 
-    public void createRelationship(String nodeType1,String nodeType2 )
+    public void createRelationship(String nodeType1, String nodeType2)
     {
         Relationship relationship;
         try( Transaction tx = graphDb.beginTx())
@@ -210,6 +266,8 @@ public class DbUtils
             }
         }
     }
+
+
 
     public void showRelationships(String nodeType1, String prop1,String nodeType2,String prop2){
         Relationship relationship;

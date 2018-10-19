@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1809dbf0-040c-40a7-b3df-9114e69cbdd5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/graphTool/DbUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphTool/DbUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TestMerge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestMerge.java" afterDir="false" />
@@ -36,24 +35,24 @@
         <counts>
           <entry key="class" value="1" />
           <entry key="gradle" value="1" />
-          <entry key="java" value="16" />
+          <entry key="java" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
           <entry key="Groovy" value="1" />
-          <entry key="JAVA" value="16" />
+          <entry key="JAVA" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1434" />
+          <entry key="java" value="3176" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1434" />
+          <entry key="JAVA" value="3176" />
         </counts>
       </usages-collector>
     </session>
@@ -61,10 +60,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/TestMerge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="-35">
+              <caret line="18" selection-start-line="18" selection-end-line="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -73,48 +72,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/TestMerge.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#createTestGraph1#0;class#TestMerge#0" />
-                <element signature="method#createTestGraph2#0;class#TestMerge#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+            <state relative-caret-position="51">
+              <caret line="248" column="63" lean-forward="true" selection-start-line="248" selection-start-column="63" selection-end-line="248" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#414#879#0" />
                 <element signature="e#722#870#0" expanded="true" />
                 <element signature="e#869#870#0" expanded="true" />
-                <element signature="e#959#1477#0" />
-                <element signature="e#1483#1990#0" />
-                <element signature="e#1996#2705#0" />
                 <element signature="e#2711#3479#0" />
-                <element signature="e#3485#3939#0" />
-                <element signature="e#3945#4682#0" />
-                <element signature="e#4688#6272#0" />
-                <element signature="e#6273#6311#0" />
+                <element signature="e#10356#10357#0" expanded="true" />
+                <element signature="e#10397#10398#0" expanded="true" />
                 <element signature="e#6942#6976#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-graphdb-api/3.4.6/fde5afc5cafe7569129deb2d30a78e98065e6ef2/neo4j-graphdb-api-3.4.6-sources.jar!/org/neo4j/graphdb/GraphDatabaseService.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+            <state relative-caret-position="422">
+              <caret line="47" column="9" lean-forward="true" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,6 +114,7 @@
     <findStrings>
       <find>RelTypes</find>
       <find>tra</find>
+      <find>getRe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -493,13 +476,19 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/graphTool/api.java" />
         <option value="$PROJECT_DIR$/src/main/java/GGIT.java" />
-        <option value="$PROJECT_DIR$/src/main/VersionControl/Merge.java" />
         <option value="$PROJECT_DIR$/src/test/java/TestMerge.java" />
         <option value="$PROJECT_DIR$/src/graphTool/DbUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/VersionControl/Merge.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="489" />
     <option name="y" value="-27" />
     <option name="width" value="1941" />
@@ -554,17 +543,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
-            <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -575,9 +553,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539827005938" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539910026358" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
@@ -668,8 +646,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11983806" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19838056" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -678,13 +657,13 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49959514" weight="0.5017794" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3505338" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49878544" weight="0.40925267" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.07295374" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.28113878" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50040483" side_tool="true" weight="0.3291815" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.4163701" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50121456" side_tool="true" weight="0.28291816" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3291815" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.32740214" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.3291815" />
@@ -696,68 +675,56 @@
       <window_info anchor="right" id="Gradle" order="5" />
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="right" id="Maven Projects" order="8" />
+      <window_info anchor="right" id="Maven Projects" order="8" weight="0.32955465" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/TestMerge.java</url>
-          <line>16</line>
-          <properties />
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>node.getProperty(&quot;ID&quot;)</expression-string>
+        <expression-string>graph2AllNodesIterator.next()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>Node node = mergedGraphAllNodesIterator.next();</expression-string>
+        <expression-string>graph2AllNodesIterator.hasNext()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>DbUtils.putNodeInGraph(mergedGraph, nextNode2)</expression-string>
+        <expression-string>graph1AllNodesIterator.hasNext()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>!DbUtils.getNodeID(graph1, nextNode1).equals(DbUtils.getNodeID(graph2, nextNode2))</expression-string>
+        <expression-string>Node nextNode2 = graph2AllNodesIterator.next();</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>graph1AllNodes.hasNext() || graph1AllNodes.hasNext()</expression-string>
+        <expression-string>mergedGraphAllNodesIterator.hasNext()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>iterator.next()</expression-string>
+        <expression-string>ResourceIterator&lt;Node&gt; mergedGraphAllNodesIterator = DbUtils.getAllNodesIterator(mergedGraph)</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>graph.getAllNodes()</expression-string>
+        <expression-string>relsIter.next()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>ResourceIterable&lt;Node&gt; iterable = graph.getAllNodes()</expression-string>
+        <expression-string>relationship = relsIter.next()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>allIterableNodes = graph.getAllNodes()</expression-string>
+        <expression-string>String.valueOf(node.getId())</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -845,16 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-graphdb-api/3.4.6/fde5afc5cafe7569129deb2d30a78e98065e6ef2/neo4j-graphdb-api-3.4.6-sources.jar!/org/neo4j/graphdb/GraphDatabaseService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -862,36 +819,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-collections/3.4.6/138c5b981865e501bafb6ebab906b5787a7a44b0/neo4j-collections-3.4.6-sources.jar!/org/neo4j/helpers/collection/PrefetchingIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/TestMerge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="-35">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#createTestGraph1#0;class#TestMerge#0" />
-            <element signature="method#createTestGraph2#0;class#TestMerge#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+        <state relative-caret-position="51">
+          <caret line="248" column="63" lean-forward="true" selection-start-line="248" selection-start-column="63" selection-end-line="248" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#414#879#0" />
             <element signature="e#722#870#0" expanded="true" />
             <element signature="e#869#870#0" expanded="true" />
-            <element signature="e#959#1477#0" />
-            <element signature="e#1483#1990#0" />
-            <element signature="e#1996#2705#0" />
             <element signature="e#2711#3479#0" />
-            <element signature="e#3485#3939#0" />
-            <element signature="e#3945#4682#0" />
-            <element signature="e#4688#6272#0" />
-            <element signature="e#6273#6311#0" />
+            <element signature="e#10356#10357#0" expanded="true" />
+            <element signature="e#10397#10398#0" expanded="true" />
             <element signature="e#6942#6976#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="47" column="9" lean-forward="true" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -948,6 +914,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
+          <last-edited>1_main|1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -971,6 +938,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>Gradle: com.github.ben-manes.caffeine:caffeine:2.6.2</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
