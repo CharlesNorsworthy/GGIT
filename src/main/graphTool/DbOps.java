@@ -56,7 +56,7 @@ public class DbOps {
         return props;
     }
 
-    public HashMap<String, HashMap<String, Object>> readAllKnowledge() {
+    public HashMap<String, HashMap<String, Object>> readAllKnowledges() {
         HashMap<String, HashMap<String, Object>> nodes = new HashMap<>();
         List<Node> nodeList = db.getNodesByType(Const.KNOWLEDGE_LABEL);
         nodeList.iterator().forEachRemaining( node -> {

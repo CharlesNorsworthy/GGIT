@@ -134,7 +134,7 @@ public class GraphDriver{
 
         for(String prop : Const.NODE_PROPERTIES)
         {
-            HandleValueInput(prop, propertyToValues);
+            propertyToValues = HandleValueInput(prop, propertyToValues);
         }
 
         if(label == Const.OBSERVATION_LABEL)
@@ -166,7 +166,7 @@ public class GraphDriver{
                 else
                 {
                     System.out.println("Invalid [Observation] id.\n\n\n\n");
-                    input.next();
+                    input.nextLine();
                 }
             }
             dbOps.createKnowledge(obsId, propertyToValues);
@@ -174,7 +174,7 @@ public class GraphDriver{
         else
         {
             System.out.println("Invalid Label.\n\n\n\n");
-            input.next();
+            input.nextLine();
         }
     }
 
@@ -192,25 +192,25 @@ public class GraphDriver{
             readNode = dbOps.readObservation(idValue);
             if(readNode != null)
             {
-                EditNodeProperties(readNode, propertyToValues);
+                propertyToValues = EditNodeProperties(readNode, propertyToValues);
                 dbOps.updateObservation(idValue, propertyToValues);
             }
             else
             {
                 System.out.println("Invalid [Observation] id.\n\n\n\n");
-                input.next();
+                input.nextLine();
             }
         }
         else if(label == Const.KNOWLEDGE_LABEL)
         {
             readNode = dbOps.readKnowledge(idValue);
-            EditNodeProperties(readNode, propertyToValues);
+            propertyToValues = EditNodeProperties(readNode, propertyToValues);
             dbOps.updateKnowledge(idValue, propertyToValues);
         }
         else
         {
             System.out.println("Invalid Label.\n\n\n\n");
-            input.next();
+            input.nextLine();
         }
     }
 
@@ -255,7 +255,7 @@ public class GraphDriver{
         }
         else {
             System.out.println("Invalid label ....\n");
-            input.next();
+            input.nextLine();
         }
     }
 
@@ -278,7 +278,7 @@ public class GraphDriver{
         }
     }
 
-    private void EditNodeProperties(HashMap<String,Object> readNode, HashMap<String,Object> propertyToValues){
+    private HashMap<String, Object> EditNodeProperties(HashMap<String,Object> readNode, HashMap<String,Object> propertyToValues){
         System.out.println("\nRetrieved node with properties: [ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]");
 
         String chooseProp = new String();
@@ -300,23 +300,23 @@ public class GraphDriver{
                 switch (chooseProp.toLowerCase())
                 {
                     case Const.UUID:
-                        HandleValueInput(Const.UUID, propertyToValues);
+                        propertyToValues = HandleValueInput(Const.UUID, propertyToValues);
                         valid = true;
                         break;
                     case Const.NAME:
-                        HandleValueInput(Const.NAME, propertyToValues);
+                        propertyToValues = HandleValueInput(Const.NAME, propertyToValues);
                         valid = true;
                         break;
                     case Const.LATITUDE:
-                        HandleValueInput(Const.LATITUDE, propertyToValues);
+                        propertyToValues = HandleValueInput(Const.LATITUDE, propertyToValues);
                         valid = true;
                         break;
                     case Const.LONGITUDE:
-                        HandleValueInput(Const.LONGITUDE, propertyToValues);
+                        propertyToValues = HandleValueInput(Const.LONGITUDE, propertyToValues);
                         valid = true;
                         break;
                     case Const.DESCRIPTION:
-                        HandleValueInput(Const.DESCRIPTION, propertyToValues);
+                        propertyToValues = HandleValueInput(Const.DESCRIPTION, propertyToValues);
                         valid = true;
                         break;
                     case "done":
@@ -328,9 +328,10 @@ public class GraphDriver{
                 }
             }
         }
+        return propertyToValues;
     }
 
-    private void HandleValueInput(String prop, HashMap<String,Object> propertyToValues){
+    private HashMap<String, Object> HandleValueInput(String prop, HashMap<String,Object> propertyToValues){
         System.out.println("Enter a new value for \"" + prop +"\":");
         System.out.print("[\"" + prop +"\"] -> ");
         String value = input.nextLine();
@@ -344,11 +345,7 @@ public class GraphDriver{
         {
             propertyToValues.put(prop, value);
         }
-    }
-
-    public static void main(String[] args){
-        GraphDriver driver = new GraphDriver();
-        driver.Drive();
+        return propertyToValues;
     }
 }
 

@@ -205,15 +205,15 @@ public class DbUtils
     }
 
     public List<Node> getNodesByType(Label type) {
-        try
+        try( Transaction tx = graphDb.beginTx())
         {
             List<Node> results = new ArrayList<>();
             int depth = 0;
-            if (type.equals(Const.OBSERVATION_LABEL))
+            if (type == Const.OBSERVATION_LABEL)
             {
                 depth = 1;
             }
-            else if (type.equals(Const.KNOWLEDGE_LABEL))
+            else if (type == Const.KNOWLEDGE_LABEL)
             {
                 depth = 2;
             }
@@ -222,7 +222,9 @@ public class DbUtils
                     .relationships(Const.RELATE_ROOT_OBSERVATION, Direction.OUTGOING)
                     .relationships(Const.RELATE_OBSERVATION_KNOWLEDGE, Direction.OUTGOING)
                     .evaluator(Evaluators.toDepth(depth));
+
             Traverser traverser = td.traverse(this.root);
+
             for (Path path : traverser)
             {
                 if (path.length() == depth && path.endNode().hasLabel(type))
@@ -230,11 +232,12 @@ public class DbUtils
                     results.add(path.endNode());
                 }
             }
+            tx.success();
             return results;
         }
         catch (Exception e)
         {
-//            logger.error("get by type failed", e);
+            System.out.println(e);
             return new ArrayList<>();
         }
     }
@@ -276,7 +279,6 @@ public class DbUtils
 
     public void createRelationship(Label label1, Node node1, Label label2, Node node2)
     {
-        Relationship relationship;
         RelationshipType rt;
         int node1_depth = getDepth(label1);
         int node2_depth = getDepth(label2);
@@ -285,11 +287,11 @@ public class DbUtils
             if ((Math.abs(node1_depth - node2_depth) == 1)) {
                 if (node1_depth < node2_depth) {
                     rt = getRelationshipType(node1);
-                    relationship = node1.createRelationshipTo(node2, rt);
+                    node1.createRelationshipTo(node2, rt);
                     tx.success();
                 } else if (node1_depth > node2_depth) {
                     rt = getRelationshipType(node2);
-                    relationship = node2.createRelationshipTo(node1, rt);
+                    node2.createRelationshipTo(node1, rt);
                     tx.success();
                 }
             } else {
