@@ -271,7 +271,15 @@ public class DbUtils
         }
     }
 
-    public void deleteNode(String id) {
+    public void deleteNode(Label label, String id) {
+
+        try ( Transaction tx = graphDb.beginTx()) {
+            graphDb.findNode(label, Const.UUID, id).delete();
+            tx.success();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     public void createRelationship(Label label1, Node node1, Label label2, Node node2)
