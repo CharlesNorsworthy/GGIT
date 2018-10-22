@@ -42,7 +42,7 @@ public class DbOps {
     }
 
     public void deleteObservation(String id) {
-        db.deleteNode(id);
+        db.deleteNode(Const.OBSERVATION_LABEL, id);
     }
 
     public void createKnowledge(String obsId, HashMap<String, Object> props) {
@@ -52,8 +52,7 @@ public class DbOps {
     }
 
     public HashMap<String, Object> readKnowledge(String id) {
-        HashMap<String, Object> props = (HashMap) (db.getNodeById(Const.KNOWLEDGE_LABEL, id)).getAllProperties();
-        return props;
+        return (HashMap) (db.getNodeById(Const.KNOWLEDGE_LABEL, id)).getAllProperties();
     }
 
     public HashMap<String, HashMap<String, Object>> readAllKnowledges() {
@@ -71,6 +70,6 @@ public class DbOps {
     }
 
     public void deleteKnowledge(String id) {
-        db.deleteNode(id);
+        db.deleteNode(Const.KNOWLEDGE_LABEL, id);
     }
 }
