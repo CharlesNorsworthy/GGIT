@@ -11,23 +11,24 @@ public class TestMerge {
         System.out.println("Testing current functionality with graph merging: ");
         GraphDatabaseService testGraph1 = createTestGraph1();
         GraphDatabaseService testGraph2 = createTestGraph2();
+
         GraphDatabaseService mergedGraph = Merge.mergeMe(testGraph1, testGraph2);
         System.out.println("Merged graph created with the following nodes: ");
 
         /* View the graph */
-        try (ResourceIterator<Node> mergedGraphAllNodesIterator = DbUtils.getAllNodesIterator(mergedGraph)) {
+        try (ResourceIterator<Node> mergedGraphAllNodesIterator = DbUtils.getAllNodesIteratorStatic(mergedGraph)) {
             while (mergedGraphAllNodesIterator.hasNext()) {
                 Node node = mergedGraphAllNodesIterator.next();
                 System.out.println(DbUtils.getNodeID(mergedGraph, node));
-                //Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(mergedGraph, node);
-                //System.out.print(" With relationships: ");
-//                while(relsItr.hasNext()){
-//                    Relationship rel = relsItr.next();
-//                    System.out.print(rel + " ");
-//                }
+
+                //TODO: print relationships after putting them in
+                Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(mergedGraph, node);
+                System.out.println(" Which has relationships to: ");
+                while(relsItr.hasNext()){
+                    Relationship rel = relsItr.next();
+                    System.out.println(rel + " ");
+                }
             }
-            //System.out.println();
-            //System.out.println("The merged graph has the following relationships: ");
         } catch (Exception e){
             System.out.println("Exception");
         }
@@ -45,6 +46,9 @@ public class TestMerge {
             firstNode.setProperty("ID", "1");
             secondNode = graphDb.createNode();
             secondNode.setProperty("ID", "2");
+
+            //String id = DbUtils.getNodeID(graphDb, firstNode); //legal
+            //String id = firstNode.getProperty("ID").toString(); //legal
 
             relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
             relationship.setProperty( "message", "knows1" );

@@ -12,7 +12,7 @@ public class DbUtils
 
     private void connectDatabase(String pathName)
     {
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File(pathName));
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(pathName));
         registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
     }
 
@@ -54,8 +54,18 @@ public class DbUtils
         }
     }
 
-    static void putNodeInGraph(GraphDatabaseService graph, String id){
-        try(Transaction tx = graph.beginTx()){ //TODO: put in relationships
+    void putNodeInGraph(String id){
+        try(Transaction tx = graphDb.beginTx()){
+            Node newNode = graphDb.createNode();
+            //String id = getNodeID(graph, node);
+            newNode.setProperty("ID", id);
+
+            tx.success();
+        }
+    }
+
+    static void putNodeInGraphStatic(GraphDatabaseService graph, String id){
+        try(Transaction tx = graph.beginTx()){
             Node newNode = graph.createNode();
             //String id = getNodeID(graph, node);
             newNode.setProperty("ID", id);
@@ -88,9 +98,18 @@ public class DbUtils
         }
     }
 
-    static void createRelationshipBetween(GraphDatabaseService graph, Node node1, Node node2, RelationshipType relType){
+    void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
+        try(Transaction tx = graphDb.beginTx()){
+            Relationship rel = node1.createRelationshipTo(node2, relType);
+            rel.setProperty("T", "test");
+            tx.success();
+        }
+    }
+
+    static void createRelationshipBetweenStatic(GraphDatabaseService graph, Node node1, Node node2, RelationshipType relType){
         try(Transaction tx = graph.beginTx()){
-            node1.createRelationshipTo(node2, relType);
+            Relationship rel = node1.createRelationshipTo(node2, relType);
+            //rel.setProperty("T", "test");
             tx.success();
         }
     }
@@ -121,20 +140,40 @@ public class DbUtils
     static String getNodeID(GraphDatabaseService graph, Node node){
         String ID;
         try(Transaction tx = graph.beginTx()){
-            ID = node.getProperty("ID").toString();
-            //ID = String.valueOf(node.getId());
+             ID = node.getProperty("ID").toString();
             tx.success();
         }
         return ID;
     }
 
-    public static boolean testIteratorHasNext(GraphDatabaseService graph, ResourceIterable<Node> iterator){
-        boolean result;
-        try(Transaction tx = graph.beginTx()){
-            result = iterator.iterator().hasNext();
+    ArrayList<String> getAllIDs(){
+        ResourceIterator<Node> nodesItr = getAllNodesIterator();
+        String currentId;
+        ArrayList<String> allIds = new ArrayList<>();
+        try(Transaction tx = graphDb.beginTx()){
+            while(nodesItr.hasNext()){
+                Node node = nodesItr.next();
+                currentId = node.getProperty("ID").toString();
+                allIds.add(currentId);
+            }
             tx.success();
         }
-        return result;
+        return allIds;
+    }
+
+    static ArrayList<String> getAllIDsStatic(GraphDatabaseService graph){
+        ResourceIterator<Node> nodesItr = getAllNodesIteratorStatic(graph);
+        String currentId;
+        ArrayList<String> allIds = new ArrayList<>();
+        try(Transaction tx = graph.beginTx()){
+            while(nodesItr.hasNext()){
+                Node node = nodesItr.next();
+                currentId = node.getProperty("ID").toString();
+                allIds.add(currentId);
+            }
+            tx.success();
+        }
+        return allIds;
     }
 
     public static Node getNextNodeFromIterator(GraphDatabaseService graph, ResourceIterable<Node> iterator){
@@ -191,15 +230,23 @@ public class DbUtils
 
     }
 
-    static ResourceIterator<Node> getAllNodesIterator(GraphDatabaseService graph){
+    static ResourceIterator<Node> getAllNodesIteratorStatic(GraphDatabaseService graph){
         ResourceIterator<Node> allIterableNodes;
         try(Transaction tx = graph.beginTx()){
             ResourceIterable<Node> iterable = graph.getAllNodes();
             allIterableNodes = iterable.iterator();
-
             tx.success();
         }
+        return allIterableNodes;
+    }
 
+    ResourceIterator<Node> getAllNodesIterator(){
+        ResourceIterator<Node> allIterableNodes;
+        try(Transaction tx = graphDb.beginTx()){
+            ResourceIterable<Node> iterable = graphDb.getAllNodes();
+            allIterableNodes = iterable.iterator();
+            tx.success();
+        }
         return allIterableNodes;
     }
 
@@ -228,6 +275,23 @@ public class DbUtils
             tx.success();
         }
 
+    }
+
+    static Node getNodeByProperty(GraphDatabaseService graph, String key, Object value){
+
+        ResourceIterator<Node> graphNodesIterator = DbUtils.getAllNodesIteratorStatic(graph);
+        Node currentNode;
+        try(Transaction tx = graph.beginTx()){
+            while(graphNodesIterator.hasNext()) {
+                currentNode = graphNodesIterator.next();
+                String currentKey = currentNode.getProperty(key).toString();
+                if (currentKey.equals(value)) {
+                    return currentNode;
+                }
+            }
+            tx.success();
+        }
+        return null;
     }
 
     public void deleteNodes(String nodeType,String prop, String propVal)
@@ -267,7 +331,12 @@ public class DbUtils
         }
     }
 
+    public void createRelationship(GraphDatabaseService graph, Node node1,Node node2, RelationshipType relType){
+        try(Transaction tx = graph.beginTx()){
 
+            tx.success();
+        }
+    }
 
     public void showRelationships(String nodeType1, String prop1,String nodeType2,String prop2){
         Relationship relationship;
