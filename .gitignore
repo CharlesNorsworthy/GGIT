@@ -2,3 +2,4 @@ out/
 *.xml
 .idea/
 
+src/main/java/graphTool/client/stuff
