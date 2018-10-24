@@ -1,3 +1,5 @@
+package graphTool;
+
 import java.util.HashMap;
 import java.util.Scanner;
 import org.neo4j.graphdb.Label;

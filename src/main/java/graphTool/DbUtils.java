@@ -1,3 +1,5 @@
+package graphTool;
+
 import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
