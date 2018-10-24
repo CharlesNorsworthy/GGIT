@@ -1,25 +1,26 @@
 package graphTool;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.UriInfo;
 import java.util.HashMap;
 
 /**
  * The GraphApi class will handle the outward facing api.
  * Possibly utilze Swagger
  */
-@Path("/graphTool")
+@Path("/")
 public class GraphApi {
 
     DbOps dbOps;
     String path;
+
+    @Context
+    UriInfo uriInfo;
+    @Context
+    Request request;
 
     public GraphApi(){
         path = "\\C:\\Neo4J";
@@ -40,17 +41,17 @@ public class GraphApi {
         return (dbOps.readAllObservations());
     }
 
-    @Path("/observation/{id}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public HashMap<String, Object> readObservation(@PathParam("id") String id) {
-        return (dbOps.readObservation(id));
-    }
-
+//    @Path("/observation/{id}")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public HashMap<String, Object> readObservation(@PathParam("id") String id) {
+//        return (dbOps.readObservation(id));
+//    }
+//
 //    @Path("/observation/{id}")
 //    @PUT
 //    @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON})
-//    public void updateObservation(@PathParam("id") String id, HashMap<String, Object> props) {
+//    public void updateObservation(@FormParam("id") String id, HashMap<String, Object> props) {
 //        dbOps.updateObservation(id, props);
 //    }
 //

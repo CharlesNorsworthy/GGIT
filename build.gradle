@@ -25,5 +25,9 @@ dependencies {
     compile "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
     compile "org.glassfish.jersey.bundles:jaxrs-ri:$jerseyVersion"
 
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.2'
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.3.2'
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.3.2'
+
 }
 
