@@ -1,11 +1,18 @@
 package graphTool;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+//import graphTool.client.RestApp;
+
+import javax.inject.Inject;
+import javax.json.Json;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The GraphApi class will handle the outward facing api.
@@ -23,43 +30,71 @@ public class GraphApi {
     Request request;
 
     public GraphApi(){
-        path = "\\C:\\Neo4J";
-        dbOps = new DbOps(path);
+        this.dbOps = new DbOps("\\C:\\Neo4J");
     }
 
-//    @Path("/observation")
-//    @POST
-//    @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON})
-//    public void createObservation(HashMap<String, Object> props) {
-//        dbOps.createObservation(props);
-//    }
+    @Path("/observation")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createObservation(Json propsJson) {
+        new TypeReference<Map<String, String>>(){};
+//        try {
+//            ObjectMapper mapper = new ObjectMapper();
+//            HashMap<String, Object> props = mapper.readValue(propsJson.toString(), new TypeReference<Map<String, Object>>(){});
+//            dbOps.createObservation(props);
+//
+//            //return Response.status(201).entity(GraphApi.class).build();
+//        }
+//        catch (Exception e) {
+//            //return Response.status(400).entity(e.getMessage()).build();
+//        }
+    }
 
     @Path("/observation")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public HashMap<String, HashMap<String, Object>> readObservations(){
-        return (dbOps.readAllObservations());
+    public Response readObservations(){
+        try {
+            HashMap<String, HashMap<String, Object>> observations = dbOps.readAllObservations();
+            return Response.status(200).entity(observations).build();
+        }
+        catch (Exception e){
+            System.out.println("Error msg : " + e.getMessage());
+            return Response.status(400).entity(e.getMessage()).build();
+        }
     }
 
     @Path("/observation/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public HashMap<String, Object> readObservation(@PathParam("id") String id) {
-        return (dbOps.readObservation(id));
+    public Response readObservation(@PathParam("id") String id) {
+        try {
+            HashMap<String, Object> observation = dbOps.readObservation(id);
+            return Response.status(200).entity(observation).build();
+        }
+        catch (Exception e){
+            return Response.status(400).entity(e.getMessage()).build();
+        }
     }
 
-//    @Path("/observation/{id}")
-//    @PUT
-//    @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON})
-//    public void updateObservation(@FormParam("id") String id, HashMap<String, Object> props) {
-//        dbOps.updateObservation(id, props);
-//    }
-//
-//    @Path("/observation/{id}")
-//    @DELETE
-//    public void deleteObservation(@PathParam("id") String id) {
-//        dbOps.deleteObservation(id);
-//    }
+    @Path("/observation/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateObservation(@FormParam("id") String id, HashMap<String, Object> props) {
+        dbOps.updateObservation(id, props);
+    }
+
+    @Path("/observation/{id}")
+    @DELETE
+    public Response deleteObservation(@HeaderParam("id") String id) {
+        try {
+            dbOps.deleteObservation(id);
+            return Response.status(200).entity(GraphApi.class).build();
+        }
+        catch (Exception e){
+            return Response.status(400).entity(e.getMessage()).build();
+        }
+    }
 //
 //    @Path("/knowledge")
 //    @POST
@@ -68,19 +103,31 @@ public class GraphApi {
 //        dbOps.createKnowledge(id, props);
 //    }
 //
-//    @Path("/knowledge")
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public HashMap<String, HashMap<String, Object>> readKnowledges(){
-//        return (dbOps.readAllKnowledges());
-//    }
-//
-//    @Path("/knowledge/{id}")
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public HashMap<String, Object> readKnowledge(@PathParam("id") String id) {
-//        return (dbOps.readKnowledge(id));
-//    }
+    @Path("/knowledge")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response readKnowledges(){
+        try {
+            HashMap<String, HashMap<String, Object>> knowledges = dbOps.readAllKnowledges();
+            return Response.status(200).entity(knowledges).build();
+        }
+        catch (Exception e){
+            return Response.status(400).entity(e.getMessage()).build();
+        }
+    }
+
+    @Path("/knowledge/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response readKnowledge(@PathParam("id") String id) {
+        try {
+            HashMap<String, Object> knowledge = dbOps.readKnowledge(id);
+            return Response.status(200).entity(knowledge).build();
+        }
+        catch (Exception e){
+            return Response.status(400).entity(e.getMessage()).build();
+        }
+    }
 //
 //    @Path("/knowledge/{id}")
 //    @PUT
@@ -89,9 +136,15 @@ public class GraphApi {
 //        dbOps.updateKnowledge(id, props);
 //    }
 //
-//    @Path("/knowledge/{id}")
-//    @DELETE
-//    public void deleteKnowledge(@PathParam("id") String id) {
-//        dbOps.deleteObservation(id);
-//    }
+    @Path("/knowledge/{id}")
+    @DELETE
+    public Response deleteKnowledge(@PathParam("id") String id) {
+        try {
+            dbOps.deleteKnowledge(id);
+            return Response.status(200).entity(GraphApi.class).build();
+        }
+        catch (Exception e){
+            return Response.status(400).entity(e.getMessage()).build();
+        }
+    }
 }

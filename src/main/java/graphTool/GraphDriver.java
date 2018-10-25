@@ -1,8 +1,14 @@
 package graphTool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import org.neo4j.cypher.internal.frontend.v2_3.ast.functions.Str;
 import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.NotFoundException;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
 
 public class GraphDriver{
 
@@ -60,7 +66,8 @@ public class GraphDriver{
         System.out.println("\tMORE-COMMANDS\n");
         System.out.println("1 - List all Observations");
         System.out.println("2 - List all Knowledges");
-        System.out.println("3 - Coming Soon");
+        System.out.println("3 - List all Relationships");
+        System.out.println("4 - Coming Soon");
         System.out.println("0 - Main Menu");
         System.out.println("----------------------------------------------------\n");
         System.out.println("Select a command to execute:");
@@ -115,6 +122,9 @@ public class GraphDriver{
                     initReadAllNodes(Const.KNOWLEDGE_LABEL);
                     break;
                 case "3":
+                    initReadAllRelationShips();
+                    break;
+                case "4":
                     throw new UnsupportedOperationException("The \"Coming Soon\" command is not currently supported. We'll get to it one day");
                 case "0":
                     showMainMenu();
@@ -182,37 +192,43 @@ public class GraphDriver{
 
     private void initUpdateNode(Label label){
         System.out.println("\n...Update an existing " + label.name() + ":\n");
-        System.out.print("...Enter the Id value for the node being updated: ");
-
-        String idValue = input.nextLine();
 
         HashMap<String, Object> propertyToValues = new HashMap<>();
         HashMap<String, Object> readNode;
+        boolean valid = false;
 
-        if(label == Const.OBSERVATION_LABEL)
-        {
-            readNode = dbOps.readObservation(idValue);
-            if(readNode != null)
-            {
-                propertyToValues = EditNodeProperties(readNode, propertyToValues);
-                dbOps.updateObservation(idValue, propertyToValues);
-            }
-            else
-            {
-                System.out.println("Invalid [Observation] id.\n\n\n\n");
+        while(!valid) {
+            System.out.print("...Enter the Id value for the node being updated: ");
+            String idValue = input.nextLine();
+            if (label == Const.OBSERVATION_LABEL) {
+                readNode = dbOps.readObservation(idValue);
+                if(readNode != null) {
+                    propertyToValues = EditNodeProperties(readNode);
+                    dbOps.updateObservation(idValue, propertyToValues);
+                    valid = true;
+                }
+                else
+                {
+                    System.out.println("Invalid [Observation] id.");
+                    input.nextLine();
+                }
+            } else if (label == Const.KNOWLEDGE_LABEL) {
+
+                readNode = dbOps.readKnowledge(idValue);
+                if(readNode != null){
+                    propertyToValues = EditNodeProperties(readNode);
+                    dbOps.updateKnowledge(idValue, propertyToValues);
+                    valid = true;
+                }
+                else{
+                    System.out.println("Invalid [Knowledge] id.");
+                    input.nextLine();
+                }
+            } else {
+                System.out.println("Invalid Label.\n\n\n\n");
                 input.nextLine();
+                valid = true;
             }
-        }
-        else if(label == Const.KNOWLEDGE_LABEL)
-        {
-            readNode = dbOps.readKnowledge(idValue);
-            propertyToValues = EditNodeProperties(readNode, propertyToValues);
-            dbOps.updateKnowledge(idValue, propertyToValues);
-        }
-        else
-        {
-            System.out.println("Invalid Label.\n\n\n\n");
-            input.nextLine();
         }
     }
 
@@ -244,7 +260,7 @@ public class GraphDriver{
             nodes = dbOps.readAllObservations();
             System.out.println("OBSERVATIONS-----");
             for(String nodeId : nodes.keySet()){
-                System.out.println("[{ id: \"" + nodeId + "\"}] -");
+                System.out.println("[{ id: \"" + nodeId + "\" , name: \"" + nodes.get(nodeId).get(Const.NAME) + "\"}] -");
             }
         }
         else if(label == Const.KNOWLEDGE_LABEL)
@@ -252,7 +268,7 @@ public class GraphDriver{
             nodes = dbOps.readAllKnowledges();
             System.out.println("KNOWLEDGES-----");
             for(String nodeId : nodes.keySet()){
-                System.out.println("[{ id: \"" + nodeId + "\"}] -");
+                System.out.println("[{ id: \"" + nodeId + "\" , name: \"" + nodes.get(nodeId).get(Const.NAME) + "\"}] -");
             }
         }
         else {
@@ -261,6 +277,13 @@ public class GraphDriver{
         }
     }
 
+    private void initReadAllRelationShips()
+    {
+        System.out.println("Showing all relationships...");
+        if(dbOps.readAllRelationShips().isEmpty()){
+            System.out.println("No relationships found.");
+        }
+    }
     private void exitProgram(){
         running = false;
     }
@@ -280,16 +303,16 @@ public class GraphDriver{
         }
     }
 
-    private HashMap<String, Object> EditNodeProperties(HashMap<String,Object> readNode, HashMap<String,Object> propertyToValues){
+    private HashMap<String, Object> EditNodeProperties(HashMap<String,Object> readNode){
+        HashMap<String, Object>propertyToValues = readNode;
         System.out.println("\nRetrieved node with properties: [ \"id\", \"name\", \"latitude\", \"longitude\", \"description\" ]");
-
         String chooseProp = new String();
 
-        while (chooseProp != "done")
+        while (!chooseProp.equals("done"))
         {
-            for (String prop : readNode.keySet())
+            for (String prop : propertyToValues.keySet())
             {
-                System.out.println("[\"" + prop + "\"] <- {" + readNode.get(prop) + "}");
+                System.out.println("[\"" + prop + "\"] <- {" + propertyToValues.get(prop) + "}");
             }
             System.out.println("--------------------------------------------------------");
             System.out.print("Enter property to edit: (Type DONE to when finished)");
@@ -302,7 +325,7 @@ public class GraphDriver{
                 switch (chooseProp.toLowerCase())
                 {
                     case Const.UUID:
-                        propertyToValues = HandleValueInput(Const.UUID, propertyToValues);
+                        System.out.println("Cannot change Node id.\n");
                         valid = true;
                         break;
                     case Const.NAME:
@@ -322,14 +345,16 @@ public class GraphDriver{
                         valid = true;
                         break;
                     case "done":
-                        System.out.print("...Finishing property edit.");
+                        System.out.print("...Finishing property edit.\n\n");
                         valid = true;
+                        chooseProp = "done";
                         break;
                     default:
                         System.out.println("Invalid property. Choose a valid node property:");
                 }
             }
         }
+
         return propertyToValues;
     }
 
@@ -338,15 +363,16 @@ public class GraphDriver{
         System.out.print("[\"" + prop +"\"] -> ");
         String value = input.nextLine();
 
-        if(TryParseDouble(value))
-        {
-            Double dValue = Double.parseDouble(value);
-            propertyToValues.put(prop, dValue);
-        }
-        else
-        {
-            propertyToValues.put(prop, value);
-        }
+//        if(TryParseDouble(value))
+//        {
+//            Double dValue = Double.parseDouble(value);
+//            propertyToValues.put(prop, dValue);
+//        }
+//        else
+//        {
+//            propertyToValues.put(prop, value);
+//        }
+        propertyToValues.put(prop, value);
         return propertyToValues;
     }
 }

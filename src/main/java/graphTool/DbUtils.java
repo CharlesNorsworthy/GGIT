@@ -26,8 +26,12 @@ public class DbUtils
 
     public Node initRoot() {
         try (Transaction tx = graphDb.beginTx()) {
-            if(root == null) {
+            if(graphDb.findNodes(Const.ROOT_LABEL).hasNext()){
+                root = graphDb.findNodes(Const.ROOT_LABEL).next();
+            }
+            else {
                 root = this.graphDb.createNode(Const.ROOT_LABEL);
+                System.out.println("New root created.");
             }
             tx.success();
             return root;
@@ -100,6 +104,9 @@ public class DbUtils
             if(graphDb.findNode(label, Const.UUID, props.get(Const.UUID)) == null)//If no copies in DB we create new node
             {
                 node = graphDb.createNode(label);
+                if(label == Const.OBSERVATION_LABEL){
+                    node.createRelationshipTo(root, Const.RELATE_ROOT_OBSERVATION);
+                }
 
                 for (String key: props.keySet()) {
                     node.setProperty(key, props.get(key));
@@ -118,14 +125,17 @@ public class DbUtils
         return null;
     }
 
-    public void updateNode(Node node, String id, Object idVal){
+    public void updateNode(Node node, HashMap<String, Object> props){
 
         try ( Transaction tx = graphDb.beginTx() )
         {
-            node.setProperty(id,idVal);
-
+            for (String prop : props.keySet()) {
+                node.setProperty(prop, props.get(prop));
+            }
             tx.success();
 
+        }catch(Exception e){
+            System.out.println("Unable to update node. Msg :" + e.getMessage());
         }
     }
 
@@ -150,6 +160,8 @@ public class DbUtils
             for ( int id = 0; id < obs; id++ )
             {
                 Node node = graphDb.createNode( Const.OBSERVATION_LABEL );
+                if(root == null)
+                    initRoot();
                 node.createRelationshipTo(root,Const.RELATE_ROOT_OBSERVATION);
                 node.setProperty( Const.UUID, UUID.randomUUID().toString() );
                 node.setProperty(Const.NAME, "observation " + id);
@@ -241,16 +253,16 @@ public class DbUtils
 
 
 
-    public List<Node> getNodesByType(Label type) {
+    public List<Node> getNodesByType(Label label) {
         try( Transaction tx = graphDb.beginTx())
         {
 //            List<Node> results = new ArrayList<>();
 //            int depth = 0;
-//            if (type == Const.OBSERVATION_LABEL)
+//            if (label == Const.OBSERVATION_LABEL)
 //            {
 //                depth = 1;
 //            }
-//            else if (type == Const.KNOWLEDGE_LABEL)
+//            else if (label == Const.KNOWLEDGE_LABEL)
 //            {
 //                depth = 2;
 //            }
@@ -264,7 +276,7 @@ public class DbUtils
 //
 //            for (Path path : traverser)
 //            {
-//                if (path.length() == depth && path.endNode().hasLabel(type))
+//                if (path.length() == depth && path.endNode().hasLabel(label))
 //                {
 //                    results.add(path.endNode());
 //                }
@@ -272,21 +284,27 @@ public class DbUtils
 //            tx.success();
 //            return results;
 
-            System.out.println("Searching for " + type.name() + " nodes...");
+            System.out.println("Searching for " + label.name() + " nodes...");
 
-            ResourceIterator<Node> nodeIterator = graphDb.findNodes(type);
-            List<Node> nodes = new ArrayList<>();
-            while(nodeIterator.hasNext()){
-                Node node = nodeIterator.next();
-                nodes.add(node);
-                System.out.println("Found " + type.name() + " node with id = " + node.getProperty(Const.UUID));
+            ResourceIterator<Node> nodeIterator = graphDb.findNodes(label);
+            if(nodeIterator != null) {
+                List<Node> nodes = new ArrayList<>();
+                while (nodeIterator.hasNext()) {
+                    Node node = nodeIterator.next();
+                    nodes.add(node);
+                    System.out.println("Found " + label.name() + " node with id = " + node.getProperty(Const.UUID));
+                }
+                tx.success();
+                return nodes;
             }
-            tx.success();
-            return nodes;
+            else {
+                System.out.println("No " + label.name() + " nodes found.");
+                return new ArrayList<>();
+            }
         }
         catch (Exception e)
         {
-            System.out.println("An error occured while getting all " + type + "nodes. Msg :" + e.getMessage());
+            System.out.println("An error occured while getting all " + label + "nodes. Msg :" + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -326,7 +344,14 @@ public class DbUtils
         try ( Transaction tx = graphDb.beginTx())
         {
             nodeList.iterator().forEachRemaining( node -> {
-                nodes.put((String) node.getProperty(Const.UUID), (HashMap) node.getAllProperties());
+                try
+                {
+                    nodes.put( node.getProperty(Const.UUID) + "", (HashMap) node.getAllProperties());
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Error mapping props. Msg:" + e.getMessage());
+                }
             });
             tx.success();
         }
@@ -346,8 +371,11 @@ public class DbUtils
             {
                 Node current = nodes.next();
                 if(current.hasRelationship()){
-                    //TODO:
-                    current.getRelationships().forEach(rel -> rel.delete());
+                    current.getRelationships().forEach(rel -> {
+                        if(label != Const.ROOT_LABEL || rel.getType() != Const.RELATE_ROOT_OBSERVATION) {
+                            rel.delete();
+                        }
+                    });
                 }
                 System.out.println("Deleting node { id: " + current.getProperties(Const.UUID) + " , name: " + current.getProperties(Const.NAME ) + "}");
                 try {
@@ -400,6 +428,30 @@ public class DbUtils
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
+    }
+
+    public List<Relationship> getRelationships(){
+        List<Relationship> rels = new ArrayList<>();
+        try(Transaction tx = graphDb.beginTx())
+        {
+            ResourceIterator<Relationship> relIterator = graphDb.getAllRelationships().iterator();
+            relIterator.forEachRemaining(rel -> {
+                try {
+                    System.out.println("Found relationship " + rel.getType().name() + " between " + rel.getStartNode().getLabels().toString()
+                            + " node {id: " + (!rel.getStartNode().hasProperty(Const.UUID) ? "[root]" : rel.getStartNode().getProperty(Const.UUID)) + " } and " + rel.getEndNode().getLabels().toString()
+                            + " node {id: " + (!rel.getEndNode().hasProperty(Const.UUID) ? "[root]" : rel.getEndNode().getProperty(Const.UUID)) + " }.");
+                    rels.add(rel);
+                }
+                catch(Exception e){
+                    System.out.println("Error. Msg : " + e.getMessage());
+                }
+            });
+            tx.success();
+        }
+        catch(Exception e){
+            System.out.println("Unable to get relaionships. Msg:" + e.getMessage());
+        }
+        return rels;
     }
 
 //    public void printNode(Node node)
@@ -463,4 +515,7 @@ public class DbUtils
         connectDatabase(dbPath);
     }
 
+    public void dispose(){
+        graphDb.shutdown();
+    }
 }

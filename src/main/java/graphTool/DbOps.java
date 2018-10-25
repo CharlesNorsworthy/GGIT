@@ -1,6 +1,7 @@
 package graphTool;
 
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import scala.collection.immutable.Stream;
 
 import java.util.HashMap;
@@ -15,10 +16,11 @@ public class DbOps {
      *  The user must enter in a path for the database to be initialized.
      * @param dbPath
      */
-    DbOps(String dbPath) {
+    public DbOps(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
         //db.createDefaultNodes();
+        //db.deleteNodesByType(Const.ROOT_LABEL);
         //db.deleteNodesByType(Const.OBSERVATION_LABEL);
         //db.deleteNodesByType(Const.KNOWLEDGE_LABEL);
     }
@@ -35,7 +37,7 @@ public class DbOps {
 
     public void updateObservation(String id, HashMap<String, Object> props) {
         Node node = db.getNodeById(Const.OBSERVATION_LABEL, id);
-        db.updateNode(node, id, props);
+        db.updateNode(node, props);
     }
 
     public void deleteObservation(String id) {
@@ -65,10 +67,18 @@ public class DbOps {
 
     public void updateKnowledge(String id, HashMap<String, Object> props) {
         Node node = db.getNodeById(Const.KNOWLEDGE_LABEL, id);
-        db.updateNode(node, id, props);
+        db.updateNode(node, props);
     }
 
     public void deleteKnowledge(String id) {
         db.deleteNode(Const.KNOWLEDGE_LABEL, id);
+    }
+
+    public List<Relationship> readAllRelationShips(){
+        return db.getRelationships();
+    }
+
+    public void close(){
+        db.dispose();
     }
 }

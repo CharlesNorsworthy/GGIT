@@ -1,6 +1,10 @@
 package graphTool.client;
 
 import graphTool.GraphApi;
+import org.glassfish.jersey.client.ClientConfig;
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
 import org.neo4j.graphdb.Node;
 
 import javax.json.Json;
@@ -34,4 +38,65 @@ public class GraphClient {
 //
 //
 //    }
+    private static String OBS_URL = "http://localhost:8025/api/observation";
+    private static String KNW_URL = "http://localhost:8025/api/observation";
+    static ClientConfig clientConfig = null;
+    static Client client = null;
+    static WebTarget webTarget = null;
+    static Invocation.Builder builder = null;
+    static Response response = null;
+    static int responseCode;
+    static String responseMessageFromServer = null;
+    static String responseString = null;
+
+    public static void main(String[] args){
+
+        TestGETAllNodes(OBS_URL);
+
+    }
+
+    public static void TestGETAllNodes(String URL){
+
+        try{
+            // invoke service after setting necessary parameters
+            clientConfig = new ClientConfig();
+            client =  ClientBuilder.newClient(clientConfig);
+            //          client.property("Content-Type", MediaType.TEXT_PLAIN);
+            //          client.property("accept", MediaType.TEXT_PLAIN);
+            webTarget = client.target(URL);
+
+            // invoke service
+            builder = webTarget.request().accept(MediaType.APPLICATION_JSON);
+            response = builder.get();
+
+            // get response code
+            responseCode = response.getStatus();
+            System.out.println("Response code: " + responseCode);
+
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Failed with HTTP error code : " + responseCode);
+            }
+
+            // get response message
+            responseMessageFromServer = response.getStatusInfo().getReasonPhrase();
+            System.out.println("ResponseMessageFromServer: " + responseMessageFromServer);
+
+            // get response string
+            responseString = response.readEntity(String.class);
+            System.out.println(responseString);
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        finally{
+            // release resources, if any
+            response.close();
+            client.close();
+        }
+    }
+
+    public static void TestGETSingleNode(String id){
+
+
+    }
 }
