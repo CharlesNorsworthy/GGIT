@@ -19,8 +19,8 @@ public class DbOps {
         db = new DbUtils(dbPath);
         root = db.initRoot();
         //db.createDefaultNodes();
-        db.deleteNodesByType(Const.OBSERVATION_LABEL);
-        db.deleteNodesByType(Const.KNOWLEDGE_LABEL);
+        //db.deleteNodesByType(Const.OBSERVATION_LABEL);
+        //db.deleteNodesByType(Const.KNOWLEDGE_LABEL);
     }
 
     public void createObservation(HashMap<String, Object> props) {
@@ -29,16 +29,8 @@ public class DbOps {
     }
 
     public HashMap<String, Object> readObservation(String id) {
-        return (HashMap) (db.getNodeById(Const.OBSERVATION_LABEL, id)).getAllProperties();
-    }
-
-    public HashMap<String, HashMap<String, Object>> readAllObservations() {
-        HashMap<String, HashMap<String, Object>> nodes = new HashMap<>();
-        List<Node> nodeList = db.getNodesByType(Const.OBSERVATION_LABEL);
-        nodeList.iterator().forEachRemaining( node -> {
-            nodes.put((String) node.getProperty(Const.UUID), (HashMap) node.getAllProperties());
-        });
-        return nodes;
+        Node node = (db.getNodeById(Const.OBSERVATION_LABEL, id));
+        return db.readNodeMap(node);
     }
 
     public void updateObservation(String id, HashMap<String, Object> props) {
@@ -57,16 +49,18 @@ public class DbOps {
     }
 
     public HashMap<String, Object> readKnowledge(String id) {
-        return (HashMap) (db.getNodeById(Const.KNOWLEDGE_LABEL, id)).getAllProperties();
+        Node node = (db.getNodeById(Const.KNOWLEDGE_LABEL, id));
+        return db.readNodeMap(node);
     }
 
     public HashMap<String, HashMap<String, Object>> readAllKnowledges() {
-        HashMap<String, HashMap<String, Object>> nodes = new HashMap<>();
         List<Node> nodeList = db.getNodesByType(Const.KNOWLEDGE_LABEL);
-        nodeList.iterator().forEachRemaining( node -> {
-            nodes.put((String) node.getProperty(Const.UUID), (HashMap) node.getAllProperties());
-        });
-        return nodes;
+        return db.readNodesMap(nodeList);
+    }
+
+    public HashMap<String, HashMap<String, Object>> readAllObservations() {
+        List<Node> nodeList = db.getNodesByType(Const.OBSERVATION_LABEL);
+        return db.readNodesMap(nodeList);
     }
 
     public void updateKnowledge(String id, HashMap<String, Object> props) {

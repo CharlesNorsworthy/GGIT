@@ -26,7 +26,9 @@ public class DbUtils
 
     public Node initRoot() {
         try (Transaction tx = graphDb.beginTx()) {
-            root = this.graphDb.createNode(Const.ROOT_LABEL);
+            if(root == null) {
+                root = this.graphDb.createNode(Const.ROOT_LABEL);
+            }
             tx.success();
             return root;
         } catch (Exception e) {
@@ -148,6 +150,7 @@ public class DbUtils
             for ( int id = 0; id < obs; id++ )
             {
                 Node node = graphDb.createNode( Const.OBSERVATION_LABEL );
+                node.createRelationshipTo(root,Const.RELATE_ROOT_OBSERVATION);
                 node.setProperty( Const.UUID, UUID.randomUUID().toString() );
                 node.setProperty(Const.NAME, "observation " + id);
                 node.setProperty(Const.LATITUDE, new Random().nextDouble());
@@ -236,6 +239,8 @@ public class DbUtils
         return node;
     }
 
+
+
     public List<Node> getNodesByType(Label type) {
         try( Transaction tx = graphDb.beginTx())
         {
@@ -302,6 +307,35 @@ public class DbUtils
         }
     }
 
+    public HashMap<String, Object> readNodeMap(Node node){
+        HashMap<String, Object> nodeMap = new HashMap<>();
+        try(Transaction tx = graphDb.beginTx())
+        {
+            nodeMap = (HashMap)node.getAllProperties();
+            tx.success();
+        }
+        catch(Exception e){
+            System.out.println("Unable to map node properties. Msg: " + e.getMessage());
+        }
+        return nodeMap;
+    }
+
+    public HashMap<String,HashMap <String,Object>> readNodesMap(List<Node> nodeList){
+
+        HashMap<String, HashMap<String, Object>> nodes = new HashMap<>();
+        try ( Transaction tx = graphDb.beginTx())
+        {
+            nodeList.iterator().forEachRemaining( node -> {
+                nodes.put((String) node.getProperty(Const.UUID), (HashMap) node.getAllProperties());
+            });
+            tx.success();
+        }
+        catch(Exception e){
+            System.out.println("Unable to map node properties. Msg: " + e.getMessage() );
+        }
+        return nodes;
+    }
+
     public void deleteNodesByType(Label label)
     {
         try ( Transaction tx = graphDb.beginTx())
@@ -313,7 +347,7 @@ public class DbUtils
                 Node current = nodes.next();
                 if(current.hasRelationship()){
                     //TODO:
-                    current.getRelationships().forEach(rel -> { /*deleteRelationShip(rel);*/ });
+                    current.getRelationships().forEach(rel -> rel.delete());
                 }
                 System.out.println("Deleting node { id: " + current.getProperties(Const.UUID) + " , name: " + current.getProperties(Const.NAME ) + "}");
                 try {
@@ -321,6 +355,7 @@ public class DbUtils
                 }
                 catch (NotFoundException e){
                     System.out.println(e.getMessage());
+                    System.out.println("node " + current.getProperty(Const.UUID));
                 }
             }
             tx.success();

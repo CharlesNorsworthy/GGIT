@@ -1,4 +1,10 @@
+import graphTool.Const;
+import graphTool.DbUtils;
 import graphTool.GraphDriver;
+import org.neo4j.graphdb.Node;
+
+import java.util.HashMap;
+import java.util.List;
 
 /** GGIT is the driver class for this Graph Database Version Control System
  * Command line input drives this class
@@ -6,9 +12,15 @@ import graphTool.GraphDriver;
 public class GGIT
 {
     public static void main(String args[]) {
-        GraphDriver graphDriver = new GraphDriver();
-        graphDriver.Drive();
+//        GraphDriver graphDriver = new GraphDriver();
+//        graphDriver.Drive();
         //executeCmd(args);
+        DbUtils test = new DbUtils("\\C:\\Neo4J");
+       // test.initRoot();
+       // test.createDefaultNodes();
+       // test.deleteNodesByType(Const.OBSERVATION_LABEL);
+        HashMap<String, HashMap<String, Object>> nodes = new HashMap<>();
+        List<Node> nodeList = test.getNodesByType(Const.KNOWLEDGE_LABEL);
     }
 
     private static void executeCmd(String args[]){
