@@ -267,7 +267,7 @@ public class DbUtils
 //            tx.success();
 //            return results;
 
-            System.out.println("Searching for " + type.name() + "nodes...");
+            System.out.println("Searching for " + type.name() + " nodes...");
 
             ResourceIterator<Node> nodeIterator = graphDb.findNodes(type);
             List<Node> nodes = new ArrayList<>();
@@ -316,12 +316,17 @@ public class DbUtils
                     current.getRelationships().forEach(rel -> { /*deleteRelationShip(rel);*/ });
                 }
                 System.out.println("Deleting node { id: " + current.getProperties(Const.UUID) + " , name: " + current.getProperties(Const.NAME ) + "}");
-                current.delete();
+                try {
+                    current.delete();
+                }
+                catch (NotFoundException e){
+                    System.out.println(e.getMessage());
+                }
             }
             tx.success();
         }
         catch(Exception e){
-            System.out.println("Unable to delete all " + label.name() + "nodes. Msg : " + e.getMessage());
+            System.out.println("Unable to delete all " + label.name() + " nodes. Msg : " +  e.getMessage());
         }
     }
 
