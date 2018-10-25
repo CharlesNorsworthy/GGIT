@@ -78,6 +78,16 @@ public class DbOps {
         return db.getRelationships();
     }
 
+    public void createDefaultNodes(){
+        db.createDefaultNodes();
+    }
+
+    public void deleteeAllNodes(){
+        db.deleteNodesByType(Const.OBSERVATION_LABEL);
+        db.deleteNodesByType(Const.KNOWLEDGE_LABEL);
+        db.deleteNodesByType(Const.ROOT_LABEL);
+    }
+
     public void close(){
         db.dispose();
     }

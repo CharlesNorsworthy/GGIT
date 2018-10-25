@@ -396,7 +396,13 @@ public class DbUtils
     public void deleteNode(Label label, String id) {
 
         try ( Transaction tx = graphDb.beginTx()) {
-            graphDb.findNode(label, Const.UUID, id).delete();
+            Node node = graphDb.findNode(label, Const.UUID, id);
+            if(node.hasRelationship()){
+                node.getRelationships().forEach( rel->{
+                    rel.delete();
+                });
+            }
+            node.delete();
             tx.success();
         } catch (Exception e) {
             System.out.println("Unable to delete node {id :" + id + "}. Msg : " + e.getMessage());
