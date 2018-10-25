@@ -277,14 +277,14 @@ public class DbUtils
 
     }
 
-    static Node getNodeByProperty(GraphDatabaseService graph, String key, Object value){
+    static Node getNodeByID(GraphDatabaseService graph, Object value){
 
         ResourceIterator<Node> graphNodesIterator = DbUtils.getAllNodesIteratorStatic(graph);
         Node currentNode;
         try(Transaction tx = graph.beginTx()){
             while(graphNodesIterator.hasNext()) {
                 currentNode = graphNodesIterator.next();
-                String currentKey = currentNode.getProperty(key).toString();
+                String currentKey = currentNode.getProperty("ID").toString();
                 if (currentKey.equals(value)) {
                     return currentNode;
                 }

@@ -10,20 +10,20 @@ public class TestMerge {
 
         System.out.println("Testing current functionality with graph merging: ");
         GraphDatabaseService testGraph1 = createTestGraph1();
-        GraphDatabaseService testGraph2 = createTestGraph2();
 
-        GraphDatabaseService mergedGraph = Merge.mergeMe(testGraph1, testGraph2);
+        GraphDatabaseService testGraph2 = createTestGraph2();
+        GraphDatabaseService mergedGraph = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\MergedGraph"));
+        mergedGraph = Merge.mergeMe(testGraph1, testGraph2, mergedGraph);
         System.out.println("Merged graph created with the following nodes: ");
 
         /* View the graph */
         try (ResourceIterator<Node> mergedGraphAllNodesIterator = DbUtils.getAllNodesIteratorStatic(mergedGraph)) {
             while (mergedGraphAllNodesIterator.hasNext()) {
                 Node node = mergedGraphAllNodesIterator.next();
-                System.out.println(DbUtils.getNodeID(mergedGraph, node));
+                System.out.print(DbUtils.getNodeID(mergedGraph, node));
 
-                //TODO: print relationships after putting them in
                 Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(mergedGraph, node);
-                System.out.println(" Which has relationships to: ");
+                System.out.println(" , which has relationships: ");
                 while(relsItr.hasNext()){
                     Relationship rel = relsItr.next();
                     System.out.println(rel + " ");
@@ -36,7 +36,7 @@ public class TestMerge {
 
     private static GraphDatabaseService createTestGraph1(){
 
-        GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\TestGraph1"));
+        GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\TestGraph1"));
         try (Transaction tx = graphDb.beginTx()){
             Node firstNode;
             Node secondNode;
@@ -47,9 +47,6 @@ public class TestMerge {
             secondNode = graphDb.createNode();
             secondNode.setProperty("ID", "2");
 
-            //String id = DbUtils.getNodeID(graphDb, firstNode); //legal
-            //String id = firstNode.getProperty("ID").toString(); //legal
-
             relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
             relationship.setProperty( "message", "knows1" );
 
@@ -59,6 +56,18 @@ public class TestMerge {
             System.out.println("Relationship between node 1 and 2 created.");
             System.out.println();
 
+            Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(graphDb, firstNode);
+            Iterator<Relationship> relsItr2 = DbUtils.getRelationshipIterator(graphDb, secondNode);
+            System.out.println(" , which has relationships: ");
+            while(relsItr.hasNext()){
+                Relationship rel = relsItr.next();
+                System.out.println(rel + " ");
+            }
+            while(relsItr2.hasNext()){
+                Relationship rel = relsItr2.next();
+                System.out.println(rel + " ");
+            }
+
             tx.success();
         }
         return graphDb;
@@ -66,7 +75,7 @@ public class TestMerge {
 
     private static GraphDatabaseService createTestGraph2(){
 
-        GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\TestGraph2"));
+        GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\TestGraph2"));
         try (Transaction tx = graphDb.beginTx()){
             Node firstNode;
             Node secondNode;
