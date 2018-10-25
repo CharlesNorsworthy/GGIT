@@ -51,6 +51,7 @@ public class GraphClient {
 
     public static void main(String[] args){
 
+        System.out.println("Running @GET allObservations endpoint.....\n");
         TestGETAllNodes(OBS_URL);
 
     }
