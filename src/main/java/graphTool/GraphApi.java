@@ -41,13 +41,13 @@ public class GraphApi {
         return (dbOps.readAllObservations());
     }
 
-//    @Path("/observation/{id}")
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public HashMap<String, Object> readObservation(@PathParam("id") String id) {
-//        return (dbOps.readObservation(id));
-//    }
-//
+    @Path("/observation/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public HashMap<String, Object> readObservation(@PathParam("id") String id) {
+        return (dbOps.readObservation(id));
+    }
+
 //    @Path("/observation/{id}")
 //    @PUT
 //    @Consumes({MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON})

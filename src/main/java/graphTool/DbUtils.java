@@ -9,9 +9,7 @@ import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.unsafe.impl.batchimport.cache.idmapping.string.DuplicateInputIdException;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class DbUtils
@@ -141,20 +139,52 @@ public class DbUtils
         throw new IllegalArgumentException("ERROR :: The label given {" + label + "} does match any labels in the database!");
     }
 
-    public void createDefaultNodes(String name ,int num)
+    public void createDefaultNodes()
     {
         try ( Transaction tx = graphDb.beginTx() )
         {
-            Label label = Label.label(name);
-
-            // Create some users
-            for ( int id = 0; id < num; id++ )
+            int obs = 5, knw = 3;
+            // Create some observations
+            for ( int id = 0; id < obs; id++ )
             {
-                Node userNode = graphDb.createNode( label );
-                userNode.setProperty( "username", "user" + id + "@neo4j.org" );
+                Node node = graphDb.createNode( Const.OBSERVATION_LABEL );
+                node.setProperty( Const.UUID, UUID.randomUUID().toString() );
+                node.setProperty(Const.NAME, "observation " + id);
+                node.setProperty(Const.LATITUDE, new Random().nextDouble());
+                node.setProperty(Const.LONGITUDE, new Random().nextDouble());
+                node.setProperty(Const.DESCRIPTION, "New created observation node[" + id +"]");
             }
-            System.out.println( "Users created" );
+            System.out.println("Observations created (" + obs + ").");
+
+            //create some knowledges
+            for (int i = 0; i < knw; i++){
+                Node node = graphDb.createNode(Const.KNOWLEDGE_LABEL);
+                node.setProperty( Const.UUID, UUID.randomUUID().toString() );
+                node.setProperty(Const.NAME, "knowledge " + i);
+                node.setProperty(Const.LATITUDE, new Random().nextDouble());
+                node.setProperty(Const.LONGITUDE, new Random().nextDouble());
+                node.setProperty(Const.DESCRIPTION, "New created knowledge node[" + i +"]");
+            }
+            System.out.println("Knowledges created (" + knw + ").");
+
+            //link observations to knowledges
+            ResourceIterator<Node> obsNodes = graphDb.findNodes(Const.OBSERVATION_LABEL);
+            ResourceIterator<Node> knwNodes = graphDb.findNodes(Const.KNOWLEDGE_LABEL);
+            int count = 0;
+            Node knwNode = null;
+            while(obsNodes.hasNext()){
+                if(count % 2 == 0 && knwNodes.hasNext())
+                    knwNode = knwNodes.next();
+
+                obsNodes.next().createRelationshipTo(knwNode,Const.RELATE_OBSERVATION_KNOWLEDGE);
+                count++;
+            }
+            System.out.println("Linked observations to knowledges.");
+
             tx.success();
+        }
+        catch (Exception e){
+            System.out.println("Could not create default nodes. Msg: " + e.getMessage());
         }
     }
 
@@ -209,37 +239,49 @@ public class DbUtils
     public List<Node> getNodesByType(Label type) {
         try( Transaction tx = graphDb.beginTx())
         {
-            List<Node> results = new ArrayList<>();
-            int depth = 0;
-            if (type == Const.OBSERVATION_LABEL)
-            {
-                depth = 1;
-            }
-            else if (type == Const.KNOWLEDGE_LABEL)
-            {
-                depth = 2;
-            }
-            TraversalDescription td = graphDb.traversalDescription()
-                    .breadthFirst()
-                    .relationships(Const.RELATE_ROOT_OBSERVATION, Direction.OUTGOING)
-                    .relationships(Const.RELATE_OBSERVATION_KNOWLEDGE, Direction.OUTGOING)
-                    .evaluator(Evaluators.toDepth(depth));
+//            List<Node> results = new ArrayList<>();
+//            int depth = 0;
+//            if (type == Const.OBSERVATION_LABEL)
+//            {
+//                depth = 1;
+//            }
+//            else if (type == Const.KNOWLEDGE_LABEL)
+//            {
+//                depth = 2;
+//            }
+//            TraversalDescription td = graphDb.traversalDescription()
+//                    .breadthFirst()
+//                    .relationships(Const.RELATE_ROOT_OBSERVATION, Direction.OUTGOING)
+//                    .relationships(Const.RELATE_OBSERVATION_KNOWLEDGE, Direction.OUTGOING)
+//                    .evaluator(Evaluators.toDepth(depth));
+//
+//            Traverser traverser = td.traverse(this.root);
+//
+//            for (Path path : traverser)
+//            {
+//                if (path.length() == depth && path.endNode().hasLabel(type))
+//                {
+//                    results.add(path.endNode());
+//                }
+//            }
+//            tx.success();
+//            return results;
 
-            Traverser traverser = td.traverse(this.root);
+            System.out.println("Searching for " + type.name() + "nodes...");
 
-            for (Path path : traverser)
-            {
-                if (path.length() == depth && path.endNode().hasLabel(type))
-                {
-                    results.add(path.endNode());
-                }
+            ResourceIterator<Node> nodeIterator = graphDb.findNodes(type);
+            List<Node> nodes = new ArrayList<>();
+            while(nodeIterator.hasNext()){
+                Node node = nodeIterator.next();
+                nodes.add(node);
+                System.out.println("Found " + type.name() + " node with id = " + node.getProperty(Const.UUID));
             }
             tx.success();
-            return results;
+            return nodes;
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            System.out.println("An error occured while getting all " + type + "nodes. Msg :" + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -260,19 +302,26 @@ public class DbUtils
         }
     }
 
-    public void deleteNodes(String nodeType)
+    public void deleteNodesByType(Label label)
     {
         try ( Transaction tx = graphDb.beginTx())
         {
-            Label label = Label.label(nodeType);
             ResourceIterator<Node> nodes = (graphDb.findNodes(label));
 
             while(nodes.hasNext())
             {
                 Node current = nodes.next();
+                if(current.hasRelationship()){
+                    //TODO:
+                    current.getRelationships().forEach(rel -> { /*deleteRelationShip(rel);*/ });
+                }
+                System.out.println("Deleting node { id: " + current.getProperties(Const.UUID) + " , name: " + current.getProperties(Const.NAME ) + "}");
                 current.delete();
             }
             tx.success();
+        }
+        catch(Exception e){
+            System.out.println("Unable to delete all " + label.name() + "nodes. Msg : " + e.getMessage());
         }
     }
 
@@ -282,7 +331,7 @@ public class DbUtils
             graphDb.findNode(label, Const.UUID, id).delete();
             tx.success();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Unable to delete node {id :" + id + "}. Msg : " + e.getMessage());
         }
 
     }

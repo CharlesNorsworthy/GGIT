@@ -18,6 +18,9 @@ public class DbOps {
     DbOps(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
+        //db.createDefaultNodes();
+        db.deleteNodesByType(Const.OBSERVATION_LABEL);
+        db.deleteNodesByType(Const.KNOWLEDGE_LABEL);
     }
 
     public void createObservation(HashMap<String, Object> props) {
