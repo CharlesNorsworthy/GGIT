@@ -67,7 +67,8 @@ public class GraphDriver{
         System.out.println("1 - List all Observations");
         System.out.println("2 - List all Knowledges");
         System.out.println("3 - List all Relationships");
-        System.out.println("4 - Coming Soon");
+        System.out.println("4 - Create Default Nodes");
+        System.out.println("5 - Delete All Nodes");
         System.out.println("0 - Main Menu");
         System.out.println("----------------------------------------------------\n");
         System.out.println("Select a command to execute:");
@@ -125,7 +126,12 @@ public class GraphDriver{
                     initReadAllRelationShips();
                     break;
                 case "4":
-                    throw new UnsupportedOperationException("The \"Coming Soon\" command is not currently supported. We'll get to it one day");
+                    initCreateDefaultNodes();
+                    break;
+                    //throw new UnsupportedOperationException("The \"Coming Soon\" command is not currently supported. We'll get to it one day");
+                case "5":
+                    initDeleteAllNodes();
+                    break;
                 case "0":
                     showMainMenu();
                     break;
@@ -374,6 +380,13 @@ public class GraphDriver{
 //        }
         propertyToValues.put(prop, value);
         return propertyToValues;
+    }
+
+    private void initCreateDefaultNodes(){
+        dbOps.createDefaultNodes();
+    }
+    private void initDeleteAllNodes(){
+        dbOps.deleteeAllNodes();
     }
 }
 

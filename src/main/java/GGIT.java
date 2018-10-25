@@ -18,9 +18,9 @@ public class GGIT
     public static void main(String args[]) {
         GraphDriver graphDriver = new GraphDriver();
         graphDriver.Drive();
-        //DbUtils db = new DbUtils("\\C:\\Neo4J");
-        //db.initRoot();
-        //db.createDefaultNodes();
+//        DbUtils db = new DbUtils("\\C:\\Neo4J");
+//        db.initRoot();
+//        db.createDefaultNodes();
         //db.deleteNodesByType(Const.OBSERVATION_LABEL);
         //db.deleteNodesByType(Const.KNOWLEDGE_LABEL);
         //db.deleteNodesByType(Const.ROOT_LABEL);
