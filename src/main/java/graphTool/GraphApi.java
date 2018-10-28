@@ -1,16 +1,11 @@
 package graphTool;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 //import graphTool.client.RestApp;
 
-import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +50,7 @@ public class GraphApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response readObservations(){
         try {
-            HashMap<String, HashMap<String, Object>> observations = dbOps.readAllObservations();
+            HashMap<String, HashMap<String, Object>> observations = dbOps.getAllObservations();
             return Response.status(200).entity(observations).build();
         }
         catch (Exception e){
@@ -69,7 +64,7 @@ public class GraphApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response readObservation(@PathParam("id") String id) {
         try {
-            HashMap<String, Object> observation = dbOps.readObservation(id);
+            HashMap<String, Object> observation = dbOps.getObservation(id);
             return Response.status(200).entity(observation).build();
         }
         catch (Exception e){
@@ -108,7 +103,7 @@ public class GraphApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response readKnowledges(){
         try {
-            HashMap<String, HashMap<String, Object>> knowledges = dbOps.readAllKnowledges();
+            HashMap<String, HashMap<String, Object>> knowledges = dbOps.getAllKnowledges();
             return Response.status(200).entity(knowledges).build();
         }
         catch (Exception e){
@@ -121,7 +116,7 @@ public class GraphApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response readKnowledge(@PathParam("id") String id) {
         try {
-            HashMap<String, Object> knowledge = dbOps.readKnowledge(id);
+            HashMap<String, Object> knowledge = dbOps.getKnowledge(id);
             return Response.status(200).entity(knowledge).build();
         }
         catch (Exception e){
