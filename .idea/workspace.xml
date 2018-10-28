@@ -7,18 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6b1ee86-73c7-4f84-9a4f-5068c8aa2a53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/client/RestApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GGIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GGIT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/Const.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -107,71 +102,62 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="web.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="48" lean-forward="true" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DbOps.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="39" column="27" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
-              <folding>
-                <element signature="e#2601#2602#0" expanded="true" />
-                <element signature="e#2644#2645#0" expanded="true" />
-                <element signature="e#2537#2538#0" expanded="true" />
-                <element signature="e#2554#2555#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GraphApi.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#744#745#0" expanded="true" />
-                <element signature="e#797#798#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GraphClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="53" column="33" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DbUtils.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DbUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="132" column="37" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#655#1238#0" />
-                <element signature="e#1244#1470#0" />
-                <element signature="e#1476#1778#0" />
-                <element signature="e#1784#2249#0" />
-                <element signature="e#2255#2621#0" />
-                <element signature="e#2627#3699#0" />
-                <element signature="e#3916#4312#0" />
-                <element signature="e#17717#17718#0" expanded="true" />
-                <element signature="e#17756#17757#0" expanded="true" />
-                <element signature="e#17784#17785#0" expanded="true" />
-                <element signature="e#17818#17819#0" expanded="true" />
+                <element signature="e#356#582#0" />
+                <element signature="e#1600#2065#0" />
+                <element signature="method#initRoot#0;class#DbUtils#0" />
+                <element signature="method#createNode#0;class#DbUtils#0" />
+                <element signature="method#readNode#0;class#DbUtils#0" />
+                <element signature="method#readNodes#0;class#DbUtils#0" />
+                <element signature="method#updateNode#0;class#DbUtils#0" />
+                <element signature="e#9696#10249#0" />
+                <element signature="method#deleteNodesByLabel#0;class#DbUtils#0" />
+                <element signature="method#createRelationShip#0;class#DbUtils#0" />
+                <element signature="method#readRelationship#0;class#DbUtils#0" />
+                <element signature="method#readRelationshipsFromNode#0;class#DbUtils#0" />
+                <element signature="method#readRelationships#0;class#DbUtils#0" />
+                <element signature="method#readAllRelationshipsOfType#0;class#DbUtils#0" />
+                <element signature="method#deleteRelationship#0;class#DbUtils#0" />
+                <element signature="method#readNodeProperties#0;class#DbUtils#0" />
+                <element signature="method#readNodeListProperties#0;class#DbUtils#0" />
+                <element signature="method#readRelationshipProperties#0;class#DbUtils#0" />
+                <element signature="method#readRelationshipProperties#1;class#DbUtils#0" />
+                <element signature="method#createDefaultNodes#0;class#DbUtils#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DbOps.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-196">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#getObservation#0;class#DbOps#0" />
+                <element signature="method#getAllObservations#0;class#DbOps#0" />
+                <element signature="method#updateObservation#0;class#DbOps#0" />
+                <element signature="method#createKnowledge#0;class#DbOps#0" />
+                <element signature="method#getKnowledge#0;class#DbOps#0" />
+                <element signature="method#getAllKnowledges#0;class#DbOps#0" />
+                <element signature="method#updateKnowledge#0;class#DbOps#0" />
+                <element signature="method#getObservationRelationship#0;class#DbOps#0" />
+                <element signature="method#getObservationRelationship#1;class#DbOps#0" />
+                <element signature="method#getObservationRelationships#0;class#DbOps#0" />
+                <element signature="method#getObservationRelationships#1;class#DbOps#0" />
+                <element signature="method#getAllRelationShips#0;class#DbOps#0" />
+                <element signature="method#getAllRelationShips#1;class#DbOps#0" />
+                <element signature="method#getAllObservationRelationShips#1;class#DbOps#0" />
+                <element signature="method#deleteObservationRelationship#0;class#DbOps#0" />
+                <element signature="method#deleteObservationRelationship#1;class#DbOps#0" />
+                <element signature="method#deleteeAllNodes#0;class#DbOps#0" />
               </folding>
             </state>
           </provider>
@@ -180,51 +166,8 @@
       <file leaf-file-name="Const.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/Const.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="35" column="73" lean-forward="true" selection-start-line="35" selection-start-column="73" selection-end-line="35" selection-end-column="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/index.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GraphDriver.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="306" selection-start-line="306" selection-end-line="306" />
-              <folding>
-                <element signature="method#GraphDriver#0;class#GraphDriver#0" />
-                <element signature="method#showMainMenu#0;class#GraphDriver#0" />
-                <element signature="method#executeMainCommand#0;class#GraphDriver#0" />
-                <element signature="method#executeMoreCommand#0;class#GraphDriver#0" />
-                <element signature="method#initCreateNode#0;class#GraphDriver#0" />
-                <element signature="method#initDeleteNode#0;class#GraphDriver#0" />
-                <element signature="method#initReadAllNodes#0;class#GraphDriver#0" />
-                <element signature="e#10151#10152#0" expanded="true" />
-                <element signature="e#10182#10183#0" expanded="true" />
-                <element signature="method#Drive#0;class#GraphDriver#0" />
-                <element signature="method#TryParseDouble#0;class#GraphDriver#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GGIT.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="73">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="569">
+              <caret line="48" column="66" selection-start-line="48" selection-start-column="66" selection-end-line="48" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -622,10 +565,10 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java" />
-        <option value="$PROJECT_DIR$/src/main/java/graphTool/Const.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/GGIT.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java" />
+        <option value="$PROJECT_DIR$/src/main/java/graphTool/Const.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" />
       </list>
@@ -647,16 +590,17 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="950" />
-    <option name="width" value="979" />
-    <option name="height" value="1040" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="760" />
+    <option name="width" value="784" />
+    <option name="height" value="833" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -718,7 +662,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -749,7 +692,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.GGIT">
+  <component name="RunManager" selected="Tomcat Server.REST">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HEIGHT" value="0" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
@@ -958,19 +901,19 @@
       <workItem from="1540412945334" duration="14473000" />
       <workItem from="1540435639959" duration="19883000" />
       <workItem from="1540483376032" duration="12482000" />
+      <workItem from="1540623984787" duration="24561000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49599000" />
+    <option name="totallyTimeSpent" value="75975000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.25925925" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="bottom" id="Java Enterprise" order="8" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -982,18 +925,20 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.62393165" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32905984" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4985755" visible="true" weight="0.2818792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4985755" visible="true" weight="0.28590605" />
       <window_info anchor="right" id="Bean Validation" order="11" />
       <window_info id="Web" order="2" sideWeight="0.5014245" side_tool="true" weight="0.27785236" />
       <window_info anchor="right" id="Database" order="10" weight="0.3295302" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32905984" />
       <window_info anchor="right" id="Gradle" order="8" weight="0.3295302" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3988604" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3988604" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.25925925" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -1002,7 +947,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info anchor="bottom" id="Build" order="8" weight="0.32904148" />
@@ -1012,13 +956,14 @@
       <window_info anchor="bottom" id="Run" order="3" weight="0.0" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Commander" order="2" weight="0.4" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="CDI" order="0" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.26068377" />
       <window_info anchor="bottom" id="TODO" order="7" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
@@ -1026,7 +971,6 @@
       <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" />
       <window_info anchor="right" id="Maven Projects" order="7" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Gradle" order="8" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2657718" />
       <window_info anchor="right" id="Database" order="11" weight="0.3295302" />
@@ -1034,7 +978,7 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="right" id="Palette&#9;" order="9" />
       <window_info anchor="right" id="Theme Preview" order="10" />
-      <window_info anchor="right" id="CDI" order="0" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="2" />
       <window_info anchor="right" id="Bean Validation" order="1" />
@@ -1052,47 +996,41 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java</url>
-          <line>306</line>
+          <line>301</line>
           <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java</url>
-          <line>37</line>
-          <properties class="graphTool.DbOps" method="updateObservation">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="19" />
+      <option name="time" value="28" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#655#1238#0" />
-            <element signature="e#1244#1470#0" />
-            <element signature="e#1476#1778#0" />
-            <element signature="e#1784#2249#0" />
-            <element signature="e#2255#2621#0" />
-            <element signature="e#2627#3699#0" />
-            <element signature="e#3916#4312#0" />
-            <element signature="e#17717#17718#0" expanded="true" />
-            <element signature="e#17756#17757#0" expanded="true" />
-            <element signature="e#17784#17785#0" expanded="true" />
-            <element signature="e#17818#17819#0" expanded="true" />
+            <element signature="e#356#582#0" />
+            <element signature="e#1600#2065#0" />
+            <element signature="method#initRoot#0;class#DbUtils#0" />
+            <element signature="method#createNode#0;class#DbUtils#0" />
+            <element signature="method#readNode#0;class#DbUtils#0" />
+            <element signature="method#readNodes#0;class#DbUtils#0" />
+            <element signature="method#updateNode#0;class#DbUtils#0" />
+            <element signature="e#9696#10249#0" />
+            <element signature="method#deleteNodesByLabel#0;class#DbUtils#0" />
+            <element signature="method#createRelationShip#0;class#DbUtils#0" />
+            <element signature="method#readRelationship#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipsFromNode#0;class#DbUtils#0" />
+            <element signature="method#readRelationships#0;class#DbUtils#0" />
+            <element signature="method#readAllRelationshipsOfType#0;class#DbUtils#0" />
+            <element signature="method#deleteRelationship#0;class#DbUtils#0" />
+            <element signature="method#readNodeProperties#0;class#DbUtils#0" />
+            <element signature="method#readNodeListProperties#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipProperties#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipProperties#1;class#DbUtils#0" />
+            <element signature="method#createDefaultNodes#0;class#DbUtils#0" />
           </folding>
         </state>
       </provider>
@@ -1103,6 +1041,7 @@
           <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#executeCmd#0;class#GGIT#0" />
           </folding>
         </state>
       </provider>
@@ -1120,8 +1059,6 @@
           <caret line="44" column="8" lean-forward="true" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#744#745#0" expanded="true" />
-            <element signature="e#797#798#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1137,9 +1074,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1156,17 +1090,26 @@
           <caret line="322" column="54" selection-start-line="322" selection-start-column="54" selection-end-line="322" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#655#1238#0" />
-            <element signature="e#1244#1470#0" />
-            <element signature="e#1476#1778#0" />
-            <element signature="e#1784#2249#0" />
-            <element signature="e#2255#2621#0" />
-            <element signature="e#2627#3699#0" />
-            <element signature="e#3916#4312#0" />
-            <element signature="e#17717#17718#0" expanded="true" />
-            <element signature="e#17756#17757#0" expanded="true" />
-            <element signature="e#17784#17785#0" expanded="true" />
-            <element signature="e#17818#17819#0" expanded="true" />
+            <element signature="e#356#582#0" />
+            <element signature="e#1600#2065#0" />
+            <element signature="method#initRoot#0;class#DbUtils#0" />
+            <element signature="method#createNode#0;class#DbUtils#0" />
+            <element signature="method#readNode#0;class#DbUtils#0" />
+            <element signature="method#readNodes#0;class#DbUtils#0" />
+            <element signature="method#updateNode#0;class#DbUtils#0" />
+            <element signature="e#9696#10249#0" />
+            <element signature="method#deleteNodesByLabel#0;class#DbUtils#0" />
+            <element signature="method#createRelationShip#0;class#DbUtils#0" />
+            <element signature="method#readRelationship#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipsFromNode#0;class#DbUtils#0" />
+            <element signature="method#readRelationships#0;class#DbUtils#0" />
+            <element signature="method#readAllRelationshipsOfType#0;class#DbUtils#0" />
+            <element signature="method#deleteRelationship#0;class#DbUtils#0" />
+            <element signature="method#readNodeProperties#0;class#DbUtils#0" />
+            <element signature="method#readNodeListProperties#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipProperties#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipProperties#1;class#DbUtils#0" />
+            <element signature="method#createDefaultNodes#0;class#DbUtils#0" />
           </folding>
         </state>
       </provider>
@@ -1176,9 +1119,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1202,8 +1142,6 @@
           <caret line="55" column="2" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#744#745#0" expanded="true" />
-            <element signature="e#797#798#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1241,9 +1179,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="900">
           <caret line="41" column="1" lean-forward="true" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
-          <folding>
-            <element signature="imports" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1332,9 +1267,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1379,36 +1311,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="48" lean-forward="true" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="53" column="33" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="34">
+          <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#744#745#0" expanded="true" />
-            <element signature="e#797#798#0" expanded="true" />
+            <element signature="method#executeCmd#0;class#GGIT#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/Const.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="35" column="73" lean-forward="true" selection-start-line="35" selection-start-column="73" selection-end-line="35" selection-end-column="73" />
         </state>
       </provider>
     </entry>
@@ -1419,66 +1329,124 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="348">
+          <caret line="53" column="43" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
+          <folding>
+            <element signature="method#TestGETAllNodes#0;class#GraphClient#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-graphdb-api/3.4.6/fde5afc5cafe7569129deb2d30a78e98065e6ef2/neo4j-graphdb-api-3.4.6-sources.jar!/org/neo4j/graphdb/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-425">
+          <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="306" selection-start-line="306" selection-end-line="306" />
+        <state relative-caret-position="510">
+          <caret line="384" column="20" selection-start-line="384" selection-start-column="20" selection-end-line="384" selection-end-column="20" />
           <folding>
             <element signature="method#GraphDriver#0;class#GraphDriver#0" />
+            <element signature="method#setPath#0;class#GraphDriver#0" />
             <element signature="method#showMainMenu#0;class#GraphDriver#0" />
+            <element signature="method#showMoreOptions#0;class#GraphDriver#0" />
             <element signature="method#executeMainCommand#0;class#GraphDriver#0" />
             <element signature="method#executeMoreCommand#0;class#GraphDriver#0" />
             <element signature="method#initCreateNode#0;class#GraphDriver#0" />
+            <element signature="method#initUpdateNode#0;class#GraphDriver#0" />
             <element signature="method#initDeleteNode#0;class#GraphDriver#0" />
             <element signature="method#initReadAllNodes#0;class#GraphDriver#0" />
-            <element signature="e#10151#10152#0" expanded="true" />
-            <element signature="e#10182#10183#0" expanded="true" />
+            <element signature="method#initReadAllRelationShips#0;class#GraphDriver#0" />
             <element signature="method#Drive#0;class#GraphDriver#0" />
             <element signature="method#TryParseDouble#0;class#GraphDriver#0" />
+            <element signature="method#EditNodeProperties#0;class#GraphDriver#0" />
+            <element signature="method#HandleValueInput#0;class#GraphDriver#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/Const.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="569">
+          <caret line="48" column="66" selection-start-line="48" selection-start-column="66" selection-end-line="48" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#356#582#0" />
+            <element signature="e#1600#2065#0" />
+            <element signature="method#initRoot#0;class#DbUtils#0" />
+            <element signature="method#createNode#0;class#DbUtils#0" />
+            <element signature="method#readNode#0;class#DbUtils#0" />
+            <element signature="method#readNodes#0;class#DbUtils#0" />
+            <element signature="method#updateNode#0;class#DbUtils#0" />
+            <element signature="e#9696#10249#0" />
+            <element signature="method#deleteNodesByLabel#0;class#DbUtils#0" />
+            <element signature="method#createRelationShip#0;class#DbUtils#0" />
+            <element signature="method#readRelationship#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipsFromNode#0;class#DbUtils#0" />
+            <element signature="method#readRelationships#0;class#DbUtils#0" />
+            <element signature="method#readAllRelationshipsOfType#0;class#DbUtils#0" />
+            <element signature="method#deleteRelationship#0;class#DbUtils#0" />
+            <element signature="method#readNodeProperties#0;class#DbUtils#0" />
+            <element signature="method#readNodeListProperties#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipProperties#0;class#DbUtils#0" />
+            <element signature="method#readRelationshipProperties#1;class#DbUtils#0" />
+            <element signature="method#createDefaultNodes#0;class#DbUtils#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="39" column="27" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
-          <folding>
-            <element signature="e#2601#2602#0" expanded="true" />
-            <element signature="e#2644#2645#0" expanded="true" />
-            <element signature="e#2537#2538#0" expanded="true" />
-            <element signature="e#2554#2555#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="132" column="37" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
+        <state relative-caret-position="-196">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#655#1238#0" />
-            <element signature="e#1244#1470#0" />
-            <element signature="e#1476#1778#0" />
-            <element signature="e#1784#2249#0" />
-            <element signature="e#2255#2621#0" />
-            <element signature="e#2627#3699#0" />
-            <element signature="e#3916#4312#0" />
-            <element signature="e#17717#17718#0" expanded="true" />
-            <element signature="e#17756#17757#0" expanded="true" />
-            <element signature="e#17784#17785#0" expanded="true" />
-            <element signature="e#17818#17819#0" expanded="true" />
+            <element signature="method#getObservation#0;class#DbOps#0" />
+            <element signature="method#getAllObservations#0;class#DbOps#0" />
+            <element signature="method#updateObservation#0;class#DbOps#0" />
+            <element signature="method#createKnowledge#0;class#DbOps#0" />
+            <element signature="method#getKnowledge#0;class#DbOps#0" />
+            <element signature="method#getAllKnowledges#0;class#DbOps#0" />
+            <element signature="method#updateKnowledge#0;class#DbOps#0" />
+            <element signature="method#getObservationRelationship#0;class#DbOps#0" />
+            <element signature="method#getObservationRelationship#1;class#DbOps#0" />
+            <element signature="method#getObservationRelationships#0;class#DbOps#0" />
+            <element signature="method#getObservationRelationships#1;class#DbOps#0" />
+            <element signature="method#getAllRelationShips#0;class#DbOps#0" />
+            <element signature="method#getAllRelationShips#1;class#DbOps#0" />
+            <element signature="method#getAllObservationRelationShips#1;class#DbOps#0" />
+            <element signature="method#deleteObservationRelationship#0;class#DbOps#0" />
+            <element signature="method#deleteObservationRelationship#1;class#DbOps#0" />
+            <element signature="method#deleteeAllNodes#0;class#DbOps#0" />
           </folding>
         </state>
       </provider>
