@@ -1,9 +1,14 @@
 package graphTool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.neo4j.cypher.internal.frontend.v2_3.ast.functions.Str;
 import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.NotFoundException;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
 
 public class GraphDriver{
 
@@ -163,7 +168,7 @@ public class GraphDriver{
 
             while(!valid)
             {
-                HashMap<String, HashMap<String, Object>> allNodes = dbOps.getAllObservations();
+                HashMap<String, HashMap<String, Object>> allNodes = dbOps.readAllObservations();
                 for (String key : allNodes.keySet())
                 {
                     System.out.println("--( { \"" + Const.UUID + "\" : " + key + "} )--");
@@ -202,7 +207,7 @@ public class GraphDriver{
             System.out.print("...Enter the Id value for the node being updated: ");
             String idValue = input.nextLine();
             if (label == Const.OBSERVATION_LABEL) {
-                readNode = dbOps.getObservation(idValue);
+                readNode = dbOps.readObservation(idValue);
                 if(readNode != null) {
                     propertyToValues = EditNodeProperties(readNode);
                     dbOps.updateObservation(idValue, propertyToValues);
@@ -215,7 +220,7 @@ public class GraphDriver{
                 }
             } else if (label == Const.KNOWLEDGE_LABEL) {
 
-                readNode = dbOps.getKnowledge(idValue);
+                readNode = dbOps.readKnowledge(idValue);
                 if(readNode != null){
                     propertyToValues = EditNodeProperties(readNode);
                     dbOps.updateKnowledge(idValue, propertyToValues);
@@ -258,7 +263,7 @@ public class GraphDriver{
         HashMap<String, HashMap<String, Object>> nodes;
         if(label == Const.OBSERVATION_LABEL)
         {
-            nodes = dbOps.getAllObservations();
+            nodes = dbOps.readAllObservations();
             System.out.println("OBSERVATIONS-----");
             for(String nodeId : nodes.keySet()){
                 System.out.println("[{ id: \"" + nodeId + "\" , name: \"" + nodes.get(nodeId).get(Const.NAME) + "\"}] -");
@@ -266,7 +271,7 @@ public class GraphDriver{
         }
         else if(label == Const.KNOWLEDGE_LABEL)
         {
-            nodes = dbOps.getAllKnowledges();
+            nodes = dbOps.readAllKnowledges();
             System.out.println("KNOWLEDGES-----");
             for(String nodeId : nodes.keySet()){
                 System.out.println("[{ id: \"" + nodeId + "\" , name: \"" + nodes.get(nodeId).get(Const.NAME) + "\"}] -");
@@ -278,13 +283,13 @@ public class GraphDriver{
         }
     }
 
-    private void initReadAllRelationShips() {
+    private void initReadAllRelationShips()
+    {
         System.out.println("Showing all relationships...");
-        if(dbOps.getAllRelationShips().isEmpty()){
+        if(dbOps.readAllRelationShips().isEmpty()){
             System.out.println("No relationships found.");
         }
     }
-
     private void exitProgram(){
         running = false;
     }
@@ -380,9 +385,8 @@ public class GraphDriver{
     private void initCreateDefaultNodes(){
         dbOps.createDefaultNodes();
     }
-
     private void initDeleteAllNodes(){
-        dbOps.deleteAllNodes();
+        dbOps.deleteeAllNodes();
     }
 }
 

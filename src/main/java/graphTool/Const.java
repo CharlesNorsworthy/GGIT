@@ -41,10 +41,4 @@ public class Const {
     public static final RelationshipType RELATE_ROOT_OBSERVATION = RelationshipType.withName("Observation");
 
     public static final RelationshipType RELATE_OBSERVATION_KNOWLEDGE = RelationshipType.withName("Knowledge");
-
-    public static final String START_NODE = "start";
-
-    public static final String END_NODE = "end";
-
-    public static final String RELATIONSHIP_TYPE = "relationship_type";
 }
