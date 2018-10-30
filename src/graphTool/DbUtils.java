@@ -140,7 +140,10 @@ public class DbUtils
     static String getNodeID(GraphDatabaseService graph, Node node){
         String ID;
         try(Transaction tx = graph.beginTx()){
-             ID = node.getProperty("ID").toString();
+            ID = node.getProperty("ID").toString();
+            if(ID == null){
+                ID = "";
+            }
             tx.success();
         }
         return ID;
