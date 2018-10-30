@@ -1,3 +1,5 @@
+package VersionControl;
+
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
 
@@ -6,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class DbUtils
+public class MergeUtils
 {
     GraphDatabaseService graphDb;
 
@@ -279,7 +281,7 @@ public class DbUtils
 
     static Node getNodeByID(GraphDatabaseService graph, Object value){
 
-        ResourceIterator<Node> graphNodesIterator = DbUtils.getAllNodesIteratorStatic(graph);
+        ResourceIterator<Node> graphNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph);
         Node currentNode;
         try(Transaction tx = graph.beginTx()){
             while(graphNodesIterator.hasNext()) {

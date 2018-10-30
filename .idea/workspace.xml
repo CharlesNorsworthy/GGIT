@@ -7,13 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6b1ee86-73c7-4f84-9a4f-5068c8aa2a53" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GGIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GGIT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/Const.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/DbUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VersionControl/Merge.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -101,73 +101,29 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DbUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java">
+    <leaf>
+      <file leaf-file-name="MergeUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="23" selection-start-column="23" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#748#896#0" expanded="true" />
+                <element signature="e#895#896#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Merge.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/Merge.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+              <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#356#582#0" />
-                <element signature="e#1600#2065#0" />
-                <element signature="method#initRoot#0;class#DbUtils#0" />
-                <element signature="method#createNode#0;class#DbUtils#0" />
-                <element signature="method#readNode#0;class#DbUtils#0" />
-                <element signature="method#readNodes#0;class#DbUtils#0" />
-                <element signature="method#updateNode#0;class#DbUtils#0" />
-                <element signature="e#9696#10249#0" />
-                <element signature="method#deleteNodesByLabel#0;class#DbUtils#0" />
-                <element signature="method#createRelationShip#0;class#DbUtils#0" />
-                <element signature="method#readRelationship#0;class#DbUtils#0" />
-                <element signature="method#readRelationshipsFromNode#0;class#DbUtils#0" />
-                <element signature="method#readRelationships#0;class#DbUtils#0" />
-                <element signature="method#readAllRelationshipsOfType#0;class#DbUtils#0" />
-                <element signature="method#deleteRelationship#0;class#DbUtils#0" />
-                <element signature="method#readNodeProperties#0;class#DbUtils#0" />
-                <element signature="method#readNodeListProperties#0;class#DbUtils#0" />
-                <element signature="method#readRelationshipProperties#0;class#DbUtils#0" />
-                <element signature="method#readRelationshipProperties#1;class#DbUtils#0" />
-                <element signature="method#createDefaultNodes#0;class#DbUtils#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DbOps.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-196">
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getObservation#0;class#DbOps#0" />
-                <element signature="method#getAllObservations#0;class#DbOps#0" />
-                <element signature="method#updateObservation#0;class#DbOps#0" />
-                <element signature="method#createKnowledge#0;class#DbOps#0" />
-                <element signature="method#getKnowledge#0;class#DbOps#0" />
-                <element signature="method#getAllKnowledges#0;class#DbOps#0" />
-                <element signature="method#updateKnowledge#0;class#DbOps#0" />
-                <element signature="method#getObservationRelationship#0;class#DbOps#0" />
-                <element signature="method#getObservationRelationship#1;class#DbOps#0" />
-                <element signature="method#getObservationRelationships#0;class#DbOps#0" />
-                <element signature="method#getObservationRelationships#1;class#DbOps#0" />
-                <element signature="method#getAllRelationShips#0;class#DbOps#0" />
-                <element signature="method#getAllRelationShips#1;class#DbOps#0" />
-                <element signature="method#getAllObservationRelationShips#1;class#DbOps#0" />
-                <element signature="method#deleteObservationRelationship#0;class#DbOps#0" />
-                <element signature="method#deleteObservationRelationship#1;class#DbOps#0" />
-                <element signature="method#deleteeAllNodes#0;class#DbOps#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Const.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/Const.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="48" column="66" selection-start-line="48" selection-start-column="66" selection-end-line="48" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -374,7 +330,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="6156632738535" />
+        <entry key="$PROJECT_DIR$" value="6163691097278" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
         <entry key="$PROJECT_DIR$/build.gradle" value="235899776" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="566444372" />
@@ -571,6 +527,8 @@
         <option value="$PROJECT_DIR$/src/main/java/graphTool/Const.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/VersionControl/DbUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/VersionControl/Merge.java" />
       </list>
     </option>
   </component>
@@ -590,11 +548,12 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="760" />
-    <option name="width" value="784" />
-    <option name="height" value="833" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-9" />
+    <option name="width" value="1934" />
+    <option name="height" value="1039" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -633,30 +592,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="graphTool" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="VersionControl" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -906,11 +842,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75975000" />
+    <option name="totallyTimeSpent" value="76674000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -925,28 +860,46 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.62393165" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32905984" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4985755" visible="true" weight="0.28590605" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4985755" visible="true" weight="0.29395974" />
       <window_info anchor="right" id="Bean Validation" order="11" />
       <window_info id="Web" order="2" sideWeight="0.5014245" side_tool="true" weight="0.27785236" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32904148" />
       <window_info anchor="right" id="Database" order="10" weight="0.3295302" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32905984" />
       <window_info anchor="right" id="Gradle" order="8" weight="0.3295302" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3988604" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.25925925" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info id="Image Layers" order="2" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32904148" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4985755" visible="true" weight="0.28590605" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32905984" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="4" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3988604" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32905984" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Database" order="10" weight="0.3295302" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.62393165" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.25925925" />
+      <window_info anchor="right" id="Gradle" order="8" weight="0.3295302" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info id="Designer" order="2" />
     </layout>
     <layout-to-restore>
       <window_info anchor="bottom" id="Build" order="8" weight="0.32904148" />
@@ -1005,47 +958,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#356#582#0" />
-            <element signature="e#1600#2065#0" />
-            <element signature="method#initRoot#0;class#DbUtils#0" />
-            <element signature="method#createNode#0;class#DbUtils#0" />
-            <element signature="method#readNode#0;class#DbUtils#0" />
-            <element signature="method#readNodes#0;class#DbUtils#0" />
-            <element signature="method#updateNode#0;class#DbUtils#0" />
-            <element signature="e#9696#10249#0" />
-            <element signature="method#deleteNodesByLabel#0;class#DbUtils#0" />
-            <element signature="method#createRelationShip#0;class#DbUtils#0" />
-            <element signature="method#readRelationship#0;class#DbUtils#0" />
-            <element signature="method#readRelationshipsFromNode#0;class#DbUtils#0" />
-            <element signature="method#readRelationships#0;class#DbUtils#0" />
-            <element signature="method#readAllRelationshipsOfType#0;class#DbUtils#0" />
-            <element signature="method#deleteRelationship#0;class#DbUtils#0" />
-            <element signature="method#readNodeProperties#0;class#DbUtils#0" />
-            <element signature="method#readNodeListProperties#0;class#DbUtils#0" />
-            <element signature="method#readRelationshipProperties#0;class#DbUtils#0" />
-            <element signature="method#readRelationshipProperties#1;class#DbUtils#0" />
-            <element signature="method#createDefaultNodes#0;class#DbUtils#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GGIT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#executeCmd#0;class#GGIT#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -1057,9 +969,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="925">
           <caret line="44" column="8" lean-forward="true" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1140,9 +1049,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="867">
           <caret line="55" column="2" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1333,9 +1239,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="348">
           <caret line="53" column="43" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
-          <folding>
-            <element signature="method#TestGETAllNodes#0;class#GraphClient#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1343,19 +1246,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="22" selection-start-line="22" selection-end-line="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-graphdb-api/3.4.6/fde5afc5cafe7569129deb2d30a78e98065e6ef2/neo4j-graphdb-api-3.4.6-sources.jar!/org/neo4j/graphdb/Node.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-425">
@@ -1447,6 +1341,28 @@
             <element signature="method#deleteObservationRelationship#0;class#DbOps#0" />
             <element signature="method#deleteObservationRelationship#1;class#DbOps#0" />
             <element signature="method#deleteeAllNodes#0;class#DbOps#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#748#896#0" expanded="true" />
+            <element signature="e#895#896#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/Merge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
