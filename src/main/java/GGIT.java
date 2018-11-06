@@ -19,7 +19,7 @@ import java.util.Scanner;
             String pathName = "C:\\Neo4J";
             DbUtils database;
             database = new DbUtils();
-            database.getConnection(pathName);
+            //database.getConnection(pathName);
             try {
                 Scanner sc = new Scanner(System.in);
                 menu();
@@ -43,7 +43,7 @@ import java.util.Scanner;
                         //System.out.println("Please enter a node,label, defaultproperty, and defaultpopertyValue separated by a comma");
                         //String nodeInput1 = sc.nextLine();
                        // String[] parsedInput = nodeInput1.split(",");
-                        database.createDefaultNodes("node", 10);
+                        //database.createDefaultNodes("node", 10);
 
                         throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
                     case "commit":

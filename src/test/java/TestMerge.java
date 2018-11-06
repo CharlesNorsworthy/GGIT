@@ -7,22 +7,23 @@ import java.util.Iterator;
 public class TestMerge {
 
     public static void main(String args[]){
+        //TODO: merge with Rest and branch off of Rest with RestMerge
 
         System.out.println("Testing current functionality with graph merging: ");
         GraphDatabaseService testGraph1 = createTestGraph1();
-
         GraphDatabaseService testGraph2 = createTestGraph2();
         GraphDatabaseService mergedGraph = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\MergedGraph"));
         mergedGraph = Merge.mergeMe(testGraph1, testGraph2, mergedGraph);
+
         System.out.println("Merged graph created with the following nodes: ");
 
         /* View the graph */
-        try (ResourceIterator<Node> mergedGraphAllNodesIterator = DbUtils.getAllNodesIteratorStatic(mergedGraph)) {
+        try (ResourceIterator<Node> mergedGraphAllNodesIterator = MergeUtils.getAllNodesIteratorStatic(mergedGraph)) {
             while (mergedGraphAllNodesIterator.hasNext()) {
                 Node node = mergedGraphAllNodesIterator.next();
-                System.out.print(DbUtils.getNodeID(mergedGraph, node));
+                System.out.print(MergeUtils.getNodeID(mergedGraph, node));
 
-                Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(mergedGraph, node);
+                Iterator<Relationship> relsItr = MergeUtils.getRelationshipIterator(mergedGraph, node);
                 System.out.println(" , which has relationships: ");
                 while(relsItr.hasNext()){
                     Relationship rel = relsItr.next();
@@ -40,15 +41,21 @@ public class TestMerge {
         try (Transaction tx = graphDb.beginTx()){
             Node firstNode;
             Node secondNode;
-            Relationship relationship;
+            Node thirdNode;
+            Relationship relationship1;
+            Relationship relationship2;
 
             firstNode = graphDb.createNode();
             firstNode.setProperty("ID", "1");
             secondNode = graphDb.createNode();
             secondNode.setProperty("ID", "2");
+            thirdNode = graphDb.createNode();
+            thirdNode.setProperty("ID", "3");
 
-            relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
-            relationship.setProperty( "message", "knows1" );
+            relationship1 = firstNode.createRelationshipTo(secondNode, MergeUtils.RelTypes.KNOWS);
+            relationship1.setProperty("message", "knows1");
+            relationship2 = secondNode.createRelationshipTo(thirdNode, MergeUtils.RelTypes.KNOWS);
+            relationship2.setProperty("message", "knows2");
 
             System.out.println("Graph 1 created.");
             System.out.println("Node with ID = 1 created.");
@@ -56,8 +63,9 @@ public class TestMerge {
             System.out.println("Relationship between node 1 and 2 created.");
             System.out.println();
 
-            Iterator<Relationship> relsItr = DbUtils.getRelationshipIterator(graphDb, firstNode);
-            Iterator<Relationship> relsItr2 = DbUtils.getRelationshipIterator(graphDb, secondNode);
+            Iterator<Relationship> relsItr = MergeUtils.getRelationshipIterator(graphDb, firstNode);
+            Iterator<Relationship> relsItr2 = MergeUtils.getRelationshipIterator(graphDb, secondNode);
+            Iterator<Relationship> relsItr3 = MergeUtils.getRelationshipIterator(graphDb, thirdNode);
             System.out.println(" , which has relationships: ");
             while(relsItr.hasNext()){
                 Relationship rel = relsItr.next();
@@ -67,7 +75,10 @@ public class TestMerge {
                 Relationship rel = relsItr2.next();
                 System.out.println(rel + " ");
             }
-
+            while(relsItr3.hasNext()){
+                Relationship rel = relsItr3.next();
+                System.out.println(rel + " ");
+            }
             tx.success();
         }
         return graphDb;
@@ -84,9 +95,9 @@ public class TestMerge {
             firstNode = graphDb.createNode();
             firstNode.setProperty("ID", "1");
             secondNode = graphDb.createNode();
-            secondNode.setProperty("ID", "3");
+            secondNode.setProperty("ID", "4");
 
-            relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
+            relationship = firstNode.createRelationshipTo(secondNode, MergeUtils.RelTypes.KNOWS);
             relationship.setProperty( "message", "knows2" );
 
             System.out.println("Graph 2 created.");

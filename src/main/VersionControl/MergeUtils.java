@@ -137,6 +137,13 @@ public class MergeUtils {
         return relationshipNodes;
     }
 
+    static void deleteRelationship(GraphDatabaseService graph, Relationship relationship){
+        try(Transaction tx = graph.beginTx()){
+            relationship.delete();
+            tx.success();
+        }
+    }
+
     static String getNodeID(GraphDatabaseService graph, Node node){
         String ID;
         try(Transaction tx = graph.beginTx()){
