@@ -371,6 +371,18 @@ public class MergeUtils {
 
     }
 
+    //From https://stackoverflow.com/questions/27233978/java-neo4j-check-if-a-relationship-exist
+    static Relationship getRelationshipBetween(GraphDatabaseService graph, Node startNode, String endNodeId){ // RelationshipType type, Direction direction
+        try(Transaction tx = graph.beginTx()){
+            for (Relationship rel : startNode.getRelationships()){ // n1.getRelationships(type,direction)
+                String otherNodeId = getNodeID(graph, rel.getOtherNode(startNode));
+                if (otherNodeId.equals(endNodeId)) return rel;
+            }
+            tx.success();
+            return null;
+        }
+    }
+
     public void getConnection(String pathName)
     {
         connectDatabase(pathName);

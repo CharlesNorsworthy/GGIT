@@ -41,24 +41,28 @@ public class TestMerge {
 
         GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\TestGraph1"));
         try (Transaction tx = graphDb.beginTx()){
-            Node firstNode;
-            Node secondNode;
-            Node thirdNode;
-            Node fourthNode;
+            Node rootNode;
+            Node node1;
+            Node node3;
+            Node node2;
             Relationship relationship1;
             Relationship relationship2;
+            Relationship relationship3;
 
-            firstNode = graphDb.createNode();
-            firstNode.setProperty("ID", "0");
-            secondNode = graphDb.createNode();
-            secondNode.setProperty("ID", "1");
-            thirdNode = graphDb.createNode();
-            thirdNode.setProperty("ID", "3");
+            rootNode = graphDb.createNode();
+            rootNode.setProperty("ID", "0");
+            node1 = graphDb.createNode();
+            node1.setProperty("ID", "1");
+            node3 = graphDb.createNode();
+            node3.setProperty("ID", "3");
+            node2 = graphDb.createNode();
+            node2.setProperty("ID", "2");
 
-            relationship1 = firstNode.createRelationshipTo(secondNode, MergeUtils.RelTypes.KNOWS);
+            relationship1 = rootNode.createRelationshipTo(node1, MergeUtils.RelTypes.KNOWS);
             relationship1.setProperty("message", "knows1");
-            relationship2 = secondNode.createRelationshipTo(thirdNode, MergeUtils.RelTypes.KNOWS);
+            relationship2 = node1.createRelationshipTo(node2, MergeUtils.RelTypes.KNOWS);
             relationship2.setProperty("message", "knows2");
+            relationship3 = rootNode.createRelationshipTo(node3, MergeUtils.RelTypes.KNOWS);
 
             System.out.println("Graph 1 created.");
             System.out.println("Node with ID = 1 created.");
@@ -66,9 +70,9 @@ public class TestMerge {
             System.out.println("Relationship between node 1 and 2 created.");
             System.out.println();
 
-            Iterator<Relationship> relsItr = MergeUtils.getRelationshipIterator(graphDb, firstNode);
-            Iterator<Relationship> relsItr2 = MergeUtils.getRelationshipIterator(graphDb, secondNode);
-            Iterator<Relationship> relsItr3 = MergeUtils.getRelationshipIterator(graphDb, thirdNode);
+            Iterator<Relationship> relsItr = MergeUtils.getRelationshipIterator(graphDb, rootNode);
+            Iterator<Relationship> relsItr2 = MergeUtils.getRelationshipIterator(graphDb, node1);
+            Iterator<Relationship> relsItr3 = MergeUtils.getRelationshipIterator(graphDb, node3);
             System.out.println(" , which has relationships: ");
             while(relsItr.hasNext()){
                 Relationship rel = relsItr.next();
@@ -87,54 +91,34 @@ public class TestMerge {
         return graphDb;
     }
 
-//    private static GraphDatabaseService createTestGraph2(){
-//
-//        GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\TestGraph2"));
-//        try (Transaction tx = graphDb.beginTx()){
-//            Node firstNode;
-//            Node secondNode;
-//            Relationship relationship;
-//
-//            firstNode = graphDb.createNode();
-//            firstNode.setProperty("ID", "1");
-//            secondNode = graphDb.createNode();
-//            secondNode.setProperty("ID", "4");
-//
-//            relationship = firstNode.createRelationshipTo(secondNode, MergeUtils.RelTypes.KNOWS);
-//            relationship.setProperty( "message", "knows2" );
-//
-//            System.out.println("Graph 2 created.");
-//            System.out.println("Node with ID = 1 created.");
-//            System.out.println("Node with ID = 3 created.");
-//            System.out.println("Relationship between node 1 and 3 created.");
-//            System.out.println();
-//
-//            tx.success();
-//        }
-//        return graphDb;
-//    }
-
     private static GraphDatabaseService createTestGraph2(){
 
         GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("\\C:\\databases\\TestGraph2"));
         try (Transaction tx = graphDb.beginTx()){
-            Node firstNode;
-            Node secondNode;
-            Node thirdNode;
+            Node rootNode;
+            Node node1;
+            Node node3;
+            Node node4;
             Relationship relationship1;
             Relationship relationship2;
+            Relationship relationship3;
+            Relationship relationship4;
 
-            firstNode = graphDb.createNode();
-            firstNode.setProperty("ID", "1");
-            secondNode = graphDb.createNode();
-            secondNode.setProperty("ID", "3");
-            thirdNode = graphDb.createNode();
-            thirdNode.setProperty("ID", "4");
+            rootNode = graphDb.createNode();
+            rootNode.setProperty("ID", "0");
+            node1 = graphDb.createNode();
+            node1.setProperty("ID", "1");
+            node3 = graphDb.createNode();
+            node3.setProperty("ID", "3");
+            node4 = graphDb.createNode();
+            node4.setProperty("ID", "4");
 
-            relationship1 = firstNode.createRelationshipTo(secondNode, MergeUtils.RelTypes.KNOWS);
+            relationship1 = rootNode.createRelationshipTo(node1, MergeUtils.RelTypes.KNOWS);
             relationship1.setProperty("message", "knows1");
-            relationship2 = secondNode.createRelationshipTo(thirdNode, MergeUtils.RelTypes.KNOWS);
+            relationship2 = rootNode.createRelationshipTo(node3, MergeUtils.RelTypes.KNOWS);
             relationship2.setProperty("message", "knows2");
+            relationship3 = node1.createRelationshipTo(node4, MergeUtils.RelTypes.KNOWS);
+            relationship4 = node3.createRelationshipTo(node4, MergeUtils.RelTypes.KNOWS);
 
             System.out.println("Graph 1 created.");
             System.out.println("Node with ID = 1 created.");
@@ -142,9 +126,9 @@ public class TestMerge {
             System.out.println("Relationship between node 1 and 2 created.");
             System.out.println();
 
-            Iterator<Relationship> relsItr = MergeUtils.getRelationshipIterator(graphDb, firstNode);
-            Iterator<Relationship> relsItr2 = MergeUtils.getRelationshipIterator(graphDb, secondNode);
-            Iterator<Relationship> relsItr3 = MergeUtils.getRelationshipIterator(graphDb, thirdNode);
+            Iterator<Relationship> relsItr = MergeUtils.getRelationshipIterator(graphDb, rootNode);
+            Iterator<Relationship> relsItr2 = MergeUtils.getRelationshipIterator(graphDb, node1);
+            Iterator<Relationship> relsItr3 = MergeUtils.getRelationshipIterator(graphDb, node3);
             System.out.println(" , which has relationships: ");
             while(relsItr.hasNext()){
                 Relationship rel = relsItr.next();

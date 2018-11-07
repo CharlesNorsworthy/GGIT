@@ -110,16 +110,23 @@ public class Merge {
             //Get both nodes in this relationship
             Node[] relationshipNodes = MergeUtils.getRelationshipNodes(originalGraph, relationship);
 
-            //get id of the end node in the relationship (the second element in the array)
-            String endNodeId = MergeUtils.getNodeID(originalGraph, relationshipNodes[1]);
+            //(the second element in the array)
+            Node endNode = relationshipNodes[1];
+            //get id of the end node in the relationship
+            String endNodeId = MergeUtils.getNodeID(originalGraph, endNode);
 
-            if(!startNodeId.equals(endNodeId)){ //To prevent relationships between a node and itself
+            if(!startNodeId.equals(endNodeId)){ //To prevent relationships between a node and itself, an to prevent adding the same rel twice
                 //get appropriate nodes in merged graph
                 Node node1 = MergeUtils.getNodeByID(mergedGraph, startNodeId);
                 Node node2 = MergeUtils.getNodeByID(mergedGraph, endNodeId);
-                //connect the appropriate relationship
+
+                //TODO: see if a relationship already exists between the start node and end node. If so, don't add any relationships
                 if (node1 != null) {
-                    MergeUtils.createRelationshipBetweenStatic(mergedGraph, node1, node2, relationshipType);
+                    Relationship preExistingRelationship = MergeUtils.getRelationshipBetween(mergedGraph, node1, endNodeId);
+                    if(preExistingRelationship == null){ //to make sure you aren't adding the same relationship twice
+                        //connect the appropriate relationship
+                        MergeUtils.createRelationshipBetweenStatic(mergedGraph, node1, node2, relationshipType);
+                    }
                 }
             }
         }
