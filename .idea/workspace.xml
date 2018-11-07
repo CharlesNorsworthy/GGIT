@@ -2,9 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1809dbf0-040c-40a7-b3df-9114e69cbdd5" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/build/tmp/war/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/graphTool.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/Const.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/DbOps.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/DbUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/GUI/GUIDriver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/GraphApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/GraphDriver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/TestResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/client/GraphClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graphTool/client/RestApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/DbUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphTool/api.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/VersionControl/Merge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VersionControl/Merge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GGIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GGIT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TestMerge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestMerge.java" afterDir="false" />
     </list>
@@ -42,35 +62,35 @@
         <counts>
           <entry key="class" value="1" />
           <entry key="gradle" value="1" />
-          <entry key="java" value="44" />
+          <entry key="java" value="47" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
           <entry key="Groovy" value="1" />
-          <entry key="JAVA" value="44" />
+          <entry key="JAVA" value="47" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="7293" />
+          <entry key="java" value="7353" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="7293" />
+          <entry key="JAVA" value="7353" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/TestMerge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1239">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="85">
+              <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -79,36 +99,36 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="119" column="54" lean-forward="true" selection-start-line="119" selection-start-column="54" selection-end-line="119" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#12024#12025#0" expanded="true" />
-                <element signature="e#12065#12066#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="27" column="61" selection-start-line="27" selection-start-column="61" selection-end-line="27" selection-end-column="61" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="130" column="47" lean-forward="true" selection-start-line="130" selection-start-column="47" selection-end-line="130" selection-end-column="47" />
+            <state relative-caret-position="71">
+              <caret line="36" column="11" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#875#1023#0" expanded="true" />
+                <element signature="e#1022#1023#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-graphdb-api/3.4.6/fde5afc5cafe7569129deb2d30a78e98065e6ef2/neo4j-graphdb-api-3.4.6-sources.jar!/org/neo4j/graphdb/Relationship.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/Merge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="144" column="11" selection-start-line="144" selection-start-column="11" selection-end-line="144" selection-end-column="11" />
+            <state relative-caret-position="153">
+              <caret line="104" column="47" selection-start-line="104" selection-start-column="47" selection-end-line="104" selection-end-column="47" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,6 +154,7 @@
       <find>connectRelationshipsInMergedGraph</find>
       <find>createRelationshipBetween</find>
       <find>nodes</find>
+      <find>create</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,14 +176,14 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="1" />
+              <option name="name" value="GGIT" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="1" />
+                <option name="name" value="GGIT" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
             </list>
@@ -176,7 +197,7 @@
           <value>
             <list>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by root project '1'. [incubating]" />
+                <option name="description" value="Displays the components produced by root project 'GGIT'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="components" />
               </ExternalTaskPojo>
@@ -186,7 +207,7 @@
                 <option name="name" value="buildDependents" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of root project '1'." />
+                <option name="description" value="Displays the sub-projects of root project 'GGIT'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="projects" />
               </ExternalTaskPojo>
@@ -196,12 +217,12 @@
                 <option name="name" value="classes" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the dependent components of components in root project '1'. [incubating]" />
+                <option name="description" value="Displays the dependent components of components in root project 'GGIT'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependentComponents" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all buildscript dependencies declared in root project '1'." />
+                <option name="description" value="Displays all buildscript dependencies declared in root project 'GGIT'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildEnvironment" />
               </ExternalTaskPojo>
@@ -226,7 +247,7 @@
                 <option name="name" value="jar" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of root project '1'. [incubating]" />
+                <option name="description" value="Displays the configuration model of root project 'GGIT'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="model" />
               </ExternalTaskPojo>
@@ -236,7 +257,7 @@
                 <option name="name" value="processResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project '1'." />
+                <option name="description" value="Displays the tasks runnable from root project 'GGIT'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="tasks" />
               </ExternalTaskPojo>
@@ -256,7 +277,12 @@
                 <option name="name" value="compileJava" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in root project '1'." />
+                <option name="description" value="Generates a war archive with all the compiled classes, the web-app content and the libraries." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="war" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the insight into a specific dependency in root project 'GGIT'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencyInsight" />
               </ExternalTaskPojo>
@@ -281,7 +307,7 @@
                 <option name="name" value="compileTestJava" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in root project '1'." />
+                <option name="description" value="Displays all dependencies declared in root project 'GGIT'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencies" />
               </ExternalTaskPojo>
@@ -306,7 +332,7 @@
                 <option name="name" value="buildNeeded" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of root project '1'." />
+                <option name="description" value="Displays the properties of root project 'GGIT'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="properties" />
               </ExternalTaskPojo>
@@ -317,11 +343,10 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="6157117150695" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="766724985" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="235899776" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="566444372" />
-        <entry key="$PROJECT_DIR$/settings.gradle" value="838754274" />
+        <entry key="$PROJECT_DIR$/settings.gradle" value="2065906293" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -340,7 +365,7 @@
                   </entry>
                 </map>
               </option>
-              <option name="name" value="1" />
+              <option name="name" value="GGIT" />
               <option name="projectBuildClasspath">
                 <list>
                   <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.0-all/ac27o8rbd0ic8ih41or9l32mv/gradle-4.0/src/announce" />
@@ -482,11 +507,6 @@
         </entry>
       </map>
     </option>
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
-      </map>
-    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -497,9 +517,10 @@
         <option value="$PROJECT_DIR$/src/test/java/TestTransactions.java" />
         <option value="$PROJECT_DIR$/src/graphTool/DbUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/GGIT.java" />
-        <option value="$PROJECT_DIR$/src/test/java/TestMerge.java" />
         <option value="$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java" />
         <option value="$PROJECT_DIR$/src/main/VersionControl/Merge.java" />
+        <option value="$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java" />
+        <option value="$PROJECT_DIR$/src/test/java/TestMerge.java" />
       </list>
     </option>
   </component>
@@ -523,48 +544,51 @@
         <subPane>
           <expand>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="graphTool" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="graphTool" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="VersionControl" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
-              <item name="1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GGIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="GGIT" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
@@ -580,11 +604,16 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541537193397" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541539268039" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../RESTBranch" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Charles Norsworthy\Projects\GGIT\src\main\java\VersionControl" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -609,8 +638,7 @@
     </configuration>
     <configuration name="TestMerge" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TestMerge" />
-      <module name="1_test" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="GGIT_test" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -637,6 +665,53 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="GGIT" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <module name="GGIT" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <properties />
@@ -652,6 +727,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TestMerge" />
         <item itemvalue="Application.TestMerge" />
         <item itemvalue="Application.GGIT" />
         <item itemvalue="Groovy.build" />
@@ -684,7 +760,7 @@
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13360325" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14574899" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -693,7 +769,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3291815" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4979757" visible="true" weight="0.29893237" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4979757" visible="true" weight="0.24733096" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4466192" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -894,13 +970,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphTool/api.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/TestTransactions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -918,26 +988,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/TestMerge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1239">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphTool/DbUtils.java" />
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-graphdb-api/3.4.6/fde5afc5cafe7569129deb2d30a78e98065e6ef2/neo4j-graphdb-api-3.4.6-sources.jar!/org/neo4j/graphdb/Relationship.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -952,22 +1003,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/VersionControl/MergeUtils.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/MergeUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="119" column="54" lean-forward="true" selection-start-line="119" selection-start-column="54" selection-end-line="119" selection-end-column="54" />
+        <state relative-caret-position="71">
+          <caret line="36" column="11" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12024#12025#0" expanded="true" />
-            <element signature="e#12065#12066#0" expanded="true" />
+            <element signature="e#875#1023#0" expanded="true" />
+            <element signature="e#1022#1023#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/VersionControl/Merge.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/VersionControl/Merge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="130" column="47" lean-forward="true" selection-start-line="130" selection-start-column="47" selection-end-line="130" selection-end-column="47" />
+        <state relative-caret-position="153">
+          <caret line="104" column="47" selection-start-line="104" selection-start-column="47" selection-end-line="104" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/graphTool/DbOps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="27" column="61" selection-start-line="27" selection-start-column="61" selection-end-line="27" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/TestMerge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

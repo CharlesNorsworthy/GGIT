@@ -1,3 +1,5 @@
+package VersionControl;
+
 import org.neo4j.graphdb.*;
 import org.neo4j.kernel.impl.api.store.RelationshipIterator;
 
@@ -13,7 +15,7 @@ import java.util.Iterator;
  *
  */
 
-class Merge {
+public class Merge {
 
     /**
      *
@@ -28,7 +30,7 @@ class Merge {
      * @return GraphDatabaseService mergedGraph
      */
 //TODO: refactor
-    static GraphDatabaseService mergeMe(GraphDatabaseService graph1, GraphDatabaseService graph2, GraphDatabaseService mergedGraph){
+    public static GraphDatabaseService mergeMe(GraphDatabaseService graph1, GraphDatabaseService graph2, GraphDatabaseService mergedGraph){
 
         //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
         try (ResourceIterator<Node> graph1AllNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph1); ResourceIterator<Node> graph2AllNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph2)) {
@@ -91,23 +93,6 @@ class Merge {
                 e.printStackTrace();
             }
         }
-
-//        //Take away duplicate relationships
-//        ResourceIterator<Node> mergedGraphAllNodesIterator = MergeUtils.getAllNodesIteratorStatic(mergedGraph);
-//        while(mergedGraphAllNodesIterator.hasNext()){
-//            Node nextNode = mergedGraphAllNodesIterator.next();
-//            String nextNodeId = MergeUtils.getNodeID(mergedGraph, nextNode);
-//            Iterator<Relationship> rels = MergeUtils.getRelationshipIterator(mergedGraph, nextNode);
-//            while(rels.hasNext()){
-//                Relationship rel = rels.next();
-//                Node[] relNodes = MergeUtils.getRelationshipNodes(mergedGraph, rel);
-//                String recepientNodeId = MergeUtils.getNodeID(mergedGraph, relNodes[1]);
-//                if(nextNodeId.equals(recepientNodeId)){ //If there is a relationship of a node to itself,
-//                                             //or if the current node is the recipient of the relationship
-//                    MergeUtils.deleteRelationship(mergedGraph, rel);
-//                }
-//            }
-//        }
         return mergedGraph;
     }
 

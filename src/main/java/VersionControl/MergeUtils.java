@@ -1,3 +1,5 @@
+package VersionControl;
+
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
@@ -32,7 +34,7 @@ public class MergeUtils {
     }
 
 
-    enum RelTypes implements RelationshipType
+    public enum RelTypes implements RelationshipType
     {
         KNOWS
     }
@@ -114,7 +116,7 @@ public class MergeUtils {
         }
     }
 
-    static Iterator<Relationship> getRelationshipIterator(GraphDatabaseService graph, Node node){
+    public static Iterator<Relationship> getRelationshipIterator(GraphDatabaseService graph, Node node){
         Iterator<Relationship> relsIterator;
         try(Transaction tx = graph.beginTx()){
             Iterable<Relationship> rels = node.getRelationships();
@@ -144,7 +146,7 @@ public class MergeUtils {
         }
     }
 
-    static String getNodeID(GraphDatabaseService graph, Node node){
+    public static String getNodeID(GraphDatabaseService graph, Node node){
         String ID;
         try(Transaction tx = graph.beginTx()){
             ID = node.getProperty("ID").toString();
@@ -240,7 +242,7 @@ public class MergeUtils {
 
     }
 
-    static ResourceIterator<Node> getAllNodesIteratorStatic(GraphDatabaseService graph){
+    public static ResourceIterator<Node> getAllNodesIteratorStatic(GraphDatabaseService graph){
         ResourceIterator<Node> allIterableNodes;
         try(Transaction tx = graph.beginTx()){
             ResourceIterable<Node> iterable = graph.getAllNodes();
