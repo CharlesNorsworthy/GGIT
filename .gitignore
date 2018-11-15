@@ -1,5 +1,8 @@
-out
+out/
 *.xml
 .idea
+.gradle
+*.iml
+build
 
 src/main/java/graphTool/client/stuff
