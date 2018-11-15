@@ -52,6 +52,7 @@ public class DbUtils
         } catch (Exception e) {
             System.out.println("Unable to create 'root' node for the graph database.");
         }
+
         return null;
     }
 
@@ -97,11 +98,13 @@ public class DbUtils
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         return null;
     }
 
     public List<Node> readNodes(Label label) {
         List<Node> nodes = new ArrayList<>();
+
         try( Transaction tx = graphDb.beginTx())
         {
             ResourceIterator<Node> nodeIterator = graphDb.findNodes(label);
@@ -120,6 +123,7 @@ public class DbUtils
         {
             System.out.println("An error occurred while getting all " + label + "nodes. Msg :" + e.getMessage());
         }
+
         return nodes;
     }
 
@@ -131,13 +135,12 @@ public class DbUtils
                 }
             }
             tx.success();
-        }catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to update node. Msg :" + e.getMessage());
         }
     }
 
     public void deleteNode(Label label, String id) {
-
         try ( Transaction tx = graphDb.beginTx()) {
             Node node = graphDb.findNode(label, Const.UUID, id);
             if(node != null) {
@@ -153,8 +156,7 @@ public class DbUtils
     }
 
     public void deleteNodes(Label label) {
-        try ( Transaction tx = graphDb.beginTx())
-        {
+        try ( Transaction tx = graphDb.beginTx()) {
             ResourceIterator<Node> nodes = (graphDb.findNodes(label));
 
             while(nodes.hasNext())
@@ -177,8 +179,7 @@ public class DbUtils
                 }
             }
             tx.success();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to delete all " + label.name() + " nodes. Msg : " +  e.getMessage());
         }
     }
@@ -190,7 +191,7 @@ public class DbUtils
             tx.success();
             tx.close();
             return rel;
-        } catch(Exception e){
+        } catch(Exception e) {
             System.out.println("ERROR :: " + e.getMessage());
             return null;
         }
@@ -208,7 +209,7 @@ public class DbUtils
             tx.success();
             tx.close();
             return rels.iterator().next();
-        } catch(Exception e){
+        } catch(Exception e) {
             System.out.println("ERROR :: " + e.getMessage());
             return null;
         }
@@ -216,6 +217,7 @@ public class DbUtils
 
     public List<Relationship> readRelationships(Node node){
         List<Relationship> rels = new ArrayList<>();
+
         try(Transaction tx = graphDb.beginTx()){
             node.getRelationships().iterator().forEachRemaining(rel ->{
                 try {
@@ -229,14 +231,16 @@ public class DbUtils
                 }
                 tx.success();
             });
-        }        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to get relaionships. Msg:" + e.getMessage());
         }
+
         return rels;
     }
 
     public List<Relationship> readAllRelationships(){
         List<Relationship> rels = new ArrayList<>();
+
         try(Transaction tx = graphDb.beginTx())
         {
             graphDb.getAllRelationships().iterator().forEachRemaining(rel -> {
@@ -251,15 +255,16 @@ public class DbUtils
                 }
             });
             tx.success();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to get relaionships. Msg:" + e.getMessage());
         }
+
         return rels;
     }
 
     public List<Relationship> readAllRelationships(RelationshipType type){
         List<Relationship> rels = new ArrayList<>();
+
         try(Transaction tx = graphDb.beginTx())
         {
             graphDb.getAllRelationships().iterator().forEachRemaining(rel -> {
@@ -267,10 +272,10 @@ public class DbUtils
                     rels.add(rel);
             });
             tx.success();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to get relaionships. Msg:" + e.getMessage());
         }
+
         return rels;
     }
 
@@ -278,24 +283,27 @@ public class DbUtils
         try(Transaction tx = graphDb.beginTx()){
             rel.delete();
             tx.success();
-        } catch (Exception e ){
+        } catch (Exception e) {
             System.out.println("ERROR :: " + e.getMessage());
         }
     }
 
     public HashMap<String, Object>  readNodeProperties(Node node){
         HashMap<String, Object> nodeMap = new HashMap<>();
+
         try(Transaction tx = graphDb.beginTx()){
             nodeMap = (HashMap<String, Object>) node.getAllProperties();
             tx.success();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Unable to map node properties. Msg : " + e.getMessage());
         }
+
         return nodeMap;
     }
 
     public HashMap<String, HashMap<String, Object>> readNodeListProperties(List<Node> nodes){
         HashMap<String, HashMap<String, Object>> nodesMap = new HashMap<>();
+
         try(Transaction tx = graphDb.beginTx()){
             nodes.iterator().forEachRemaining(node -> {
                 try {
@@ -305,28 +313,32 @@ public class DbUtils
                 }
                 tx.success();
                 });
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("ERROR :: " + e.getMessage());
         }
+
         return nodesMap;
     }
 
     public HashMap<String, Object> readRelationshipProperties(Relationship rel){
         HashMap<String, Object> relMap = new HashMap<>();
+
         try(Transaction tx = graphDb.beginTx()){
             relMap.put(Const.START_NODE, rel.getStartNode().getProperty(Const.UUID));
             relMap.put(Const.END_NODE, rel.getEndNode().getProperty(Const.UUID));
             relMap.put(Const.RELATIONSHIP_TYPE, rel.getType().name());
             relMap.put(Const.UUID, rel.getProperty(Const.UUID));
             tx.success();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Unable to map relationship properties. Msg : " + e.getMessage());
         }
+
         return relMap;
     }
 
     public HashMap<String, HashMap<String, Object>> readRelationshipListProperties(List<Relationship> rels){
         HashMap<String, HashMap<String, Object>> relsMap = new HashMap<>();
+
         try(Transaction tx = graphDb.beginTx()){
             rels.iterator().forEachRemaining(rel ->{
                 try{
@@ -341,9 +353,10 @@ public class DbUtils
                 }
             });
             tx.success();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("ERROR :: " +e.getMessage());
         }
+
         return relsMap;
     }
 
@@ -359,7 +372,7 @@ public class DbUtils
                     initRoot();
                 node.createRelationshipTo(root,Const.RELATE_ROOT_OBSERVATION)
                         .setProperty(Const.UUID, UUID.randomUUID().toString());
-                node.setProperty( Const.UUID, UUID.randomUUID().toString() );
+                node.setProperty(Const.UUID, UUID.randomUUID().toString() );
                 node.setProperty(Const.NAME, "observation " + id);
                 node.setProperty(Const.LATITUDE, new Random().nextDouble());
                 node.setProperty(Const.LONGITUDE, new Random().nextDouble());
@@ -370,7 +383,7 @@ public class DbUtils
             //create some knowledges
             for (int i = 0; i < knw; i++){
                 Node node = graphDb.createNode(Const.KNOWLEDGE_LABEL);
-                node.setProperty( Const.UUID, UUID.randomUUID().toString() );
+                node.setProperty(Const.UUID, UUID.randomUUID().toString() );
                 node.setProperty(Const.NAME, "knowledge " + i);
                 node.setProperty(Const.LATITUDE, new Random().nextDouble());
                 node.setProperty(Const.LONGITUDE, new Random().nextDouble());
@@ -395,8 +408,7 @@ public class DbUtils
             System.out.println("Linked observations to knowledges.");
 
             tx.success();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Could not create default nodes. Msg: " + e.getMessage());
         }
     }

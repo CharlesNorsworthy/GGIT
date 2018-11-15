@@ -1,5 +1,5 @@
-out/
+out
 *.xml
-.idea/
+.idea
 
 src/main/java/graphTool/client/stuff
