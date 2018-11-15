@@ -1,7 +1,7 @@
 package VersionControl;
 
+import graphTool.DbOps;
 import org.neo4j.graphdb.*;
-import org.neo4j.kernel.impl.api.store.RelationshipIterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,26 +27,26 @@ public class Merge {
      *
      * @param graph1
      * @param graph2
-     * @return GraphDatabaseService mergedGraph
+     * @return DbOps mergedGraph
      */
-//TODO: refactor
-    public static GraphDatabaseService mergeMe(GraphDatabaseService graph1, GraphDatabaseService graph2, GraphDatabaseService mergedGraph){
+    //TODO: refactor
+    //TODO: use DbOps graphs
+    public static DbOps mergeMe(DbOps graph1, DbOps graph2, DbOps mergedGraph){
 
         //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
-        try (ResourceIterator<Node> graph1AllNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph1); ResourceIterator<Node> graph2AllNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph2)) {
+        try (ResourceIterator<Node> graph1AllNodesIterator = graph1.getAllNodesIterator(); ResourceIterator<Node> graph2AllNodesIterator = graph2.getAllNodesIterator()) {
 
             /* Put the nodes in the merged graph */
             while (graph1AllNodesIterator.hasNext() || graph2AllNodesIterator.hasNext()) {
                 //assume the nodes do not exist unless shown otherwise
                 Node nextNode1 = null;
                 Node nextNode2 = null;
-                //TODO: handle case when the graphs don't have same number of nodes
                 try{
                     nextNode1 = graph1AllNodesIterator.next();
                     //Preemptively add the first node to graph 1.
                     if(nextNode1 != null){
-                        String id1 = MergeUtils.getNodeID(graph1, nextNode1);
-                        MergeUtils.putNodeInGraphStatic(mergedGraph, id1);
+                        String id1 = graph1.getNodeID(nextNode1);
+                        mergedGraph.putNodeInGraph(id1);
                     }
                 } catch(Exception ignored){}
 
@@ -58,25 +58,25 @@ public class Merge {
                 //So you won't add the same node twice.
                 if(nextNode1 != null && nextNode2 != null){
                     //If the ids of the next nodes aren't equal, put in the next node from the second graph
-                    if (!MergeUtils.getNodeID(graph1, nextNode1).equals(MergeUtils.getNodeID(graph2, nextNode2))) {
-                        String id2 = MergeUtils.getNodeID(graph2, nextNode2);
-                        MergeUtils.putNodeInGraphStatic(mergedGraph, id2);
+                    if (!graph1.getNodeID(nextNode1).equals(graph2.getNodeID(nextNode2))) {
+                        String id2 = graph2.getNodeID(nextNode2);
+                        mergedGraph.putNodeInGraph(id2);
                     }
                 } else if (nextNode2 != null){
-                    String id2 = MergeUtils.getNodeID(graph2, nextNode2);
-                    MergeUtils.putNodeInGraphStatic(mergedGraph, id2);
+                    String id2 = graph2.getNodeID(nextNode2);
+                    mergedGraph.putNodeInGraph(id2);
                 }
             }
         }
         /* Put the relationships in the merged graph */
-        ArrayList<String> allMergedGraphIds = MergeUtils.getAllIDsStatic(mergedGraph);
+        ArrayList<String> allMergedGraphIds = mergedGraph.getAllIDs();
 
         for(Object mergedGraphId : allMergedGraphIds){
             String currentMergedGraphId = mergedGraphId.toString();
             try {
                 /*Get the appropriate node from either graph 1, graph 2, or both*/
-                Node graph1Node = MergeUtils.getNodeByID(graph1, currentMergedGraphId);
-                Node graph2Node = MergeUtils.getNodeByID(graph2, currentMergedGraphId);
+                Node graph1Node = graph1.getNodeByID(currentMergedGraphId);
+                Node graph2Node = graph2.getNodeByID(currentMergedGraphId);
                 if ((graph1Node != null) && (graph2Node != null)) {
                     //put in relationships for both
                     connectSameRelationshipsInMergedGraph(graph1, mergedGraph, graph1Node);
@@ -96,36 +96,35 @@ public class Merge {
         return mergedGraph;
     }
 
-    private static void connectSameRelationshipsInMergedGraph(GraphDatabaseService originalGraph, GraphDatabaseService mergedGraph, Node startNode){
+    private static void connectSameRelationshipsInMergedGraph(DbOps originalGraph, DbOps mergedGraph, Node startNode){
 
-        String startNodeId = MergeUtils.getNodeID(originalGraph, startNode);
+        String startNodeId = originalGraph.getNodeID(startNode);
         Relationship relationship;
 
-        Iterator<Relationship> relationshipIterator = MergeUtils.getRelationshipIterator(originalGraph, startNode);
+        Iterator<Relationship> relationshipIterator = originalGraph.getRelationshipIterator(startNode);
         while (relationshipIterator.hasNext()){
 
             relationship = relationshipIterator.next();
-            RelationshipType relationshipType = MergeUtils.getRelationshipType(originalGraph, startNode, relationship);
+            RelationshipType relationshipType = originalGraph.getRelationshipType(relationship);
 
             //Get both nodes in this relationship
-            Node[] relationshipNodes = MergeUtils.getRelationshipNodes(originalGraph, relationship);
+            Node[] relationshipNodes = originalGraph.getRelationshipNodes(relationship);
 
             //(the second element in the array)
             Node endNode = relationshipNodes[1];
             //get id of the end node in the relationship
-            String endNodeId = MergeUtils.getNodeID(originalGraph, endNode);
+            String endNodeId = originalGraph.getNodeID(endNode);
 
             if(!startNodeId.equals(endNodeId)){ //To prevent relationships between a node and itself, an to prevent adding the same rel twice
                 //get appropriate nodes in merged graph
-                Node node1 = MergeUtils.getNodeByID(mergedGraph, startNodeId);
-                Node node2 = MergeUtils.getNodeByID(mergedGraph, endNodeId);
+                Node node1 = mergedGraph.getNodeByID(startNodeId);
+                Node node2 = mergedGraph.getNodeByID(endNodeId);
 
-                //TODO: see if a relationship already exists between the start node and end node. If so, don't add any relationships
                 if (node1 != null) {
-                    Relationship preExistingRelationship = MergeUtils.getRelationshipBetween(mergedGraph, node1, endNodeId);
+                    Relationship preExistingRelationship = mergedGraph.getRelationshipBetween(node1, endNodeId);
                     if(preExistingRelationship == null){ //to make sure you aren't adding the same relationship twice
                         //connect the appropriate relationship
-                        MergeUtils.createRelationshipBetweenStatic(mergedGraph, node1, node2, relationshipType);
+                        mergedGraph.createRelationshipBetween(node1, node2, relationshipType);
                     }
                 }
             }

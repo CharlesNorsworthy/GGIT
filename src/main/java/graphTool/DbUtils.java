@@ -401,6 +401,116 @@ public class DbUtils
         }
     }
 
+    public String getNodeID(Node node){
+        String ID;
+        try(Transaction tx = graphDb.beginTx()){
+            ID = node.getProperty("ID").toString();
+            if(ID == null){
+                ID = "";
+            }
+            tx.success();
+        }
+        return ID;
+    }
+
+    public Node getNodeByID(Object value){
+        ResourceIterator<Node> graphNodesIterator = getAllNodesIterator();
+        Node currentNode;
+        try(Transaction tx = graphDb.beginTx()){
+            while(graphNodesIterator.hasNext()) {
+                currentNode = graphNodesIterator.next();
+                String currentKey = currentNode.getProperty("ID").toString();
+                if (currentKey.equals(value)) {
+                    return currentNode;
+                }
+            }
+            tx.success();
+        }
+        return null;
+    }
+
+    public void putNodeInGraph(String id){
+        try(Transaction tx = graphDb.beginTx()){
+            Node newNode = graphDb.createNode();
+            newNode.setProperty("ID", id);
+            tx.success();
+        }
+    }
+
+    public ResourceIterator<Node> getAllNodesIterator(){
+        ResourceIterator<Node> allIterableNodes;
+        try(Transaction tx = graphDb.beginTx()){
+            ResourceIterable<Node> iterable = graphDb.getAllNodes();
+            allIterableNodes = iterable.iterator();
+            tx.success();
+        }
+        return allIterableNodes;
+    }
+
+    public ArrayList<String> getAllIDs(){
+        ResourceIterator<Node> nodesItr = getAllNodesIterator();
+        String currentId;
+        ArrayList<String> allIds = new ArrayList<>();
+        try(Transaction tx = graphDb.beginTx()){
+            while(nodesItr.hasNext()){
+                Node node = nodesItr.next();
+                currentId = node.getProperty("ID").toString();
+                allIds.add(currentId);
+            }
+            tx.success();
+        }
+        return allIds;
+    }
+
+    public Iterator<Relationship> getRelationshipIterator(Node node){
+        Iterator<Relationship> relsIterator;
+        try(Transaction tx = graphDb.beginTx()){
+            Iterable<Relationship> rels = node.getRelationships();
+            relsIterator = rels.iterator();
+            tx.success();
+        }
+        return relsIterator;
+    }
+
+    public RelationshipType getRelationshipType(Relationship relationship){
+        RelationshipType relType;
+        try(Transaction tx = graphDb.beginTx()){
+            //TODO: incorporate with constants
+            relType = relationship.getType();
+            tx.success();
+        }
+        return relType;
+    }
+
+    public Node[] getRelationshipNodes(Relationship relationship){
+        Node[] relationshipNodes;
+        try(Transaction tx = graphDb.beginTx()){
+            relationshipNodes = relationship.getNodes();
+            tx.success();
+        }
+        return relationshipNodes;
+    }
+
+    //From https://stackoverflow.com/questions/27233978/java-neo4j-check-if-a-relationship-exist
+    Relationship getRelationshipBetween(Node startNode, String endNodeId){
+        try(Transaction tx = graphDb.beginTx()){
+            for (Relationship rel : startNode.getRelationships()){ // n1.getRelationships(type,direction)
+                String otherNodeId = getNodeID(rel.getOtherNode(startNode));
+                if (otherNodeId.equals(endNodeId)) return rel;
+            }
+            tx.success();
+            return null;
+        }
+    }
+
+    public void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
+        try(Transaction tx = graphDb.beginTx()){
+            Relationship rel = node1.createRelationshipTo(node2, relType);
+            //rel.setProperty("T", "test");
+            tx.success();
+        }
+    }
+
     public void dispose(){
         graphDb.shutdown();
     }

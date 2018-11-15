@@ -1,9 +1,10 @@
 package graphTool;
 
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class DbOps {
@@ -66,6 +67,46 @@ public class DbOps {
 
     public void deleteKnowledge(String id) {
         db.deleteNode(Const.KNOWLEDGE_LABEL, id);
+    }
+
+    public String getNodeID(Node node){
+        return db.getNodeID(node);
+    }
+
+    public Node getNodeByID(Object value){
+        return db.getNodeByID(value);
+    }
+
+    public void putNodeInGraph(String id){
+        db.putNodeInGraph(id);
+    }
+
+    public ArrayList<String> getAllIDs(){
+        return db.getAllIDs();
+    }
+
+    public ResourceIterator<Node> getAllNodesIterator(){
+        return db.getAllNodesIterator();
+    }
+
+    public Iterator<Relationship> getRelationshipIterator(Node node){
+        return db.getRelationshipIterator(node);
+    }
+
+    public RelationshipType getRelationshipType(Relationship relationship){
+        return db.getRelationshipType(relationship);
+    }
+
+    public Node[] getRelationshipNodes(Relationship relationship){
+        return db.getRelationshipNodes(relationship);
+    }
+
+    public Relationship getRelationshipBetween(Node startNode, String endNodeId){
+        return db.getRelationshipBetween(startNode, endNodeId);
+    }
+
+    public void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
+        db.createRelationshipBetween(node1, node2, relType);
     }
 
     public HashMap<String, Object> getObservationRelationship(String obsId){
