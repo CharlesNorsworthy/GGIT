@@ -1,20 +1,29 @@
+package GGIT;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class GGITNode {
+public class GGITNode implements Serializable {
     private static String graphRef;
 
     private static long timeStamp;
 
     private static String branch;
 
+    public GGITNode() {
+        this.graphRef = "C://NEO4J";
+        this.branch = GGITConst.MASTER;
+        this.timeStamp = (new Date()).getTime();
+    }
+
     public GGITNode(String graphRef, String branch) {
         try {
             if (graphRef != null) {
                 this.graphRef = graphRef;
             } else {
-                throw new IllegalArgumentException("A GGITNode's graphRef cannot be set with 'null'");
+                throw new IllegalArgumentException("A GGIT.GGIT.GGITNode's graphRef cannot be set with 'null'");
             }
-            timeStamp = (new Date()).getTime();
+            this.timeStamp = (new Date()).getTime();
             if (branch != null) {
                 this.branch = branch;
             } else {

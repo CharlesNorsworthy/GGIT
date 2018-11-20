@@ -1,4 +1,4 @@
-# GGIT
+# GGIT.GGIT
 
 This application is a version/revision control system for graph databases.
 
@@ -44,12 +44,12 @@ Instructions for setting up Neo4j Spatial
 ===
 Neo4j Spatial will allow for spatial querying.
 
-# Running GGIT
+# Running GGIT.GGIT
 
-To run GGIT, 'cd' into the GGIT directory and do the following commands
+To run GGIT.GGIT, 'cd' into the GGIT.GGIT directory and do the following commands
 ```bash
-javac GGIT.java
-java GGIT {command}
+javac GGIT.GGIT.java
+java GGIT.GGIT {command}
 ```
 
 Current Commands
