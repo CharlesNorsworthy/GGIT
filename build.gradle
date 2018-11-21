@@ -35,17 +35,6 @@ jar {
     }
 }
 
-//task fatJar(type: Jar) {
-//    manifest {
-//        attributes 'Implementation-Title': 'GGIT Jar',
-//                'Implementation-Version': version,
-//                'Main-Class': 'GGIT.GGIT'
-//    }
-//    baseName = project.name
-//    from { configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) } }
-//    with jar
-//}
-
 dependencies {
     compile (
             'org.neo4j:neo4j:3.4.6',

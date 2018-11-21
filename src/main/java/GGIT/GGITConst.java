@@ -1,6 +1,8 @@
 package GGIT;
 
 import org.apache.commons.cli.Options;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.RelationshipType;
 
 /**
  * GGIT.GGIT.GGITConst holds variables used throughout GGIT.GGIT/src/main/java
@@ -27,4 +29,16 @@ public class GGITConst {
             .addOption("fetch", true, "Download objects and refs from another repository")
             .addOption("reset", true, "Reset current HEAD to the specified state")
             .addOption( "grep", true, "Print lines matching a pattern");
+
+    /**
+     * Node Properties
+     */
+    public static final String GRAPH_REFENECE = "graph_ref";
+
+    public static final String BRANCH = "branch";
+
+    /**
+     * Database Labels
+     */
+    public static final Label NODE_LABEL = Label.label("NODE");
 }

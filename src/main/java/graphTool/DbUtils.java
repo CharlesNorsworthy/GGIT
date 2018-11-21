@@ -67,9 +67,6 @@ public class DbUtils
                 if(!node.hasProperty(Const.UUID)){ //If no id was passed create UUID
                     node.setProperty(Const.UUID, UUID.randomUUID());
                 }
-                if(label == Const.OBSERVATION_LABEL) { //If creating observation link to root
-                    root.createRelationshipTo(node, Const.RELATE_ROOT_OBSERVATION);
-                }
                 tx.success();
                 tx.close();
                 return  node;
@@ -164,7 +161,7 @@ public class DbUtils
                 Node current = nodes.next();
                 if(current.hasRelationship()){
                     current.getRelationships().forEach(rel -> {
-                        if(label != Const.ROOT_LABEL || rel.getType() != Const.RELATE_ROOT_OBSERVATION) {
+                        if(label != Const.ROOT_LABEL /*|| rel.getType() != Const.RELATE_ROOT_OBSERVATION*/) {
                             rel.delete();
                         }
                     });

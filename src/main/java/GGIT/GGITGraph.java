@@ -1,8 +1,12 @@
 package GGIT;
 
+import graphTool.Const;
 import graphTool.DbUtils;
 //import org.jgrapht.graph.DefaultDirectedGraph;
 import org.neo4j.graphdb.Node;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 //import java.util.Set;
 //import java.util.function.Supplier;
@@ -10,6 +14,8 @@ import org.neo4j.graphdb.Node;
 @SuppressWarnings("unchecked")
 public class GGITGraph {
     DbUtils db;
+
+    HashMap<String, Object> repos;
 
     Node root;
 
@@ -19,9 +25,18 @@ public class GGITGraph {
     }
 
     //Utilize Neo4j to build out GGITGraph
-    public void createRepo() {
+    public void createRepo(String graphRef) {
+        HashMap<String, Object> props = new HashMap<>();
 
+        props.put(Const.UUID, UUID.randomUUID().toString());
+        props.put(GGITConst.GRAPH_REFENECE, graphRef);
+        props.put(GGITConst.BRANCH, GGITConst.MASTER);
+        Node root = db.createNode(Const.ROOT_LABEL, props);
+        repos.put(graphRef, root);
+        db.updateNode(root, repos);
     }
+
+    public void branch() {}
 
 
 //    private static GGITNode root = null;
