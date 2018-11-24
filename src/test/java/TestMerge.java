@@ -11,7 +11,7 @@ public class TestMerge {
         DbOps testGraph1 = createTestGraph1();
         DbOps testGraph2 = createTestGraph2();
         DbOps mergedGraph = new DbOps("\\C:\\databases\\MergedGraph");
-        mergedGraph = Merge.mergeMe(testGraph1, testGraph2, mergedGraph);
+        Merge.mergeNaively(testGraph1, testGraph2, mergedGraph);
 
 //        System.out.println("Merged graph created with the following nodes: ");
 //

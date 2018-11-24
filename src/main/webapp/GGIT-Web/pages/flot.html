@@ -42,28 +42,28 @@
 </head>
 
 <script>
+<!--TODO: put in labels for nodes and relationships, dynamically link bolts here with array list-->
     function draw(){
         var config = {
             container_id:"viz",
-            server_url: "bolt://54.162.76.69:34129",
+            server_url: "bolt://localhost:11016",
             server_user: "neo4j",
-            server_password: "wrap-fours-pats",
+            server_password: "password",
             labels:{
-                "Troll":{
-                    caption:"user_key",
-                    size:"pagerank",
-                    community: "community"
+                "OBSERVATION":{
+                    caption:"id",
+                    size:"5",
             }
 
             },
             relationships:{
-                "RETWEETS":{
+                "KNOWS":{
                     caption:false,
-                    thickness: "count"
+                    thickness: "3"
                 }
 
             },
-            initial_cypher : "MATCH p =(:Troll)-[:RETWEETS]->(:Troll) RETURN p"
+            initial_cypher : "MATCH p=()-->() RETURN p LIMIT 25"
 
         }
 

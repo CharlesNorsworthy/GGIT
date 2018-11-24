@@ -69,6 +69,8 @@ public class DbOps {
         db.deleteNode(Const.KNOWLEDGE_LABEL, id);
     }
 
+    public void deleteNode(Label label, String id){db.deleteNode(label, id);}
+
     public String getNodeID(Node node){
         return db.getNodeID(node);
     }
@@ -76,6 +78,8 @@ public class DbOps {
     public Node getNodeByID(Object value){
         return db.getNodeByID(value);
     }
+
+    public Label getNodeLabel(Node node){return db.getNodeLabel(node);}
 
     public void putNodeInGraph(String id){
         db.putNodeInGraph(id);
@@ -92,6 +96,14 @@ public class DbOps {
     public Iterator<Relationship> getRelationshipIterator(Node node){
         return db.getRelationshipIterator(node);
     }
+
+    public Iterator<String> getPropertyKeysIterator(Node node){
+        return db.getPropertyKeysIterator(node);
+    }
+
+    public String getPropertyAsString(Node node, String key){return db.getPropertyAsString(node, key);}
+
+    public void setProperty(Node node, String key, String property){db.setProperty(node, key, property);}
 
     public RelationshipType getRelationshipType(Relationship relationship){
         return db.getRelationshipType(relationship);

@@ -401,10 +401,20 @@ public class DbUtils
         }
     }
 
+    public Label getNodeLabel(Node node){
+        Label label;
+        try(Transaction tx = graphDb.beginTx()){
+            //There should only be one label per node
+            label = node.getLabels().iterator().next();
+            tx.success();
+        }
+        return label;
+    }
+
     public String getNodeID(Node node){
         String ID;
         try(Transaction tx = graphDb.beginTx()){
-            ID = node.getProperty("ID").toString();
+            ID = node.getProperty(Const.UUID).toString();
             if(ID == null){
                 ID = "";
             }
@@ -419,7 +429,7 @@ public class DbUtils
         try(Transaction tx = graphDb.beginTx()){
             while(graphNodesIterator.hasNext()) {
                 currentNode = graphNodesIterator.next();
-                String currentKey = currentNode.getProperty("ID").toString();
+                String currentKey = currentNode.getProperty(Const.UUID).toString();
                 if (currentKey.equals(value)) {
                     return currentNode;
                 }
@@ -432,7 +442,7 @@ public class DbUtils
     public void putNodeInGraph(String id){
         try(Transaction tx = graphDb.beginTx()){
             Node newNode = graphDb.createNode();
-            newNode.setProperty("ID", id);
+            newNode.setProperty(Const.UUID, id);
             tx.success();
         }
     }
@@ -454,7 +464,7 @@ public class DbUtils
         try(Transaction tx = graphDb.beginTx()){
             while(nodesItr.hasNext()){
                 Node node = nodesItr.next();
-                currentId = node.getProperty("ID").toString();
+                currentId = node.getProperty(Const.UUID).toString();
                 allIds.add(currentId);
             }
             tx.success();
@@ -470,6 +480,32 @@ public class DbUtils
             tx.success();
         }
         return relsIterator;
+    }
+
+    public Iterator<String> getPropertyKeysIterator(Node node){
+        Iterator<String> keysIterator;
+        try(Transaction tx = graphDb.beginTx()){
+            Iterable<String> keys = node.getPropertyKeys();
+            keysIterator = keys.iterator();
+            tx.success();
+        }
+        return keysIterator;
+    }
+
+    public String getPropertyAsString(Node node, String key){
+        String property;
+        try(Transaction tx = graphDb.beginTx()){
+            property = node.getProperty(key).toString();
+            tx.success();
+        }
+        return property;
+    }
+
+    public void setProperty(Node node, String key, String property){
+        try(Transaction tx = graphDb.beginTx()){
+            node.setProperty(key, property);
+            tx.success();
+        }
     }
 
     public RelationshipType getRelationshipType(Relationship relationship){
