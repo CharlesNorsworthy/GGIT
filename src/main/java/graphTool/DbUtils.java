@@ -55,6 +55,25 @@ public class DbUtils
         return null;
     }
 
+    public Node initRoot(String uuid) {
+        try (Transaction tx = graphDb.beginTx()) {
+            if(graphDb.findNodes(Const.ROOT_LABEL).hasNext()){
+                root = graphDb.findNodes(Const.ROOT_LABEL).next();
+            }
+            else {
+                root = this.graphDb.createNode(Const.ROOT_LABEL);
+                root.setProperty(Const.UUID, uuid);
+                root.setProperty(Const.NAME, "root");
+                System.out.println("New root created.");
+            }
+            tx.success();
+            return root;
+        } catch (Exception e) {
+            System.out.println("Unable to create 'root' node for the graph database.");
+        }
+        return null;
+    }
+
     public Node createNode(Label label, HashMap<String, Object> props) {
         try ( Transaction tx = graphDb.beginTx() ) {
             //Check for duplicates first
@@ -65,9 +84,6 @@ public class DbUtils
                 }
                 if(!node.hasProperty(Const.UUID)){ //If no id was passed create UUID
                     node.setProperty(Const.UUID, UUID.randomUUID());
-                }
-                if(label == Const.OBSERVATION_LABEL) { //If creating observation link to root
-                    root.createRelationshipTo(node, Const.RELATE_ROOT_OBSERVATION);
                 }
                 tx.success();
                 tx.close();
@@ -136,13 +152,17 @@ public class DbUtils
         }
     }
 
-    public void deleteNode(Label label, String id) {
-
+    public void deleteNode(Label label, String id, DatabaseBuilder databaseBuilder) {
         try ( Transaction tx = graphDb.beginTx()) {
             Node node = graphDb.findNode(label, Const.UUID, id);
             if(node != null) {
                 if (node.hasRelationship()) {
-                    node.getRelationships().forEach(rel -> rel.delete());
+                    node.getRelationships().forEach(rel -> {
+                        this.deleteNode(databaseBuilder.getLabel(rel),
+                                (String) rel.getOtherNode(node).getProperty(Const.UUID),
+                                databaseBuilder);
+                        rel.delete();
+                    });
                 }
                 node.delete();
             }
