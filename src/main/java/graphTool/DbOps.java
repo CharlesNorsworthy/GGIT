@@ -2,10 +2,7 @@ package graphTool;
 
 import org.neo4j.graphdb.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class DbOps {
     DbUtils db;
@@ -19,6 +16,11 @@ public class DbOps {
     public DbOps(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
+    }
+
+    public DbOps(String dbPath, String rootId) {
+        db = new DbUtils(dbPath);
+        root = db.initRoot(rootId);
     }
 
     public void createObservation(HashMap<String, Object> props) {

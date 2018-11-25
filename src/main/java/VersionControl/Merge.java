@@ -34,6 +34,7 @@ public class Merge {
      * @return DbOps mergedGraph
      */
     //TODO: test
+    //TODO: handle deleted relationships
     //TODO: refactor, maybe instead of merged graph have a new directory to create a new merged graph in the method
     public static DbOps mergeNaively(DbOps graph1, DbOps graph2, DbOps mergedGraph){
 
