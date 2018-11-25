@@ -1,12 +1,13 @@
 package graphTool;
 
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class DbOps {
+public class DbOps implements DatabaseBuilder{
     DbUtils db;
 
     Node root;
@@ -18,6 +19,27 @@ public class DbOps {
     public DbOps(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
+    }
+
+    /** DbOps Constructor
+     *  The user must enter in a path for the database to be initialized.
+     *  The user also enters in the uuid for the root
+     * @param dbPath
+     * @param uuid
+     */
+    public DbOps(String dbPath, String uuid) {
+        db = new DbUtils(dbPath);
+        root = db.initRoot(uuid);
+    }
+
+    @Override
+    public Label getLabel(Relationship rel) {
+        if (rel == Const.RELATE_ROOT_OBSERVATION) {
+            return Const.OBSERVATION_LABEL;
+        } else if (rel == Const.RELATE_OBSERVATION_KNOWLEDGE){
+            return Const.KNOWLEDGE_LABEL;
+        }
+        throw new IllegalArgumentException("This relationship '" + rel + "' should not exist in the database!");
     }
 
     public void createObservation(HashMap<String, Object> props) {
@@ -41,7 +63,7 @@ public class DbOps {
     }
 
     public void deleteObservation(String id) {
-        db.deleteNode(Const.OBSERVATION_LABEL, id);
+        db.deleteNode(Const.OBSERVATION_LABEL, id, this);
     }
 
     public void createKnowledge(String obsId, HashMap<String, Object> props) {
@@ -66,7 +88,7 @@ public class DbOps {
     }
 
     public void deleteKnowledge(String id) {
-        db.deleteNode(Const.KNOWLEDGE_LABEL, id);
+        db.deleteNode(Const.KNOWLEDGE_LABEL, id, this);
     }
 
     public HashMap<String, Object> getObservationRelationship(String obsId){
