@@ -1,13 +1,7 @@
 package graphTool.client;
 
-import graphTool.GraphApi;
 import org.glassfish.jersey.client.ClientConfig;
-import org.neo4j.driver.v1.AuthTokens;
-import org.neo4j.driver.v1.Driver;
-import org.neo4j.driver.v1.GraphDatabase;
-import org.neo4j.graphdb.Node;
 
-import javax.json.Json;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,14 +26,14 @@ public class GraphClient {
 //        Invocation.Builder invocationBuilder = observationTarget.request(MediaType.APPLICATION_JSON);
 //
 //        //Invokes http GET
-//        //Response response = invocationBuilder.get(GraphApi.class);
+//        //Response response = invocationBuilder.get(NodeResource.class);
 //        //Invoke http POST
 //        Response response = invocationBuilder.post(Entity.entity(observationTarget, MediaType.APPLICATION_JSON);
 //
 //
 //    }
     private static String OBS_URL = "http://localhost:8025/api/observation";
-    private static String KNW_URL = "http://localhost:8025/api/observation";
+    private static String KNW_URL = "http://localhost:8025/api/knowledge";
     static ClientConfig clientConfig = null;
     static Client client = null;
     static WebTarget webTarget = null;

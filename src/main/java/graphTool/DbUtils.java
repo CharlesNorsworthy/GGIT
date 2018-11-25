@@ -6,7 +6,6 @@ import org.neo4j.graphdb.factory.*;
 import java.io.File;
 import java.util.*;
 
-
 public class DbUtils
 {
     private static Node root;
@@ -18,7 +17,17 @@ public class DbUtils
     }
 
     private void connectDatabase(String dbPath) {
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File(dbPath));
+        GraphDatabaseSettings.BoltConnector bolt = GraphDatabaseSettings.boltConnector( "0" );
+        try {
+            graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(new File(dbPath))
+                    .setConfig(bolt.type, "BOLT")
+                    .setConfig(bolt.enabled, "true")
+                    .setConfig(bolt.address, "localhost:8025")
+                    .newGraphDatabase();
+        } catch (Exception e){
+            System.out.println("ERROR :: " + e.getMessage());
+            graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
+        }
         registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
     }
 

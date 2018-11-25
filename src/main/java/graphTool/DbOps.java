@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DbOps {
-    DbUtils db;
+    private DbUtils db;
 
-    Node root;
+    private Node root;
 
     /** DbOps Constructor
      *  The user must enter in a path for the database to be initialized.
@@ -18,6 +18,10 @@ public class DbOps {
     public DbOps(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
+    }
+
+    public void setDbPath(String dbPath){
+        db = new DbUtils(dbPath);
     }
 
     public void createObservation(HashMap<String, Object> props) {

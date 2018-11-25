@@ -18,7 +18,7 @@ ext{
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.neo4j', name: 'neo4j', version: '3.4.6'
-    compile group:'org.neo4j.driver', name: 'neo4j-java-driver', version: '1.6.2'
+    compile group: 'org.neo4j', name: 'neo4j-bolt', version: '3.4.6'
 
     compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
     compile "org.glassfish.jersey.core:jersey-server:$jerseyVersion"

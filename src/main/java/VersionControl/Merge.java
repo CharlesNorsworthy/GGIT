@@ -14,7 +14,7 @@ import java.util.Iterator;
  *
  */
 
-class Merge {
+public class Merge {
 
     /**
      *
@@ -29,7 +29,7 @@ class Merge {
      * @return GraphDatabaseService mergedGraph
      */
 //TODO: refactor
-    static GraphDatabaseService mergeMe(GraphDatabaseService graph1, GraphDatabaseService graph2, GraphDatabaseService mergedGraph){
+    public static GraphDatabaseService mergeMe(GraphDatabaseService graph1, GraphDatabaseService graph2, GraphDatabaseService mergedGraph){
 
         //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
         try (ResourceIterator<Node> graph1AllNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph1); ResourceIterator<Node> graph2AllNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph2)) {

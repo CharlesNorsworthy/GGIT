@@ -34,7 +34,7 @@ public class MergeUtils
     }
 
 
-    enum RelTypes implements RelationshipType
+    public enum RelTypes implements RelationshipType
     {
         KNOWS
     }
@@ -56,7 +56,7 @@ public class MergeUtils
         }
     }
 
-    void putNodeInGraph(String id){
+    public void putNodeInGraph(String id){
         try(Transaction tx = graphDb.beginTx()){
             Node newNode = graphDb.createNode();
             //String id = getNodeID(graph, node);
@@ -66,7 +66,7 @@ public class MergeUtils
         }
     }
 
-    static void putNodeInGraphStatic(GraphDatabaseService graph, String id){
+    public static void putNodeInGraphStatic(GraphDatabaseService graph, String id){
         try(Transaction tx = graph.beginTx()){
             Node newNode = graph.createNode();
             //String id = getNodeID(graph, node);
@@ -76,7 +76,7 @@ public class MergeUtils
         }
     }
 
-    static RelationshipType getRelationshipType(GraphDatabaseService graph, Node node, Relationship relationship){
+    public static RelationshipType getRelationshipType(GraphDatabaseService graph, Node node, Relationship relationship){
         RelationshipType relType;
         try(Transaction tx = graph.beginTx()){
             relType = relationship.getType();
@@ -85,7 +85,7 @@ public class MergeUtils
         return relType;
     }
 
-    static void connectNodeInGraphByRelationship(GraphDatabaseService graph, Node node, Iterator<Relationship> relsIter){
+    public static void connectNodeInGraphByRelationship(GraphDatabaseService graph, Node node, Iterator<Relationship> relsIter){
         try(Transaction tx = graph.beginTx()){
             Relationship relationship;
             while (relsIter.hasNext()){
@@ -100,7 +100,7 @@ public class MergeUtils
         }
     }
 
-    void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
+    public void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
         try(Transaction tx = graphDb.beginTx()){
             Relationship rel = node1.createRelationshipTo(node2, relType);
             rel.setProperty("T", "test");
@@ -108,7 +108,7 @@ public class MergeUtils
         }
     }
 
-    static void createRelationshipBetweenStatic(GraphDatabaseService graph, Node node1, Node node2, RelationshipType relType){
+    public static void createRelationshipBetweenStatic(GraphDatabaseService graph, Node node1, Node node2, RelationshipType relType){
         try(Transaction tx = graph.beginTx()){
             Relationship rel = node1.createRelationshipTo(node2, relType);
             //rel.setProperty("T", "test");
@@ -116,7 +116,7 @@ public class MergeUtils
         }
     }
 
-    static Iterator<Relationship> getRelationshipIterator(GraphDatabaseService graph, Node node){
+    public static Iterator<Relationship> getRelationshipIterator(GraphDatabaseService graph, Node node){
         Iterator<Relationship> relsIterator;
         try(Transaction tx = graph.beginTx()){
             Iterable<Relationship> rels = node.getRelationships();
@@ -126,11 +126,11 @@ public class MergeUtils
         return relsIterator;
     }
 
-    static void printRelationships(GraphDatabaseService graph, Node node, Iterator<Relationship> relsIter){
+    public static void printRelationships(GraphDatabaseService graph, Node node, Iterator<Relationship> relsIter){
 
     }
 
-    static Node[] getRelationshipNodes(GraphDatabaseService graph, Relationship relationship){
+    public static Node[] getRelationshipNodes(GraphDatabaseService graph, Relationship relationship){
         Node[] relationshipNodes;
         try(Transaction tx = graph.beginTx()){
             relationshipNodes = relationship.getNodes();
@@ -139,7 +139,7 @@ public class MergeUtils
         return relationshipNodes;
     }
 
-    static String getNodeID(GraphDatabaseService graph, Node node){
+    public static String getNodeID(GraphDatabaseService graph, Node node){
         String ID;
         try(Transaction tx = graph.beginTx()){
              ID = node.getProperty("ID").toString();
@@ -148,7 +148,7 @@ public class MergeUtils
         return ID;
     }
 
-    ArrayList<String> getAllIDs(){
+    public ArrayList<String> getAllIDs(){
         ResourceIterator<Node> nodesItr = getAllNodesIterator();
         String currentId;
         ArrayList<String> allIds = new ArrayList<>();
@@ -163,7 +163,7 @@ public class MergeUtils
         return allIds;
     }
 
-    static ArrayList<String> getAllIDsStatic(GraphDatabaseService graph){
+    public static ArrayList<String> getAllIDsStatic(GraphDatabaseService graph){
         ResourceIterator<Node> nodesItr = getAllNodesIteratorStatic(graph);
         String currentId;
         ArrayList<String> allIds = new ArrayList<>();
@@ -232,7 +232,7 @@ public class MergeUtils
 
     }
 
-    static ResourceIterator<Node> getAllNodesIteratorStatic(GraphDatabaseService graph){
+    public static ResourceIterator<Node> getAllNodesIteratorStatic(GraphDatabaseService graph){
         ResourceIterator<Node> allIterableNodes;
         try(Transaction tx = graph.beginTx()){
             ResourceIterable<Node> iterable = graph.getAllNodes();
@@ -242,7 +242,7 @@ public class MergeUtils
         return allIterableNodes;
     }
 
-    ResourceIterator<Node> getAllNodesIterator(){
+    public ResourceIterator<Node> getAllNodesIterator(){
         ResourceIterator<Node> allIterableNodes;
         try(Transaction tx = graphDb.beginTx()){
             ResourceIterable<Node> iterable = graphDb.getAllNodes();
@@ -279,7 +279,7 @@ public class MergeUtils
 
     }
 
-    static Node getNodeByID(GraphDatabaseService graph, Object value){
+    public static Node getNodeByID(GraphDatabaseService graph, Object value){
 
         ResourceIterator<Node> graphNodesIterator = MergeUtils.getAllNodesIteratorStatic(graph);
         Node currentNode;
