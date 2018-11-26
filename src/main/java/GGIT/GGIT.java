@@ -17,9 +17,6 @@ public class GGIT {
     private static Options options;
 
     public static void main(String args[]) {
-        if (checkDataStore()) {
-            deserialize();
-        }
         options = GGITConst.OPTIONS;
         executeCmd(args);
     }
@@ -85,7 +82,7 @@ public class GGIT {
         } catch (IllegalArgumentException e) {
             System.out.println("IllegalArgumentException :: " +e);
         } finally {
-            serialize();
+//            serialize();
         }
     }
 
@@ -210,39 +207,6 @@ public class GGIT {
             return true;
         } else {
             return false;
-        }
-    }
-
-    private static void serialize() {
-        GGITInfo info = new GGITInfo(repo, currentNode);
-        try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(GGITConst.DATASTORE_PATH + "/ggit_repo.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(info);
-            out.close();
-            fileOut.close();
-            System.out.printf("Serialized data is saved in " + GGITConst.DATASTORE_PATH + "/ggit_repo.ser");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
-
-    private static void deserialize() {
-        GGITInfo info;
-        try {
-            FileInputStream fileIn = new FileInputStream(GGITConst.DATASTORE_PATH + "/ggit_repo.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            info = (GGITInfo) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("GGITInfo class not found");
-            c.printStackTrace();
-            return;
         }
     }
 }

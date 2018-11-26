@@ -23,8 +23,6 @@ public class GGITConst {
             .addOption("branch", true, "List, create, or delete branches")
             .addOption("pull", true, "Fetch from and integrate with another repository or a local branch")
             .addOption("merge", true, "Join two or more development histories together")
-            //.addOption("diff", true, "Show changes between commits, commit and working tree, etc")
-            //.addOption("log", false, "Show commit logs")
             .addOption("fetch", true, "Download objects and refs from another repository")
             .addOption("reset", true, "Reset current HEAD to the specified state")
             .addOption("grep", true, "Print lines matching a pattern");
