@@ -1,6 +1,8 @@
 package GGIT;
 
 import java.io.*;
+import java.util.Date;
+import java.util.Properties;
 
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
@@ -10,15 +12,63 @@ import org.apache.commons.io.FileUtils;
  * Command line input drives this class
  */
 public class GGIT {
+    private static String repoPath;
+
     private static GGITGraph repo;
 
     private static GGITNode currentNode;
 
     private static Options options;
 
+    private static class GGITConfigValues {
+        String result = "";
+        InputStream inputStream;
+
+        private String getPropValues(String propFileName) throws IOException {
+            try {
+                Properties prop = new Properties();
+
+                inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+                if (inputStream != null) {
+                    prop.load(inputStream);
+                } else {
+                    throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+                }
+
+                // get the property value and print it out
+                repoPath = prop.getProperty("repoPath");
+            } catch (Exception e) {
+                System.out.println("Exception: " + e);
+            } finally {
+                inputStream.close();
+            }
+            return result;
+        }
+
+        private void setPropValues(String propFileName) {
+            try {
+                Properties properties = new Properties();
+                properties.setProperty("repoPath", repoPath);
+
+                File file = new File(propFileName);
+                FileOutputStream fileOut = new FileOutputStream(file);
+                properties.store(fileOut, null);
+                fileOut.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String args[]) {
-        options = GGITConst.OPTIONS;
-        executeCmd(args);
+        if (bootUp(args)) {
+            options = GGITConst.OPTIONS;
+            executeCmd(args);
+        }
+        writeConfig();
     }
 
     private static void executeCmd(String args[]) {
@@ -56,12 +106,6 @@ public class GGIT {
                     case "merge":
                         _merge(args);
                         break;
-                    case "diff":
-                        _diff(args);
-                        break;
-                    case "log":
-                        _log(args);
-                        break;
                     case "fetch":
                         _fetch(args);
                         break;
@@ -81,8 +125,6 @@ public class GGIT {
             System.out.println("UnsupportedOperationException :: " + e);
         } catch (IllegalArgumentException e) {
             System.out.println("IllegalArgumentException :: " +e);
-        } finally {
-//            serialize();
         }
     }
 
@@ -155,6 +197,9 @@ public class GGIT {
     }
 
     private static void _branch(String[] args) {
+        if (repo == null) {
+
+        }
         repo.listBranches();
     }
 
@@ -163,14 +208,6 @@ public class GGIT {
     }
 
     private static void _merge(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
-    }
-
-    private static void _diff(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
-    }
-
-    private static void _log(String[] args) {
         throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
     }
 
@@ -194,19 +231,38 @@ public class GGIT {
         writer.flush();
     }
 
-    private static boolean checkDataStore() {
-        String fileName = "repo.ser";
+    private static boolean bootUp(String args[]) {
+        String path = System.getProperty("user.dir") + "config.properties";
 
-        File directory = new File(GGITConst.DATASTORE_PATH);
-        if (!directory.exists()){
-            directory.mkdir();
-        }
-
-        File repo = new File(GGITConst.DATASTORE_PATH + "/ggit_repo.ser");
-        if (repo.exists() && !repo.isDirectory()) {
+        if ((new File(path)).exists()) {
+            GGITConfigValues config = new GGITConfigValues();
+            try {
+                config.getPropValues(path);
+            } catch (IOException e) {
+                System.out.println("IOException :: " + e);
+            }
             return true;
         } else {
-            return false;
+            if (args.length > 1) {
+                if (args[1].equals("init")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private static void writeConfig() {
+        String path = System.getProperty("user.dir") + "config.properties";
+
+        GGITConfigValues config = new GGITConfigValues();
+        try {
+            config.setPropValues(path);
+        } catch (Exception e) {
+            System.out.println("IOException :: " + e);
         }
     }
 }
