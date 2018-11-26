@@ -4,6 +4,7 @@ import java.io.*;
 
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.commons.io.FileUtils;
 
 /** GGIT.GGIT is the driver class for this Graph Database Version Control System
  * Command line input drives this class
@@ -93,15 +94,16 @@ public class GGIT {
 
     private static void _init(String[] args) {
         if (repo == null) {
-            String graphRef = "C://Neo4j//graph.db";
             if (args.length > 1) {
-                graphRef = args[1];
-            }
-            GGITGraph repo = new GGITGraph(graphRef, GGITConst.MASTER);
-            if (repo != null) {
-                System.out.println("A repo was successfully initialized!");
+                String graphRef = args[1];
+                GGITGraph repo = new GGITGraph(graphRef);
+                if (repo != null) {
+                    System.out.println("A repo was successfully initialized!");
+                } else {
+                    System.out.println("FAILED to initialize a repo.");
+                }
             } else {
-                System.out.println("FAILED to initialize a repo.");
+                throw new IllegalArgumentException("You must specify a location to initialize the repository!");
             }
         } else {
             throw new IllegalArgumentException("There is already a repository that exists.");
@@ -109,9 +111,27 @@ public class GGIT {
     }
 
     private static void _clone(String[] args) {
-        String graphRef;
         if (args.length > 1) {
+            File repoRef = new File(args[1]);
+            if (repoRef.isDirectory()) {
+                File copyToRef;
+                if (args.length > 2) {
+                    copyToRef = new File(args[2]);
+                } else {
+                    copyToRef = new File(System.getProperty("user.dir"));
+                }
+                if (!copyToRef.exists()) {
+                    copyToRef.mkdir();
+                }
 
+                try {
+                    FileUtils.copyDirectory(repoRef, copyToRef);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("A repository must be specified to clone.");
         }
     }
 
@@ -140,7 +160,7 @@ public class GGIT {
     }
 
     private static void _branch(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        repo.listBranches();
     }
 
     private static void _pull(String[] args) {

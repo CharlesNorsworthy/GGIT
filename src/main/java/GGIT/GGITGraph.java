@@ -1,18 +1,22 @@
 package GGIT;
 
 import graphTool.Const;
+import graphTool.DatabaseBuilder;
 import graphTool.DbUtils;
 //import org.jgrapht.graph.DefaultDirectedGraph;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 //import java.util.Set;
 //import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
-public class GGITGraph {
+public class GGITGraph implements DatabaseBuilder {
     DbUtils db;
 
     HashMap<String, Object> repos;
@@ -22,6 +26,11 @@ public class GGITGraph {
     public GGITGraph(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
+    }
+
+    @Override
+    public Label getLabel(Relationship rel) {
+        return null;
     }
 
     //Utilize Neo4j to build out GGITGraph
@@ -36,8 +45,11 @@ public class GGITGraph {
         db.updateNode(root, repos);
     }
 
-    public void branch() {}
+    public void listBranches() {
+        List<Label> labels = db.getLabels();
 
+        labels.forEach(label -> System.out.println(label.name()));
+    }
 
 //    private static GGITNode root = null;
 //

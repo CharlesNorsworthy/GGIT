@@ -52,7 +52,8 @@ dependencies {
     )
     extraLibs (
         'org.jgrapht:jgrapht-core:1.3.0',
-        'commons-cli:commons-cli:1.4'
+        'commons-cli:commons-cli:1.4',
+        'org.apache.commons:commons-io:1.3.2'
     )
     testCompile 'junit:junit:4.12'
     configurations.compile.extendsFrom(configurations.extraLibs)

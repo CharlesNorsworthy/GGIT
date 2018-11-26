@@ -156,11 +156,7 @@ public class DbUtils
         }
     }
 
-<<<<<<< HEAD
-    public void deleteNode(Label label, String id) {
-=======
     public void deleteNode(Label label, String id, DatabaseBuilder databaseBuilder) {
->>>>>>> af98b4421e4aea24b10a33e3c89891e9cfcb8a20
         try ( Transaction tx = graphDb.beginTx()) {
             Node node = graphDb.findNode(label, Const.UUID, id);
             if(node != null) {
@@ -436,6 +432,17 @@ public class DbUtils
         } catch (Exception e) {
             System.out.println("Could not create default nodes. Msg: " + e.getMessage());
         }
+    }
+
+    public List<Label> getLabels() {
+        List<Label> labels = new ArrayList<>();
+        ResourceIterable<Label> iter = graphDb.getAllLabels();
+
+        for (Label label : iter) {
+            labels.add(label);
+        }
+
+        return labels;
     }
 
     public void dispose(){
