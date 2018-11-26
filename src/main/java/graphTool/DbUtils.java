@@ -9,9 +9,9 @@ import java.util.*;
 
 public class DbUtils
 {
-    private static Node root;
+    private Node root;
 
-    private static GraphDatabaseService graphDb;
+    private GraphDatabaseService graphDb;
 
     public DbUtils(String dbPath) {
         this.connectDatabase(dbPath);
@@ -149,6 +149,21 @@ public class DbUtils
             tx.success();
         }catch(Exception e){
             System.out.println("Unable to update node. Msg :" + e.getMessage());
+        }
+    }
+
+    public void deleteNode(Label label, String id) {
+        try ( Transaction tx = graphDb.beginTx()) {
+            Node node = graphDb.findNode(label, Const.UUID, id);
+            if(node != null) {
+                if (node.hasRelationship()) {
+                    node.getRelationships().forEach(rel -> rel.delete());
+                }
+                node.delete();
+            }
+            tx.success();
+        } catch (Exception e) {
+            System.out.println("Unable to delete node {id :" + id + "}. Msg : " + e.getMessage());
         }
     }
 
@@ -459,10 +474,13 @@ public class DbUtils
         return null;
     }
 
-    public void putNodeInGraph(String id){
+    public void putNodeInGraph(Label label, HashMap<String, Object> properties){
         try(Transaction tx = graphDb.beginTx()){
             Node newNode = graphDb.createNode();
-            newNode.setProperty(Const.UUID, id);
+            for(String key: properties.keySet()){
+                newNode.setProperty(key, properties.get(key));
+            }
+            newNode.addLabel(label);
             tx.success();
         }
     }
@@ -548,7 +566,7 @@ public class DbUtils
     }
 
     //From https://stackoverflow.com/questions/27233978/java-neo4j-check-if-a-relationship-exist
-    Relationship getRelationshipBetween(Node startNode, String endNodeId){
+    public Relationship getRelationshipBetween(Node startNode, String endNodeId){
         try(Transaction tx = graphDb.beginTx()){
             for (Relationship rel : startNode.getRelationships()){ // n1.getRelationships(type,direction)
                 String otherNodeId = getNodeID(rel.getOtherNode(startNode));

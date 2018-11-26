@@ -1,7 +1,7 @@
 package VersionControl;
 
 import graphTool.Const;
-import graphTool.DbOps;
+import graphTool.DbUtils;
 import org.neo4j.graphdb.*;
 
 import java.util.*;
@@ -35,8 +35,9 @@ public class Merge {
      */
     //TODO: test
     //TODO: handle deleted relationships
+    //TODO: handle different data in naive merge
     //TODO: refactor, maybe instead of merged graph have a new directory to create a new merged graph in the method
-    public static DbOps mergeNaively(DbOps graph1, DbOps graph2, DbOps mergedGraph){
+    public static DbUtils mergeNaively(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
 
         //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
         try (ResourceIterator<Node> graph1AllNodesIterator = graph1.getAllNodesIterator();
@@ -51,8 +52,9 @@ public class Merge {
                     nextNode1 = graph1AllNodesIterator.next();
                     //Preemptively add the first node to graph 1.
                     if(nextNode1 != null){
-                        String id1 = graph1.getNodeID(nextNode1);
-                        mergedGraph.putNodeInGraph(id1);
+                        Label label1 = graph1.getNodeLabel(nextNode1);
+                        HashMap<String, Object> props1 = graph1.readNodeProperties(nextNode1);
+                        mergedGraph.putNodeInGraph(label1, props1);
                     }
                 } catch(Exception ignored){}
 
@@ -65,12 +67,15 @@ public class Merge {
                 if(nextNode1 != null && nextNode2 != null){
                     //If the ids of the next nodes aren't equal, put in the next node from the second graph
                     if (!graph1.getNodeID(nextNode1).equals(graph2.getNodeID(nextNode2))) {
-                        String id2 = graph2.getNodeID(nextNode2);
-                        mergedGraph.putNodeInGraph(id2);
+                        Label label2 = graph2.getNodeLabel(nextNode2);
+                        graph2.readNodeProperties(nextNode2);
+                        HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
+                        mergedGraph.putNodeInGraph(label2, props2);
                     }
                 } else if (nextNode2 != null){
-                    String id2 = graph2.getNodeID(nextNode2);
-                    mergedGraph.putNodeInGraph(id2);
+                    Label label2 = graph2.getNodeLabel(nextNode2);
+                    HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
+                    mergedGraph.putNodeInGraph(label2, props2);
                 }
             }
         }
@@ -99,6 +104,9 @@ public class Merge {
                 e.printStackTrace();
             }
         }
+        //Test and handle merge conflicts with both graphs concerning the data in the nodes
+        testAndHandleDataMergeConflict(graph1, graph2, mergedGraph);
+
         return mergedGraph;
     }
 
@@ -118,9 +126,9 @@ public class Merge {
      * @return DbOps mergedGraph
      */
 
-    public static DbOps mergeWithPossibleConflicts(DbOps graph1, DbOps graph2,
-                                                   DbOps commonAncestorGraph,
-                                                   DbOps mergedGraph){
+    public static DbUtils mergeWithPossibleConflicts(DbUtils graph1, DbUtils graph2,
+                                                   DbUtils commonAncestorGraph,
+                                                   DbUtils mergedGraph){
 
         //See what has changed with graphs 1 and 2
         ArrayList<String> graph1Deletions = getAllDeletedNodesIds(commonAncestorGraph, graph1);
@@ -135,14 +143,11 @@ public class Merge {
 
         //Test and handle merge conflicts with deleted nodes
         testAndHandleNodeMergeConflict(mergedGraph, totalDeletions);
-        //Test and handle merge conflicts with both graphs concerning the data in the nodes
-        testAndHandleDataMergeConflict(graph1, mergedGraph);
-        testAndHandleDataMergeConflict(graph2, mergedGraph);
 
         return mergedGraph;
     }
 
-    private static void connectSameRelationshipsInMergedGraph(DbOps originalGraph, DbOps mergedGraph, Node startNode){
+    private static void connectSameRelationshipsInMergedGraph(DbUtils originalGraph, DbUtils mergedGraph, Node startNode){
 
         String startNodeId = originalGraph.getNodeID(startNode);
         Relationship relationship;
@@ -178,7 +183,7 @@ public class Merge {
         }
     }
 
-    private static ArrayList<String> getAllDeletedNodesIds(DbOps ancestorGraph, DbOps descendantGraph){
+    private static ArrayList<String> getAllDeletedNodesIds(DbUtils ancestorGraph, DbUtils descendantGraph){
 
         ArrayList<String> allDeletedNodesIds = new ArrayList<>();
 
@@ -197,7 +202,7 @@ public class Merge {
         return allDeletedNodesIds;
     }
 
-    private static void testAndHandleNodeMergeConflict(DbOps mergedGraph, Set<String> totalDeletions){
+    private static void testAndHandleNodeMergeConflict(DbUtils mergedGraph, Set<String> totalDeletions){
         //loop over every node in the merged graph
         ResourceIterator<Node> mergedGraphAllNodesIterator = mergedGraph.getAllNodesIterator();
         while(mergedGraphAllNodesIterator.hasNext()){
@@ -213,7 +218,7 @@ public class Merge {
         }
     }
 
-    private static void handleNodeMergeConflict(DbOps mergedGraph, String conflictingID){
+    private static void handleNodeMergeConflict(DbUtils mergedGraph, String conflictingID){
         System.out.println("Resurfaced deleted node with id: "
                 + conflictingID + ". Do you want to keep this node and its non-conflicting children? (Y/N)");
         Scanner scanner = new Scanner(System.in);
@@ -233,31 +238,32 @@ public class Merge {
         }
     }
 
-    private static void handleDataMergeConflict(DbOps mergedGraph, String conflictingId, String key,
-                                                String originalGraphProperty, String mergedGraphProperty){
+    private static void handleDataMergeConflict(DbUtils mergedGraph, String conflictingId, String key,
+                                                String graph1Property, String graph2Property){
         System.out.println("Conflicting data on node with id: "
                 + conflictingId + "of data type " + key + ". Which data would you rather keep?");
-        System.out.println("A. Original graph data: " + originalGraphProperty);
-        System.out.println("B. Merged graph data: " + mergedGraphProperty);
+        System.out.println("A. Original graph data: " + graph1Property);
+        System.out.println("B. Merged graph data: " + graph2Property);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next().toLowerCase();
 
         Node conflictingNode = mergedGraph.getNodeByID(conflictingId);
         if(input.equals("a")){
-            mergedGraph.setProperty(conflictingNode, key, originalGraphProperty);
+            mergedGraph.setProperty(conflictingNode, key, graph1Property);
         } else if (input.equals("b")){
-            mergedGraph.setProperty(conflictingNode, key, mergedGraphProperty);
+            mergedGraph.setProperty(conflictingNode, key, graph2Property);
         }
     }
 
-    private static void testAndHandleDataMergeConflict(DbOps originalGraph, DbOps mergedGraph){
-        //loop over every node in the merged graph, we only care to compare data in that graph
+    private static void testAndHandleDataMergeConflict(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
+        //Currently, this method assumes all nodes have the same amount of properties
+
+        //loop over every node in the merged graph, we only care to compare data in nodes in that graph
         ResourceIterator<Node> mergedGraphAllNodesIterator = mergedGraph.getAllNodesIterator();
         while(mergedGraphAllNodesIterator.hasNext()){
             Node currentMergedGraphNode = mergedGraphAllNodesIterator.next();
             String currentMergedGraphNodeId = mergedGraph.getNodeID(currentMergedGraphNode);
-            //Get the same node in the original graph to compare data
-            Node currentOriginalGraphNode = originalGraph.getNodeByID(currentMergedGraphNodeId);
+
             //Iterate over all five keys to get their corresponding properties
             //These properties except for the UUID are the data for comparison
             Iterator<String> propertyKeysItr = mergedGraph.getPropertyKeysIterator(currentMergedGraphNode);
@@ -266,16 +272,24 @@ public class Merge {
                 if(propertyKey.equals(Const.UUID)){
                     continue;
                 }
-                //Get the two graph properties
-                String originalGraphProperty = originalGraph.getPropertyAsString(currentOriginalGraphNode, propertyKey);
-                String mergedGraphProperty = mergedGraph.getPropertyAsString(currentMergedGraphNode, propertyKey);
-                //If the two strings aren't equal, you have a conflict that needs resolving
-                if(!originalGraphProperty.equals(mergedGraphProperty)){
-                    handleDataMergeConflict(mergedGraph, currentMergedGraphNodeId, propertyKey,
-                            originalGraphProperty, mergedGraphProperty);
-                }
+
+                try {
+                    //Get the same node in each graph to compare data
+                    Node currentGraph1Node = graph1.getNodeByID(currentMergedGraphNodeId);
+                    Node currentGraph2Node = graph2.getNodeByID(currentMergedGraphNodeId);
+                    //Get the two graph properties
+                    String graph1Property = graph1.getPropertyAsString(currentGraph1Node, propertyKey);
+                    String graph2Property = graph2.getPropertyAsString(currentGraph2Node, propertyKey);
+
+                    //If the two strings aren't equal, you have a conflict that needs resolving
+                    if(currentGraph1Node != null && currentGraph2Node != null){
+                        if(!graph1Property.equals(graph2Property)){
+                            handleDataMergeConflict(mergedGraph, currentMergedGraphNodeId, propertyKey,
+                                    graph1Property, graph2Property);
+                        }
+                    }
+                } catch(Exception ignored){}
             }
         }
     }
-
 }

@@ -8,9 +8,9 @@ import org.neo4j.graphdb.*;
 import java.util.*;
 
 public class DbOps implements DatabaseBuilder{
-    DbUtils db;
+    private DbUtils db;
 
-    Node root;
+    private Node root;
 
     /** DbOps Constructor
      *  The user must enter in a path for the database to be initialized.
@@ -19,11 +19,6 @@ public class DbOps implements DatabaseBuilder{
     public DbOps(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
-    }
-
-    public DbOps(String dbPath, String rootId) {
-        db = new DbUtils(dbPath);
-        root = db.initRoot(rootId);
     }
 
     /** DbOps Constructor
@@ -45,6 +40,10 @@ public class DbOps implements DatabaseBuilder{
             return Const.KNOWLEDGE_LABEL;
         }
         throw new IllegalArgumentException("This relationship '" + rel + "' should not exist in the database!");
+    }
+
+    public DbUtils getDb() {
+        return db;
     }
 
     public void createObservation(HashMap<String, Object> props) {
@@ -77,6 +76,14 @@ public class DbOps implements DatabaseBuilder{
         db.createRelationship(obsNode, knowNode, Const.RELATE_OBSERVATION_KNOWLEDGE);
     }
 
+    public void createKnowledge(ArrayList<String> obsIds, HashMap<String, Object> props) {
+        Node knowNode = db.createNode(Const.KNOWLEDGE_LABEL, props);
+        for(String id: obsIds){
+            Node obsNode = db.readNode(Const.OBSERVATION_LABEL, id);
+            db.createRelationship(obsNode, knowNode, Const.RELATE_OBSERVATION_KNOWLEDGE);
+        }
+    }
+
     public HashMap<String, Object> getKnowledge(String id) {
         Node node = db.readNode(Const.KNOWLEDGE_LABEL, id);
         return db.readNodeProperties(node);
@@ -96,7 +103,7 @@ public class DbOps implements DatabaseBuilder{
         db.deleteNode(Const.KNOWLEDGE_LABEL, id, this);
     }
 
-    public void deleteNode(Label label, String id){db.deleteNode(label, id);}
+    public void deleteNode(Label label, String id){db.deleteNode(label, id, this);}
 
     public String getNodeID(Node node){
         return db.getNodeID(node);
@@ -108,8 +115,8 @@ public class DbOps implements DatabaseBuilder{
 
     public Label getNodeLabel(Node node){return db.getNodeLabel(node);}
 
-    public void putNodeInGraph(String id){
-        db.putNodeInGraph(id);
+    public void putNodeInGraph(Label label, HashMap<String, Object> props){
+        db.putNodeInGraph(label, props);
     }
 
     public ArrayList<String> getAllIDs(){
