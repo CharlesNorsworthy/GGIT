@@ -35,9 +35,6 @@ public class GGIT {
                     case "clone":
                         _clone(args);
                         break;
-                    case "add":
-                        _add(args);
-                        break;
                     case "commit":
                         _commit(args);
                         break;
@@ -135,12 +132,13 @@ public class GGIT {
         }
     }
 
-    private static void _add(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
-    }
-
     private static void _commit(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        File zipDir;
+        if (args.length > 1) {
+            zipDir = new File(args[1]);
+        } else {
+            zipDir = new File(System.getProperty("user.dir"));
+        }
     }
 
     private static void _push(String[] args) {
