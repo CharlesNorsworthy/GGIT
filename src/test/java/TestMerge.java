@@ -12,7 +12,9 @@ public class TestMerge {
         System.out.println("Testing current functionality with graph merging: ");
         //testNaiveMerge1();
         //testNaiveMerge2();
-        testNaiveMerge3();
+        //testNaiveMerge3();
+        testMergeWithConflicts1();
+
     }
 
     private static void testNaiveMerge1(){
@@ -45,9 +47,9 @@ public class TestMerge {
         HashMap<String, Object> node1Props = new HashMap<>();
         HashMap<String, Object> node2Props = new HashMap<>();
         node1Props.put(Const.UUID, "1");
-        node1Props.put(Const.NAME, "Clark");
+        node1Props.put(Const.NAME, "Nicholas");
         node2Props.put(Const.UUID, "2");
-        node2Props.put(Const.NAME, "Kent");
+        node2Props.put(Const.NAME, "Moran");
 
         graphDb.createObservation(node1Props);
         graphDb.createObservation(node2Props);
@@ -61,9 +63,9 @@ public class TestMerge {
         HashMap<String, Object> node1Props = new HashMap<>();
         HashMap<String, Object> node2Props = new HashMap<>();
         node1Props.put(Const.UUID, "1");
-        node1Props.put(Const.NAME, "Bruce");
+        node1Props.put(Const.NAME, "Allison");
         node2Props.put(Const.UUID, "2");
-        node2Props.put(Const.NAME, "Wayne");
+        node2Props.put(Const.NAME, "Whitehead");
 
         graphDb.createObservation(node1Props);
         graphDb.createObservation(node2Props);
@@ -79,6 +81,41 @@ public class TestMerge {
         DbUtils mergedGraph2 = new DbUtils("\\C:\\databases\\ConflictTest1MergedGraph2");
         Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph1);
         Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph2);
+    }
+
+    private static DbOps createAncestorGraphForConflictMerge1(){
+        DbOps graphDb = new DbOps("\\C:\\databases\\ConflictTest1Ancestor", "0");
+
+        HashMap<String, Object> node1Props = new HashMap<>();
+        node1Props.put(Const.UUID, "1");
+
+        graphDb.createObservation(node1Props);
+
+        return graphDb;
+    }
+
+    private static DbOps createGraph1ForConflictMerge1(){
+        DbOps graphDb = new DbOps("\\C:\\databases\\ConflictTest1Graph1", "0");
+
+        HashMap<String, Object> node1Props = new HashMap<>();
+        HashMap<String, Object> node2Props = new HashMap<>();
+        node1Props.put(Const.UUID, "1");
+        node2Props.put(Const.UUID, "2");
+
+        graphDb.createObservation(node1Props);
+        graphDb.createKnowledge("1", node2Props);
+
+        return graphDb;
+    }
+
+    private static DbOps createGraph2ForConflictMerge1(){
+        DbOps graphDb = new DbOps("\\C:\\databases\\ConflictTest1Graph2", "0");
+        HashMap<String, Object> node3Props = new HashMap<>();
+        node3Props.put(Const.UUID, "3");
+
+        graphDb.createObservation(node3Props);
+
+        return graphDb;
     }
 
     private static void testMergeWithConflicts2(){
@@ -182,18 +219,6 @@ public class TestMerge {
 
 
         return graphDb;
-    }
-
-    private static DbOps createAncestorGraphForConflictMerge1(){
-        return null;
-    }
-
-    private static DbOps createGraph1ForConflictMerge1(){
-        return null;
-    }
-
-    private static DbOps createGraph2ForConflictMerge1(){
-        return null;
     }
 
     private static DbOps createAncestorGraphForConflictMerge2(){
