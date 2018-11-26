@@ -80,22 +80,25 @@ public class GGIT {
         } catch (UnsupportedOperationException e) {
             System.out.println("UnsupportedOperationException :: " + e);
         } catch (IllegalArgumentException e) {
-            System.out.println("IllegalArgumentException :: " +e);
-        } finally {
-//            serialize();
+            System.out.println("IllegalArgumentException :: " + e);
         }
+//        finally {
+//            serialize();
+//        }
     }
 
     private static void _init(String[] args) {
         if (repo == null) {
+            String graphRef;
             if (args.length > 1) {
-                String graphRef = args[1];
-                GGITGraph repo = new GGITGraph(graphRef);
-                if (repo != null) {
+                graphRef = args[1];
+                try {
+                    repo = new GGITGraph(graphRef);
                     System.out.println("A repo was successfully initialized!");
-                } else {
+                } catch(Exception e) {
                     System.out.println("FAILED to initialize a repo.");
                 }
+
             } else {
                 throw new IllegalArgumentException("You must specify a location to initialize the repository!");
             }
@@ -155,7 +158,19 @@ public class GGIT {
     }
 
     private static void _branch(String[] args) {
-        repo.listBranches();
+        if(repo == null) {
+            String graphRef = "C://Neo4J";//"C:\\Users\\ncunningham\\Desktop\\TestRepo";
+            repo = new GGITGraph(graphRef);
+            //throw new IllegalArgumentException("A repository must be initialized to be branched.");
+        }
+        //else {}
+        if(args.length > 1){
+            String branchName = args[1];
+
+        }
+        else {
+            repo.listBranches();
+        }
     }
 
     private static void _pull(String[] args) {

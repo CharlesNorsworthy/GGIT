@@ -26,6 +26,7 @@ public class GGITGraph implements DatabaseBuilder {
     public GGITGraph(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
+        createRepo(dbPath);
     }
 
     @Override
@@ -35,10 +36,10 @@ public class GGITGraph implements DatabaseBuilder {
 
     //Utilize Neo4j to build out GGITGraph
     public void createRepo(String graphRef) {
+        repos = new HashMap<>();
         HashMap<String, Object> props = new HashMap<>();
-
         props.put(Const.UUID, UUID.randomUUID().toString());
-        props.put(GGITConst.GRAPH_REFENECE, graphRef);
+        props.put(GGITConst.GRAPH_REFERENCE, graphRef);
         props.put(GGITConst.BRANCH, GGITConst.MASTER);
         Node root = db.createNode(Const.ROOT_LABEL, props);
         repos.put(graphRef, root);
