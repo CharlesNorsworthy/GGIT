@@ -438,9 +438,6 @@ public class DbUtils
         String ID;
         try(Transaction tx = graphDb.beginTx()){
             ID = node.getProperty(Const.UUID).toString();
-            if(ID == null){
-                ID = "";
-            }
             tx.success();
         }
         return ID;

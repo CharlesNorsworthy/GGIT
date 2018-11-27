@@ -50,11 +50,14 @@ public class Merge {
                 Node nextNode2 = null;
                 try{
                     nextNode1 = graph1AllNodesIterator.next();
-                    //Preemptively add the first node to graph 1.
+                    //Preemptively add the first node from graph 1.
                     if(nextNode1 != null){
                         Label label1 = graph1.getNodeLabel(nextNode1);
                         HashMap<String, Object> props1 = graph1.readNodeProperties(nextNode1);
-                        mergedGraph.putNodeInGraph(label1, props1);
+                        if(mergedGraph.getNodeByID(props1.get(Const.UUID)) == null){
+                            mergedGraph.putNodeInGraph(label1, props1);
+                        }
+
                     }
                 } catch(Exception ignored){}
 
@@ -68,14 +71,17 @@ public class Merge {
                     //If the ids of the next nodes aren't equal, put in the next node from the second graph
                     if (!graph1.getNodeID(nextNode1).equals(graph2.getNodeID(nextNode2))) {
                         Label label2 = graph2.getNodeLabel(nextNode2);
-                        graph2.readNodeProperties(nextNode2);
                         HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
-                        mergedGraph.putNodeInGraph(label2, props2);
+                        if(mergedGraph.getNodeByID(props2.get(Const.UUID)) == null) {
+                            mergedGraph.putNodeInGraph(label2, props2);
+                        }
                     }
                 } else if (nextNode2 != null){
                     Label label2 = graph2.getNodeLabel(nextNode2);
                     HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
-                    mergedGraph.putNodeInGraph(label2, props2);
+                    if(mergedGraph.getNodeByID(props2.get(Const.UUID)) == null) {
+                        mergedGraph.putNodeInGraph(label2, props2);
+                    }
                 }
             }
         }

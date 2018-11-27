@@ -13,7 +13,8 @@ public class TestMerge {
         //testNaiveMerge1();
         //testNaiveMerge2();
         //testNaiveMerge3();
-        testMergeWithConflicts1();
+        //testMergeWithConflicts1();
+        testMergeWithConflicts2();
 
     }
 
@@ -74,6 +75,7 @@ public class TestMerge {
     }
 
     private static void testMergeWithConflicts1(){
+        //Emphasis on deleting a node and its children
         DbOps ancestorGraph = createAncestorGraphForConflictMerge1();
         DbOps testGraph1 = createGraph1ForConflictMerge1();
         DbOps testGraph2 = createGraph2ForConflictMerge1();
@@ -119,14 +121,80 @@ public class TestMerge {
     }
 
     private static void testMergeWithConflicts2(){
+        //emphasis on a very difficult graph merge with differing data and node deletions
         DbOps ancestorGraph = createAncestorGraphForConflictMerge2();
         DbOps testGraph1 = createGraph1ForConflictMerge2();
         DbOps testGraph2 = createGraph2ForConflictMerge2();
         DbUtils mergedGraph1 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph1");
-        DbUtils mergedGraph2 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph2");
+        //DbUtils mergedGraph2 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph2");
         Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph1);
-        Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph2);
+        //Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph2);
     }
+
+    private static DbOps createAncestorGraphForConflictMerge2(){
+        DbOps graphDb = new DbOps("\\C:\\databases\\ConflictTest2Ancestor", "0");
+
+        HashMap<String, Object> node1Props = new HashMap<>();
+        HashMap<String, Object> node2Props = new HashMap<>();
+        HashMap<String, Object> node3Props = new HashMap<>();
+        HashMap<String, Object> node4Props = new HashMap<>();
+        node1Props.put(Const.UUID, "1");
+        node2Props.put(Const.UUID, "2");
+        node3Props.put(Const.UUID, "3");
+        node4Props.put(Const.UUID, "4");
+
+        graphDb.createObservation(node1Props);
+        graphDb.createObservation(node2Props);
+
+        graphDb.createKnowledge("1", node3Props);
+        graphDb.createKnowledge("2", node4Props);
+
+        return graphDb;
+    }
+
+    private static DbOps createGraph1ForConflictMerge2(){
+        DbOps graphDb = new DbOps("\\C:\\databases\\ConflictTest2Graph1", "0");
+
+        HashMap<String, Object> node1Props = new HashMap<>();
+        HashMap<String, Object> node2Props = new HashMap<>();
+        HashMap<String, Object> node4Props = new HashMap<>();
+        HashMap<String, Object> node5Props = new HashMap<>();
+        node1Props.put(Const.UUID, "1");
+        node2Props.put(Const.UUID, "2");
+        node2Props.put(Const.NAME, "Cade");
+        node4Props.put(Const.UUID, "4");
+        node5Props.put(Const.UUID, "5");
+
+        graphDb.createObservation(node1Props);
+        graphDb.createObservation(node2Props);
+
+        ArrayList<String> obsIds = new ArrayList<>();
+        obsIds.add("1");
+        obsIds.add("2");
+        graphDb.createKnowledge(obsIds, node4Props);
+        graphDb.createKnowledge("1", node5Props);
+
+        return graphDb;
+    }
+
+    private static DbOps createGraph2ForConflictMerge2(){
+        DbOps graphDb = new DbOps("\\C:\\databases\\ConflictTest2Graph2", "0");
+
+        HashMap<String, Object> node2Props = new HashMap<>();
+        HashMap<String, Object> node4Props = new HashMap<>();
+        HashMap<String, Object> node6Props = new HashMap<>();
+        node2Props.put(Const.UUID, "2");
+        node2Props.put(Const.NAME, "Joe");
+        node4Props.put(Const.UUID, "4");
+        node6Props.put(Const.UUID, "6");
+
+        graphDb.createObservation(node2Props);
+
+        graphDb.createKnowledge("2", node4Props);
+        graphDb.createKnowledge("2", node6Props);
+
+        return graphDb;
+}
 
     private static DbOps createGraph1ForNaiveMerge1(){
 
@@ -219,17 +287,5 @@ public class TestMerge {
 
 
         return graphDb;
-    }
-
-    private static DbOps createAncestorGraphForConflictMerge2(){
-        return null;
-    }
-
-    private static DbOps createGraph1ForConflictMerge2(){
-        return null;
-    }
-
-    private static DbOps createGraph2ForConflictMerge2(){
-        return null;
     }
 }
