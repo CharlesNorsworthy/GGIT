@@ -6,6 +6,9 @@ import org.neo4j.graphdb.factory.*;
 import java.io.File;
 import java.util.*;
 
+import static org.neo4j.graphdb.Direction.INCOMING;
+import static org.neo4j.graphdb.Direction.OUTGOING;
+
 
 public class DbUtils
 {
@@ -157,10 +160,11 @@ public class DbUtils
             Node node = graphDb.findNode(label, Const.UUID, id);
             if(node != null) {
                 if (node.hasRelationship()) {
-                    node.getRelationships().forEach(rel -> {
+                    node.getRelationships(OUTGOING).forEach(rel -> {
                         Node otherNode = rel.getOtherNode(node);
-                        this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
+                        node.getRelationships(INCOMING).forEach(relation -> relation.delete());
                         rel.delete();
+                        this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
                     });
                 }
                 node.delete();

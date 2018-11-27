@@ -32,7 +32,6 @@ public class DbOps{
         root = db.initRoot(uuid);
     }
 
-    @Override
     public Label getLabel(Relationship rel) {
         if (rel == Const.RELATE_ROOT_OBSERVATION) {
             return Const.OBSERVATION_LABEL;
@@ -103,7 +102,7 @@ public class DbOps{
         db.deleteNode(Const.KNOWLEDGE_LABEL, id);
     }
 
-    public void deleteNode(Label label, String id){db.deleteNode(label, id, this);}
+    public void deleteNode(Label label, String id){db.deleteNode(label, id);}
 
     public String getNodeID(Node node){
         return db.getNodeID(node);
