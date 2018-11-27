@@ -7,8 +7,8 @@ import org.neo4j.graphdb.*;
 
 import java.util.*;
 
-public class DbOps implements DatabaseBuilder{
-    private DbUtils db;
+public class DbOps{
+    DbUtils db;
 
     private Node root;
 
@@ -67,7 +67,7 @@ public class DbOps implements DatabaseBuilder{
     }
 
     public void deleteObservation(String id) {
-        db.deleteNode(Const.OBSERVATION_LABEL, id, this);
+        db.deleteNode(Const.OBSERVATION_LABEL, id);
     }
 
     public void createKnowledge(String obsId, HashMap<String, Object> props) {
@@ -100,7 +100,7 @@ public class DbOps implements DatabaseBuilder{
     }
 
     public void deleteKnowledge(String id) {
-        db.deleteNode(Const.KNOWLEDGE_LABEL, id, this);
+        db.deleteNode(Const.KNOWLEDGE_LABEL, id);
     }
 
     public void deleteNode(Label label, String id){db.deleteNode(label, id, this);}

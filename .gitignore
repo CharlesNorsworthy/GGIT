@@ -4,5 +4,7 @@ out
 .gradle
 *.iml
 build
+datastore
+META-INF
 
 src/main/java/graphTool/client/stuff

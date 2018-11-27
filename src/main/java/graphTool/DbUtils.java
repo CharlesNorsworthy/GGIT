@@ -157,25 +157,9 @@ public class DbUtils
             Node node = graphDb.findNode(label, Const.UUID, id);
             if(node != null) {
                 if (node.hasRelationship()) {
-                    node.getRelationships().forEach(rel -> rel.delete());
-                }
-                node.delete();
-            }
-            tx.success();
-        } catch (Exception e) {
-            System.out.println("Unable to delete node {id :" + id + "}. Msg : " + e.getMessage());
-        }
-    }
-
-    public void deleteNode(Label label, String id, DatabaseBuilder databaseBuilder) {
-        try ( Transaction tx = graphDb.beginTx()) {
-            Node node = graphDb.findNode(label, Const.UUID, id);
-            if(node != null) {
-                if (node.hasRelationship()) {
                     node.getRelationships().forEach(rel -> {
-                        this.deleteNode(databaseBuilder.getLabel(rel),
-                                (String) rel.getOtherNode(node).getProperty(Const.UUID),
-                                databaseBuilder);
+                        Node otherNode = rel.getOtherNode(node);
+                        this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
                         rel.delete();
                     });
                 }
