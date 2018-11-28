@@ -7,6 +7,7 @@ import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -18,30 +19,59 @@ import java.util.UUID;
 public class GGITGraph{
     DbUtils db;
 
-    HashMap<String, Object> repos;
+//    HashMap<String, Object> repos;
 
     Node root;
 
     public GGITGraph(String dbPath) {
-        db = new DbUtils(dbPath);
-        root = db.initRoot();
-        createRepo(dbPath);
+        this.db = new DbUtils(dbPath);
     }
 
-    //Utilize Neo4j to build out GGITGraph
-    public void createRepo(String graphRef) {
-        repos = new HashMap<>();
+    /** Used to initialize the root of the repository
+     * @param graphRef
+     */
+    public String initRepo(String graphRef) {
+        String uuid = UUID.randomUUID().toString();
         HashMap<String, Object> props = new HashMap<>();
-        props.put(Const.UUID, UUID.randomUUID().toString());
+        props.put(Const.UUID, uuid);
         props.put(GGITConst.GRAPH_REFERENCE, graphRef);
         props.put(GGITConst.BRANCH, GGITConst.MASTER);
-        Node root = db.createNode(Const.ROOT_LABEL, props);
-        repos.put(graphRef, root);
-        db.updateNode(root, repos);
+        props.put(GGITConst.TIMESTAMP, (new Date()).getTime());
+        this.root = this.db.createNode(GGITConst.PARENT_LABEL, props);
+        return uuid;
+    }
+
+    /** Used to create a new node
+     * @param uuid
+     * @param graphRef
+     * @param branch
+     */
+    public void createNode(String uuid, String graphRef, String branch) {
+        HashMap<String, Object> props = new HashMap<>();
+        props.put(Const.UUID, uuid);
+        props.put(GGITConst.GRAPH_REFERENCE, graphRef);
+        props.put(GGITConst.BRANCH, branch);
+        props.put(GGITConst.TIMESTAMP, (new Date()).getTime());
+        this.db.createNode(GGITConst.CHILD_LABEL, props);
+    }
+
+    /** Used to get the properties of a node
+     * @param uuid
+     */
+    public HashMap<String, Object> readNode(String uuid) {
+        Node node = db.readNode(GGITConst.CHILD_LABEL, uuid);
+        return db.readNodeProperties(node);
+    }
+
+    /** Used to check if the listed "current" node is actually the most current
+     * @param uuid
+     */
+    public long getTimeStamp(String uuid) {
+        return 0;
     }
 
     public void listBranches() {
-        List<Label> labels = db.getLabels();
+        List<Label> labels = this.db.getLabels();
 
         labels.forEach(label -> System.out.println(label.name()));
     }

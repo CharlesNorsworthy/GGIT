@@ -34,6 +34,8 @@ public class GGITConst {
 
     public static final String BRANCH = "branch";
 
+    public static final String TIMESTAMP = "timestamp";
+
     /**
      * Database Labels
      */
