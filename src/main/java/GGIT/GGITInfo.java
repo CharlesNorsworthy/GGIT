@@ -1,7 +1,5 @@
 package GGIT;
 
-import org.apache.commons.cli.Options;
-
 public class GGITInfo {
     public GGITGraph repo;
 

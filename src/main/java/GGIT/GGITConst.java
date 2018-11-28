@@ -30,7 +30,7 @@ public class GGITConst {
     /**
      * Node Properties
      */
-    public static final String GRAPH_REFENECE = "graph_ref";
+    public static final String GRAPH_REFERENCE = "graph_ref";
 
     public static final String BRANCH = "branch";
 

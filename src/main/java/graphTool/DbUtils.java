@@ -9,17 +9,21 @@ import java.util.*;
 
 public class DbUtils
 {
-    private static Node root;
+    private Node root;
 
-    private static GraphDatabaseService graphDb;
+    private GraphDatabaseService graphDb;
 
     public DbUtils(String dbPath) {
         this.connectDatabase(dbPath);
     }
 
     private void connectDatabase(String dbPath) {
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( new File(dbPath));
-        registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
+        try {
+            graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
+            registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
+        } catch(Exception e){
+            System.out.println("ERROR :: " + e.getMessage());
+        }
     }
 
     private static void registerShutdownHook( final GraphDatabaseService graphDb ) {
@@ -43,14 +47,14 @@ public class DbUtils
             }
             else {
                 root = this.graphDb.createNode(Const.ROOT_LABEL);
-                root.setProperty(Const.UUID, UUID.randomUUID());
+                root.setProperty(Const.UUID, UUID.randomUUID().toString());
                 root.setProperty(Const.NAME, "root");
                 System.out.println("New root created.");
             }
             tx.success();
             return root;
         } catch (Exception e) {
-            System.out.println("Unable to create 'root' node for the graph database.");
+            System.out.println("Unable to create 'root' node for the graph database. Msg : " + e.getMessage());
         }
 
         return null;
@@ -435,12 +439,15 @@ public class DbUtils
 
     public List<Label> getLabels() {
         List<Label> labels = new ArrayList<>();
-        ResourceIterable<Label> iter = graphDb.getAllLabels();
-
-        for (Label label : iter) {
-            labels.add(label);
+        try(Transaction tx = graphDb.beginTx()) {
+            ResourceIterable<Label> labelsIterator = graphDb.getAllLabels();
+            for (Label label : labelsIterator) {
+                labels.add(label);
+            }
+            tx.success();
+        } catch (Exception e){
+            System.out.println("ERROR :: " + e.getMessage());
         }
-
         return labels;
     }
 

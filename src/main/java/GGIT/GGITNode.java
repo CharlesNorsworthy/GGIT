@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class GGITNode implements Serializable {
-    private static String graphRef;
+    private String graphRef;
 
-    private static long timeStamp;
+    private long timeStamp;
 
-    private static String branch;
+    private String branch;
 
     public GGITNode() {
         this.graphRef = "C://NEO4J";
