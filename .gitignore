@@ -4,7 +4,13 @@ out/
 .gradle
 *.iml
 build
+<<<<<<< HEAD
 classes
 META-INF
 datastore
+=======
+datastore
+META-INF
+
+>>>>>>> 1fc7d77ebd4bb3e6a90f9c1a40fb089d17adfdc7
 src/main/java/graphTool/client/stuff

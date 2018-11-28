@@ -1,7 +1,6 @@
 package GGIT;
 
 import graphTool.Const;
-import graphTool.DatabaseBuilder;
 import graphTool.DbUtils;
 //import org.jgrapht.graph.DefaultDirectedGraph;
 import org.neo4j.graphdb.Label;
@@ -16,7 +15,7 @@ import java.util.UUID;
 //import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
-public class GGITGraph implements DatabaseBuilder {
+public class GGITGraph{
     DbUtils db;
 
     HashMap<String, Object> repos;
@@ -26,11 +25,6 @@ public class GGITGraph implements DatabaseBuilder {
     public GGITGraph(String dbPath) {
         db = new DbUtils(dbPath);
         root = db.initRoot();
-    }
-
-    @Override
-    public Label getLabel(Relationship rel) {
-        return null;
     }
 
     //Utilize Neo4j to build out GGITGraph

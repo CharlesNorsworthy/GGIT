@@ -7,7 +7,7 @@ import org.neo4j.graphdb.Relationship;
 import java.util.HashMap;
 import java.util.List;
 
-public class DbOps implements DatabaseBuilder{
+public class DbOps{
     DbUtils db;
 
     Node root;
@@ -32,16 +32,6 @@ public class DbOps implements DatabaseBuilder{
         root = db.initRoot(uuid);
     }
 
-    @Override
-    public Label getLabel(Relationship rel) {
-        if (rel == Const.RELATE_ROOT_OBSERVATION) {
-            return Const.OBSERVATION_LABEL;
-        } else if (rel == Const.RELATE_OBSERVATION_KNOWLEDGE){
-            return Const.KNOWLEDGE_LABEL;
-        }
-        throw new IllegalArgumentException("This relationship '" + rel + "' should not exist in the database!");
-    }
-
     public void createObservation(HashMap<String, Object> props) {
         Node obsNode = db.createNode(Const.OBSERVATION_LABEL, props);
         db.createRelationship(root, obsNode, Const.RELATE_ROOT_OBSERVATION);
@@ -63,7 +53,7 @@ public class DbOps implements DatabaseBuilder{
     }
 
     public void deleteObservation(String id) {
-        db.deleteNode(Const.OBSERVATION_LABEL, id, this);
+        db.deleteNode(Const.OBSERVATION_LABEL, id);
     }
 
     public void createKnowledge(String obsId, HashMap<String, Object> props) {
@@ -88,7 +78,7 @@ public class DbOps implements DatabaseBuilder{
     }
 
     public void deleteKnowledge(String id) {
-        db.deleteNode(Const.KNOWLEDGE_LABEL, id, this);
+        db.deleteNode(Const.KNOWLEDGE_LABEL, id);
     }
 
     public HashMap<String, Object> getObservationRelationship(String obsId){
