@@ -126,9 +126,11 @@ public class TestMerge {
         DbOps testGraph1 = createGraph1ForConflictMerge2();
         DbOps testGraph2 = createGraph2ForConflictMerge2();
         DbUtils mergedGraph1 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph1");
-        //DbUtils mergedGraph2 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph2");
+        DbUtils mergedGraph2 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph2");
+        System.out.println("Doing the first merge.");
         Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph1);
-        //Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph2);
+        System.out.println("Doing the second merge.");
+        Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph2);
     }
 
     private static DbOps createAncestorGraphForConflictMerge2(){

@@ -164,7 +164,9 @@ public class DbUtils
                         Node otherNode = rel.getOtherNode(node);
                         node.getRelationships(INCOMING).forEach(relation -> relation.delete());
                         rel.delete();
-                        this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
+                        if(!otherNode.hasRelationship(INCOMING)){ //So you don't delete another node's child
+                            this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
+                        }
                     });
                 }
                 node.delete();
