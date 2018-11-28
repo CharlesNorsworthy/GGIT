@@ -207,14 +207,15 @@ public class GGIT {
             repo = new GGITGraph(graphRef);
             //throw new IllegalArgumentException("A repository must be initialized to be branched.");
         }
-        //else {}
-        if(args.length > 1){
-            String branchName = args[1];
+        //else {
+            if(args.length > 1){
+                String branchName = args[1];
 
-        }
-        else {
-            repo.listBranches();
-        }
+            }
+            else {
+                repo.listBranches();
+            }
+        //}
     }
 
     private static void _pull(String[] args) {
