@@ -18,8 +18,11 @@ public class GGIT {
     //UUID of the node representing the node referring to the most recent update of the graph database.
     private static String currentNode;
 
-    //Reference path to the repository
-    private static String repoPath;
+    //Reference path to the remote repository
+    private static String remoteRepoPath;
+
+    //Reference path to the local repository
+    private static String localRepoPath;
 
     private static GGITGraph repo;
 
@@ -42,7 +45,8 @@ public class GGIT {
                 }
 
                 // get the property value and print it out
-                repoPath = prop.getProperty("repoPath");
+                remoteRepoPath = prop.getProperty("remoteRepoPath");
+                localRepoPath = prop.getProperty("localRepoPath");
                 currentNode = prop.getProperty("currentNode");
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
@@ -55,7 +59,8 @@ public class GGIT {
         private void setPropValues(String propFileName) {
             try {
                 Properties properties = new Properties();
-                properties.setProperty("repoPath", (repoPath == null ? "null" : repoPath));
+                properties.setProperty("remoteRepoPath", (remoteRepoPath == null ? "null" : remoteRepoPath));
+                properties.setProperty("localRepoPath", (localRepoPath == null ? "null" : localRepoPath));
                 properties.setProperty("currentNode", (currentNode == null ? "null" : currentNode));
 
                 File file = new File(propFileName);
@@ -141,14 +146,14 @@ public class GGIT {
             Scanner input = new Scanner(System.in);
 
             System.out.println("Enter a location for the new repository to exist (y for this directory):");
-            repoPath = input.nextLine();
-            if (repoPath.equals("y") || repoPath.equals("Y")) {
-                repoPath = Paths.get(System.getProperty("user.dir"), "/graph.db").toString();
+            remoteRepoPath = input.nextLine();
+            if (remoteRepoPath.equals("y") || remoteRepoPath.equals("Y")) {
+                remoteRepoPath = Paths.get(System.getProperty("user.dir"), "/graph.db").toString();
             }
             if (args.length > 1) {
                 graphRef = args[1];
                 try {
-                    repo = new GGITGraph(repoPath);
+                    repo = new GGITGraph(remoteRepoPath);
                     currentNode = repo.initRepo(graphRef);
                     System.out.println("A repo was successfully initialized!");
                 } catch(Exception e) {
@@ -214,7 +219,11 @@ public class GGIT {
     }
 
     private static void _remote(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        if (repo != null) {
+            if (args.length > 1) {
+                remoteRepoPath = args[1];
+            }
+        }
     }
 
     private static void _checkout(String[] args) {
@@ -263,7 +272,7 @@ public class GGIT {
             GGITConfigValues config = new GGITConfigValues();
             try {
                 config.getPropValues(path);
-                repo = new GGITGraph(repoPath);
+                repo = new GGITGraph((localRepoPath == null ? remoteRepoPath : localRepoPath));
             } catch (IOException e) {
                 System.out.println("IOException :: " + e);
             }
