@@ -2,27 +2,28 @@ package GGIT;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
+import org.neo4j.graphdb.Label;
 
 /** GGIT.GGIT is the driver class for this Graph Database Version Control System
  * Command line input drives this class
  */
 public class GGIT {
+    //Current branch of the repository
+    private static String currentBranch;
+
     //UUID of the node representing the node referring to the most recent update of the graph database.
     private static String currentNode;
 
-    //Reference path to the remote repository
-    private static String remoteRepoPath;
-
     //Reference path to the local repository
     private static String localRepoPath;
+
+    //Reference path to the remote repository
+    private static String remoteRepoPath;
 
     private static GGITGraph repo;
 
@@ -34,6 +35,9 @@ public class GGIT {
 
         private String getPropValues(String propFileName) throws IOException {
             try {
+//                List<String> result = new LinkedList<>();
+//                String value;
+
                 Properties prop = new Properties();
 
                 inputStream = new FileInputStream(propFileName);
@@ -48,6 +52,11 @@ public class GGIT {
                 remoteRepoPath = prop.getProperty("remoteRepoPath");
                 localRepoPath = prop.getProperty("localRepoPath");
                 currentNode = prop.getProperty("currentNode");
+                currentBranch = prop.getProperty("currentBranch");
+
+//                for(int i = 0; (value = prop.getProperty(key + "." + i)) != null; i++) {
+//                    result.add(value);
+//                }
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             } finally {
@@ -62,6 +71,8 @@ public class GGIT {
                 properties.setProperty("remoteRepoPath", (remoteRepoPath == null ? "null" : remoteRepoPath));
                 properties.setProperty("localRepoPath", (localRepoPath == null ? "null" : localRepoPath));
                 properties.setProperty("currentNode", (currentNode == null ? "null" : currentNode));
+                properties.setProperty("currentBranch", (currentBranch == null ? "null" : currentBranch));
+
 
                 File file = new File(propFileName);
                 FileOutputStream fileOut = new FileOutputStream(file);
@@ -110,7 +121,7 @@ public class GGIT {
                         _checkout(args);
                         break;
                     case "branch":
-                        _branch(args);
+                        _branch();
                         break;
                     case "pull":
                         _pull(args);
@@ -155,6 +166,7 @@ public class GGIT {
                 try {
                     repo = new GGITGraph(remoteRepoPath);
                     currentNode = repo.initRepo(graphRef);
+                    currentBranch = GGITConst.MASTER;
                     System.out.println("A repo was successfully initialized!");
                 } catch(Exception e) {
                     System.out.println("FAILED to initialize a repo.");
@@ -168,16 +180,20 @@ public class GGIT {
         }
     }
 
+    /**
+     * Copies the "remote" repository to the given path for the "local" repository
+     * @param args
+     */
     private static void _clone(String[] args) {
-        if (args.length > 1) {
-            File repoRef = new File(args[1]);
+        if (remoteRepoPath != null) {
+            File repoRef = new File(remoteRepoPath);
             if (repoRef.isDirectory()) {
-                File copyToRef;
-                if (args.length > 2) {
-                    copyToRef = new File(args[2]);
+                if (args.length > 1) {
+                    localRepoPath = args[1];
                 } else {
-                    copyToRef = new File(System.getProperty("user.dir"));
+                    localRepoPath = System.getProperty("user.dir");
                 }
+                File copyToRef = new File(localRepoPath);
                 if (!copyToRef.exists()) {
                     copyToRef.mkdir();
                 }
@@ -194,6 +210,10 @@ public class GGIT {
         }
     }
 
+    /**
+     * Does nothing because Nathan hasn't done anything!
+     * @param args
+     */
     private static void _commit(String[] args) {
         File zipDir;
         if (args.length > 1) {
@@ -207,6 +227,10 @@ public class GGIT {
         throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
     }
 
+    /**
+     * Displays the properties of the "current" node in the repository
+     * @param args
+     */
     private static void _status(String[] args) {
         if (repo != null) {
             HashMap<String, Object> props = repo.readNode(currentNode);
@@ -218,6 +242,10 @@ public class GGIT {
         }
     }
 
+    /**
+     * Changes the remote repository to the given reference
+     * @param args
+     */
     private static void _remote(String[] args) {
         if (repo != null) {
             if (args.length > 1) {
@@ -226,19 +254,36 @@ public class GGIT {
         }
     }
 
+    /**
+     * Switches the "current" node of the repository to the given branch
+     * @param args
+     */
     private static void _checkout(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        if (repo != null) {
+            if (args.length > 1) {
+                currentBranch = args[1];
+                currentNode = repo.getCurrNode(currentBranch);
+            }
+        }
     }
 
-    private static void _branch(String[] args) {
-        if(repo == null) {
+    /**
+     * Lists available branches
+     */
+    private static void _branch() {
+        if (repo == null) {
             throw new IllegalArgumentException("A repository must be initialized to be branched.");
         }
-        repo.listBranches();
+        List<Label> labels = repo.getLabels();
+        for (Label label : labels) {
+            System.out.println(label.name());
+        }
     }
 
     private static void _pull(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        if (repo != null) {
+
+        }
     }
 
     private static void _merge(String[] args) {
