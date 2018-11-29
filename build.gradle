@@ -16,6 +16,13 @@ ext{
     classpath = files(sourceSets.main.output.files, "build/classes/java/main")
 }
 
+clean.doFirst {
+    delete (System.getProperty("user.dir") + "/null",
+        System.getProperty("user.dir") + "/repositories",
+        System.getProperty("user.dir") + "/config.properties"
+    )
+}
+
 configurations {
     // configuration that holds jars to include in the jar
     extraLibs

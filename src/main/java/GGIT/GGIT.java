@@ -2,6 +2,7 @@ package GGIT;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -127,6 +128,7 @@ public class GGIT {
                     case "reset":
                         _reset(args);
                         break;
+                    case "help":
                     default:
                         _no_command();
                 }
@@ -152,8 +154,14 @@ public class GGIT {
             System.out.println("Enter a location for the new repository to exist (y for this directory):");
             remoteRepoPath = input.nextLine();
             if (remoteRepoPath.equals("y") || remoteRepoPath.equals("Y")) {
-                remoteRepoPath = Paths.get(System.getProperty("user.dir"), "/graph.db").toString();
+                remoteRepoPath = "\\C:\\Users\\the88\\Desktop\\CMPS411\\GGIT\\repositories\\remote";//System.getProperty("user.dir") + "\\repository";
+                System.out.println(remoteRepoPath);
             }
+            File remote = new File(remoteRepoPath);
+            if (!remote.exists()) {
+                remote.mkdir();
+            }
+
             if (args.length > 1) {
                 graphRef = args[1];
                 try {
@@ -162,11 +170,11 @@ public class GGIT {
                     currentBranch = GGITConst.MASTER;
                     System.out.println("A repo was successfully initialized!");
                 } catch(Exception e) {
-                    System.out.println("FAILED to initialize a repo.");
+                    System.out.println("FAILED to initialize a repo. " + e.toString());
                 }
 
             } else {
-                throw new IllegalArgumentException("You must specify a location to initialize the repository!");
+                throw new IllegalArgumentException("You must specify a graph reference to initialize in the repository!");
             }
         } else {
             throw new IllegalArgumentException("There is already a repository that exists.");
@@ -209,29 +217,25 @@ public class GGIT {
      * @param args
      */
     private static void _commit(String[] args) {
-        String versionsPath = Paths.get(localRepoPath, "_versions").toString();
+        String versionsPath = Paths.get(System.getProperty("user.dir"), "\\repositories\\local\\_versions").toString();
         File versionsDir = new File(versionsPath);
-        HashMap<String, Object> currentGraph = repo.readNode(currentNode);
+        HashMap<String, Object> currentGraph = repo.readNode(currentNode, currentBranch);
         File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
 
         String message = "";
         if(args.length > 1){
-            StringBuilder msg = new StringBuilder();
-            for (String arg : args) {
-                msg.append(arg).append(" ");
-            }
-            message = msg.toString().trim();
+            message = args[1];
+        }
+
+        if (!versionsDir.exists()){
+            versionsDir.mkdir();
         }
 
         if (versionsDir.isDirectory()){
-            if (!versionsDir.exists()){
-                versionsDir.mkdir();
-            }
-
             if (dbSnapshot.isDirectory()) {
                 try {
                     repo.closeGraph();
-                    FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
+                    FileOutputStream fos = new FileOutputStream(versionsDir + "\\" + currentNode + ".zip");
                     ZipOutputStream zipOut = new ZipOutputStream(fos);
                     zipFile(dbSnapshot, currentNode + ".zip", zipOut);
                     zipOut.close();
@@ -241,9 +245,15 @@ public class GGIT {
                 }
             }
 
-            if(new File(Paths.get(versionsPath, currentNode).toString()).exists()){
+            if (new File(Paths.get(versionsPath, currentNode).toString()).exists()){
                 String graphRef = currentGraph.get(GGITConst.GRAPH_REFERENCE).toString();
                 String branch = currentGraph.get(GGITConst.BRANCH).toString();
+                if (args.length > 2) {
+                    graphRef = args[2];
+                    if (args.length > 3) {
+                        branch = args[3];
+                    }
+                }
                 String previousNode = repo.getCurrNode(branch);
                 currentNode = repo.addNode(graphRef, branch, message, previousNode);
 
@@ -273,10 +283,17 @@ public class GGIT {
      */
     private static void _status(String[] args) {
         if (repo != null) {
-            HashMap<String, Object> props = repo.readNode(currentNode);
+            HashMap<String, Object> props = repo.readNode(currentNode, currentBranch);
             System.out.println("Displaying current node of repository:");
             for (String key: props.keySet()){
-                String value = props.get(key).toString();
+                String value;
+                if (key.equals(GGITConst.TIMESTAMP)) {
+                    Date date = new Date();
+                    date.setTime((long) props.get(key));
+                    value = new SimpleDateFormat("MM/dd/yy HH:mm:ss").format(date);
+                } else {
+                    value = props.get(key).toString();
+                }
                 System.out.println(key + ": " + value);
             }
         }
@@ -301,8 +318,26 @@ public class GGIT {
     private static void _checkout(String[] args) {
         if (repo != null) {
             if (args.length > 1) {
-                currentBranch = args[1];
-                currentNode = repo.getCurrNode(currentBranch);
+                //branch
+                String branch = args[1];
+                if (repo.doesBranchExist(branch)) {
+                    currentBranch = branch;
+                    currentNode = repo.getCurrNode(branch);
+                } else {
+                    String[] params  = new String[4];
+                    //command
+                    params[0] = args[0];
+                    params[3] = args[1];
+                    if (args.length > 2) {
+                        //message
+                        params[1] = args[2];
+                        if (args.length > 3) {
+                            //graphRef
+                            params[2] = args[3];
+                        }
+                    }
+                    _commit(params);
+                }
             }
         }
     }
@@ -359,12 +394,12 @@ public class GGIT {
      */
     private static void _reset(String[] args) {
         Label label = Label.label(currentBranch);
-        if(repo.IsStartOfBranch(label, currentNode) && !currentBranch.equals(GGITConst.MASTER)){
+        if(repo.isStartOfBranch(label, currentNode) && !currentBranch.equals(GGITConst.MASTER)){
             if(repo.getCurrNode(currentBranch) != currentNode ) {
                 repo.removeNode(label, currentNode);
                 currentNode = repo.getCurrNode(currentBranch);
             }
-        } else if(repo.IsStartOfBranch(label, currentNode)){
+        } else if(repo.isStartOfBranch(label, currentNode)){
             //Are you sure you want to get rid of root for Master?
         }
     }
@@ -384,14 +419,16 @@ public class GGIT {
             GGITConfigValues config = new GGITConfigValues();
             try {
                 config.getPropValues(path);
-                repo = new GGITGraph((localRepoPath == null ? remoteRepoPath : localRepoPath));
+                if (!remoteRepoPath.equals("null")) {
+                    repo = new GGITGraph((localRepoPath == null ? remoteRepoPath : localRepoPath));
+                }
             } catch (IOException e) {
                 System.out.println("IOException :: " + e);
             }
             return true;
         } else {
-            if (args.length > 1) {
-                if (args[0].equals("init") || args[0].equals("clone")) {
+            if (args.length > 0) {
+                if (args[0].equals("init") || args[0].equals("clone") || args[0].equals("help") || args[0].equals("")) {
                     return true;
                 } else {
                     return false;

@@ -2,7 +2,6 @@ package GGIT;
 
 import graphTool.Const;
 import graphTool.DbUtils;
-//import org.jgrapht.graph.DefaultDirectedGraph;
 import org.neo4j.driver.v1.exceptions.DatabaseException;
 import org.neo4j.graphdb.*;
 
@@ -75,8 +74,8 @@ public class GGITGraph{
      * Used to get the properties of a node
      * @param uuid
      */
-    public HashMap<String, Object> readNode(String uuid) {
-        Node node = this.db.readNode(GGITConst.CHILD_LABEL, uuid);
+    public HashMap<String, Object> readNode(String uuid, String branch) {
+        Node node = this.db.readNode(Label.label(branch), uuid);
         return this.db.readNodeProperties(node);
     }
 
@@ -120,12 +119,32 @@ public class GGITGraph{
     }
 
     /**
+     * Returns true if specified branch exists in the repository.
+     * @param branch
+     * @return
+     */
+    public boolean doesBranchExist(String branch) {
+        boolean branchExists = false;
+        if (this.db != null) {
+            List<Label> labels = this.db.getLabels();
+            for (Label label : labels) {
+                if (label.name().equals(branch)) {
+                    branchExists = true;
+                }
+            }
+        } else {
+            throw new DatabaseException("400", "Database not initialized");
+        }
+        return branchExists;
+    }
+
+    /**
      * Returns true if specified node is the first node in a specified branch. Will return true for root.
      * @param branch
      * @param uuid
      * @return
      */
-    public boolean IsStartOfBranch(Label branch, String uuid){
+    public boolean isStartOfBranch(Label branch, String uuid){
         Node node = db.readNode(branch, uuid);
         if (node == null) {
             throw new IllegalArgumentException("There are no nodes in the repository on branch '" + branch + "'");
@@ -166,65 +185,4 @@ public class GGITGraph{
     public void closeGraph(){
         this.db.dispose();
     }
-
-//    private static GGITNode root = null;
-//
-//    private static DefaultDirectedGraph<GGITNode, GGITEdge> graph;
-//
-//    public GGITGraph() {}
-//
-//    public GGITGraph(String graphRef, String branch) {
-//        try {
-//            Supplier<GGITNode> nodeSupplier = () -> new GGITNode();
-//            Supplier<GGITEdge> edgeSupplier = () -> new GGITEdge();
-//            graph = new DefaultDirectedGraph(nodeSupplier, edgeSupplier, false);
-//            root = makeNode(graphRef, GGITConst.MASTER);
-//        } catch (IllegalArgumentException e) {
-//            System.out.println(e);
-//        }
-//    }
-//
-//    public GGITNode makeNode(String graphRef, String branch) {
-//        try {
-//            GGITNode node = new GGITNode(graphRef, branch);
-//            if (!graph.addVertex(node)) {
-//                throw new Exception("Could not create a node for graph!");
-//            }
-//            if (root != null) {
-//                this.connectNodes(root, node);
-//            }
-//            return node;
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//        return null;
-//    }
-//
-//    public void connectNodes(GGITNode from, GGITNode to) {
-//        try {
-//            graph.addEdge(from, to);
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//    }
-//
-//    public GGITNode getNode(String graphRef, String branch) {
-//        GGITNode rNode;
-//        Set<GGITNode> nodes = graph.vertexSet();
-//        for (GGITNode node : nodes) {
-//            if (node.getGraphRef().equals(graphRef)) {
-//                rNode = node;
-//                return rNode;
-//            }
-//        }
-//        throw new IllegalArgumentException("The there is no node for '" + graphRef +"'");
-//    }
-//
-//    public DefaultDirectedGraph<GGITNode, GGITEdge> cloneGraph() {
-//        return (DefaultDirectedGraph<GGITNode, GGITEdge>) graph.clone();
-//    }
-//
-//    public boolean containsNode(GGITNode node) {
-//        return graph.containsVertex(node);
-//    }
 }

@@ -4,6 +4,7 @@ import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static org.neo4j.graphdb.Direction.INCOMING;
@@ -51,6 +52,26 @@ public class DbUtils
             else {
                 root = this.graphDb.createNode(Const.ROOT_LABEL);
                 root.setProperty(Const.UUID, UUID.randomUUID().toString());
+                root.setProperty(Const.NAME, "root");
+                System.out.println("New root created.");
+            }
+            tx.success();
+            return root;
+        } catch (Exception e) {
+            System.out.println("Unable to create 'root' node for the graph database. Msg : " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public Node initRoot(String uuid) {
+        try (Transaction tx = graphDb.beginTx()) {
+            if(graphDb.findNodes(Const.ROOT_LABEL).hasNext()){
+                root = graphDb.findNodes(Const.ROOT_LABEL).next();
+            }
+            else {
+                root = this.graphDb.createNode(Const.ROOT_LABEL);
+                root.setProperty(Const.UUID, uuid);
                 root.setProperty(Const.NAME, "root");
                 System.out.println("New root created.");
             }
@@ -116,7 +137,7 @@ public class DbUtils
                 try {
                     Node node = nodeIterator.next();
                     nodes.add(node);
-                    System.out.println("Found " + label.name() + " node with id = " + node.getProperty(Const.UUID));
+//                    System.out.println("Found " + label.name() + " node with id = " + node.getProperty(Const.UUID));
                 } catch (Exception e){
                     System.out.println("ERROR :: " + e.getMessage());
                 }
@@ -180,7 +201,7 @@ public class DbUtils
                         }
                     });
                 }
-                System.out.println("Deleting node { id: " + current.getProperties(Const.UUID) + " , name: " + current.getProperties(Const.NAME ) + "}");
+//                System.out.println("Deleting node { id: " + current.getProperties(Const.UUID) + " , name: " + current.getProperties(Const.NAME ) + "}");
                 try {
                     current.delete();
                 }
@@ -232,9 +253,9 @@ public class DbUtils
         try(Transaction tx = graphDb.beginTx()){
             node.getRelationships().iterator().forEachRemaining(rel ->{
                 try {
-                    System.out.println("Found relationship " + rel.getType().name() + " between " + rel.getStartNode().getLabels().toString()
-                            + " node {id: " + (rel.getStartNode().getProperty(Const.UUID)) + " } and " + rel.getEndNode().getLabels().toString()
-                            + " node {id: " + (rel.getEndNode().getProperty(Const.UUID)) + " }.");
+//                    System.out.println("Found relationship " + rel.getType().name() + " between " + rel.getStartNode().getLabels().toString()
+//                            + " node {id: " + (rel.getStartNode().getProperty(Const.UUID)) + " } and " + rel.getEndNode().getLabels().toString()
+//                            + " node {id: " + (rel.getEndNode().getProperty(Const.UUID)) + " }.");
                     rels.add(rel);
                 }
                 catch(Exception e){
@@ -256,9 +277,9 @@ public class DbUtils
         {
             graphDb.getAllRelationships().iterator().forEachRemaining(rel -> {
                 try {
-                    System.out.println("Found relationship " + rel.getType().name() + " between " + rel.getStartNode().getLabels().toString()
-                            + " node {id: " + (rel.getStartNode().getProperty(Const.UUID)) + " } and " + rel.getEndNode().getLabels().toString()
-                            + " node {id: " + (rel.getEndNode().getProperty(Const.UUID)) + " }.");
+//                    System.out.println("Found relationship " + rel.getType().name() + " between " + rel.getStartNode().getLabels().toString()
+//                            + " node {id: " + (rel.getStartNode().getProperty(Const.UUID)) + " } and " + rel.getEndNode().getLabels().toString()
+//                            + " node {id: " + (rel.getEndNode().getProperty(Const.UUID)) + " }.");
                     rels.add(rel);
                 }
                 catch(Exception e){
