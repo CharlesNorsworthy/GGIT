@@ -3,14 +3,14 @@ package graphTool;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.*;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class DbOps{
     DbUtils db;
 
-    Node root;
+    private Node root;
 
     /** DbOps Constructor
      *  The user must enter in a path for the database to be initialized.
@@ -30,6 +30,19 @@ public class DbOps{
     public DbOps(String dbPath, String uuid) {
         db = new DbUtils(dbPath);
         root = db.initRoot(uuid);
+    }
+
+    public Label getLabel(Relationship rel) {
+        if (rel == Const.RELATE_ROOT_OBSERVATION) {
+            return Const.OBSERVATION_LABEL;
+        } else if (rel == Const.RELATE_OBSERVATION_KNOWLEDGE){
+            return Const.KNOWLEDGE_LABEL;
+        }
+        throw new IllegalArgumentException("This relationship '" + rel + "' should not exist in the database!");
+    }
+
+    public DbUtils getDb() {
+        return db;
     }
 
     public void createObservation(HashMap<String, Object> props) {
@@ -62,6 +75,14 @@ public class DbOps{
         db.createRelationship(obsNode, knowNode, Const.RELATE_OBSERVATION_KNOWLEDGE);
     }
 
+    public void createKnowledge(ArrayList<String> obsIds, HashMap<String, Object> props) {
+        Node knowNode = db.createNode(Const.KNOWLEDGE_LABEL, props);
+        for(String id: obsIds){
+            Node obsNode = db.readNode(Const.OBSERVATION_LABEL, id);
+            db.createRelationship(obsNode, knowNode, Const.RELATE_OBSERVATION_KNOWLEDGE);
+        }
+    }
+
     public HashMap<String, Object> getKnowledge(String id) {
         Node node = db.readNode(Const.KNOWLEDGE_LABEL, id);
         return db.readNodeProperties(node);
@@ -79,6 +100,58 @@ public class DbOps{
 
     public void deleteKnowledge(String id) {
         db.deleteNode(Const.KNOWLEDGE_LABEL, id);
+    }
+
+    public void deleteNode(Label label, String id){db.deleteNode(label, id);}
+
+    public String getNodeID(Node node){
+        return db.getNodeID(node);
+    }
+
+    public Node getNodeByID(Object value){
+        return db.getNodeByID(value);
+    }
+
+    public Label getNodeLabel(Node node){return db.getNodeLabel(node);}
+
+    public void putNodeInGraph(Label label, HashMap<String, Object> props){
+        db.putNodeInGraph(label, props);
+    }
+
+    public ArrayList<String> getAllIDs(){
+        return db.getAllIDs();
+    }
+
+    public ResourceIterator<Node> getAllNodesIterator(){
+        return db.getAllNodesIterator();
+    }
+
+    public Iterator<Relationship> getRelationshipIterator(Node node){
+        return db.getRelationshipIterator(node);
+    }
+
+    public Iterator<String> getPropertyKeysIterator(Node node){
+        return db.getPropertyKeysIterator(node);
+    }
+
+    public String getPropertyAsString(Node node, String key){return db.getPropertyAsString(node, key);}
+
+    public void setProperty(Node node, String key, String property){db.setProperty(node, key, property);}
+
+    public RelationshipType getRelationshipType(Relationship relationship){
+        return db.getRelationshipType(relationship);
+    }
+
+    public Node[] getRelationshipNodes(Relationship relationship){
+        return db.getRelationshipNodes(relationship);
+    }
+
+    public Relationship getRelationshipBetween(Node startNode, String endNodeId){
+        return db.getRelationshipBetween(startNode, endNodeId);
+    }
+
+    public void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
+        db.createRelationshipBetween(node1, node2, relType);
     }
 
     public HashMap<String, Object> getObservationRelationship(String obsId){

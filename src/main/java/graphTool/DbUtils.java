@@ -6,6 +6,9 @@ import org.neo4j.graphdb.factory.*;
 import java.io.File;
 import java.util.*;
 
+import static org.neo4j.graphdb.Direction.INCOMING;
+import static org.neo4j.graphdb.Direction.OUTGOING;
+
 
 public class DbUtils
 {
@@ -146,10 +149,13 @@ public class DbUtils
             Node node = graphDb.findNode(label, Const.UUID, id);
             if(node != null) {
                 if (node.hasRelationship()) {
-                    node.getRelationships().forEach(rel -> {
+                    node.getRelationships(OUTGOING).forEach(rel -> {
                         Node otherNode = rel.getOtherNode(node);
-                        this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
+                        node.getRelationships(INCOMING).forEach(relation -> relation.delete());
                         rel.delete();
+                        if(!otherNode.hasRelationship(INCOMING)){ //So you don't delete another node's child
+                            this.deleteNode(otherNode.getLabels().iterator().next(), (String) otherNode.getProperty(Const.UUID));
+                        }
                     });
                 }
                 node.delete();
@@ -431,6 +437,152 @@ public class DbUtils
             System.out.println("ERROR :: " + e.getMessage());
         }
         return labels;
+    }
+
+    public Label getNodeLabel(Node node){
+        Label label;
+        try(Transaction tx = graphDb.beginTx()){
+            //There should only be one label per node
+            label = node.getLabels().iterator().next();
+            tx.success();
+        }
+        return label;
+    }
+
+    public String getNodeID(Node node){
+        String ID;
+        try(Transaction tx = graphDb.beginTx()){
+            ID = node.getProperty(Const.UUID).toString();
+            tx.success();
+        }
+        return ID;
+    }
+
+    public Node getNodeByID(Object value){
+        ResourceIterator<Node> graphNodesIterator = getAllNodesIterator();
+        Node currentNode;
+        try(Transaction tx = graphDb.beginTx()){
+            while(graphNodesIterator.hasNext()) {
+                currentNode = graphNodesIterator.next();
+                String currentKey = currentNode.getProperty(Const.UUID).toString();
+                if (currentKey.equals(value)) {
+                    return currentNode;
+                }
+            }
+            tx.success();
+        }
+        return null;
+    }
+
+    public void putNodeInGraph(Label label, HashMap<String, Object> properties){
+        try(Transaction tx = graphDb.beginTx()){
+            Node newNode = graphDb.createNode();
+            for(String key: properties.keySet()){
+                newNode.setProperty(key, properties.get(key));
+            }
+            newNode.addLabel(label);
+            tx.success();
+        }
+    }
+
+    public ResourceIterator<Node> getAllNodesIterator(){
+        ResourceIterator<Node> allIterableNodes;
+        try(Transaction tx = graphDb.beginTx()){
+            ResourceIterable<Node> iterable = graphDb.getAllNodes();
+            allIterableNodes = iterable.iterator();
+            tx.success();
+        }
+        return allIterableNodes;
+    }
+
+    public ArrayList<String> getAllIDs(){
+        ResourceIterator<Node> nodesItr = getAllNodesIterator();
+        String currentId;
+        ArrayList<String> allIds = new ArrayList<>();
+        try(Transaction tx = graphDb.beginTx()){
+            while(nodesItr.hasNext()){
+                Node node = nodesItr.next();
+                currentId = node.getProperty(Const.UUID).toString();
+                allIds.add(currentId);
+            }
+            tx.success();
+        }
+        return allIds;
+    }
+
+    public Iterator<Relationship> getRelationshipIterator(Node node){
+        Iterator<Relationship> relsIterator;
+        try(Transaction tx = graphDb.beginTx()){
+            Iterable<Relationship> rels = node.getRelationships();
+            relsIterator = rels.iterator();
+            tx.success();
+        }
+        return relsIterator;
+    }
+
+    public Iterator<String> getPropertyKeysIterator(Node node){
+        Iterator<String> keysIterator;
+        try(Transaction tx = graphDb.beginTx()){
+            Iterable<String> keys = node.getPropertyKeys();
+            keysIterator = keys.iterator();
+            tx.success();
+        }
+        return keysIterator;
+    }
+
+    public String getPropertyAsString(Node node, String key){
+        String property;
+        try(Transaction tx = graphDb.beginTx()){
+            property = node.getProperty(key).toString();
+            tx.success();
+        }
+        return property;
+    }
+
+    public void setProperty(Node node, String key, String property){
+        try(Transaction tx = graphDb.beginTx()){
+            node.setProperty(key, property);
+            tx.success();
+        }
+    }
+
+    public RelationshipType getRelationshipType(Relationship relationship){
+        RelationshipType relType;
+        try(Transaction tx = graphDb.beginTx()){
+            //TODO: incorporate with constants
+            relType = relationship.getType();
+            tx.success();
+        }
+        return relType;
+    }
+
+    public Node[] getRelationshipNodes(Relationship relationship){
+        Node[] relationshipNodes;
+        try(Transaction tx = graphDb.beginTx()){
+            relationshipNodes = relationship.getNodes();
+            tx.success();
+        }
+        return relationshipNodes;
+    }
+
+    //From https://stackoverflow.com/questions/27233978/java-neo4j-check-if-a-relationship-exist
+    public Relationship getRelationshipBetween(Node startNode, String endNodeId){
+        try(Transaction tx = graphDb.beginTx()){
+            for (Relationship rel : startNode.getRelationships()){ // n1.getRelationships(type,direction)
+                String otherNodeId = getNodeID(rel.getOtherNode(startNode));
+                if (otherNodeId.equals(endNodeId)) return rel;
+            }
+            tx.success();
+            return null;
+        }
+    }
+
+    public void createRelationshipBetween(Node node1, Node node2, RelationshipType relType){
+        try(Transaction tx = graphDb.beginTx()){
+            Relationship rel = node1.createRelationshipTo(node2, relType);
+            //rel.setProperty("T", "test");
+            tx.success();
+        }
     }
 
     public void dispose(){
