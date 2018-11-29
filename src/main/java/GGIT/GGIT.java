@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import VersionControl.Merge;
+import graphTool.DbUtils;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
@@ -212,7 +214,6 @@ public class GGIT {
         String versionsPath = Paths.get(localRepoPath, "_versions").toString();
         File versionsDir = new File(versionsPath);
         HashMap<String, Object> currentGraph = repo.readNode(currentNode);
-        File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
 
         String message = "";
         if(args.length > 1){
@@ -228,18 +229,7 @@ public class GGIT {
                 versionsDir.mkdir();
             }
 
-            if (dbSnapshot.isDirectory()) {
-                try {
-                    repo.closeGraph();
-                    FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
-                    ZipOutputStream zipOut = new ZipOutputStream(fos);
-                    zipFile(dbSnapshot, currentNode + ".zip", zipOut);
-                    zipOut.close();
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            createDbSnapshot(currentGraph);
 
             if(new File(Paths.get(versionsPath, currentNode).toString()).exists()){
                 String graphRef = currentGraph.get(GGITConst.GRAPH_REFERENCE).toString();
@@ -336,7 +326,18 @@ public class GGIT {
      * @param args
      */
     private static void _merge(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        if(args.length > 1) {
+            String message = "Merged " + args[1] + " with "+ (args.length > 2 ? args[2] : "master");
+            String branch1Node = repo.getCurrNode(args[1]); String branch2Node = repo.getCurrNode((args.length > 2 ? args[2] : GGITConst.MASTER));
+            String preMergeB1 = createDbSnapshot(repo.readNode(branch1Node)); String preMergeB2 = createDbSnapshot(repo.readNode(branch2Node));
+            _checkout(args);
+
+            GGITGraph graph1 = new GGITGraph(preMergeB1);
+            GGITGraph graph2 = new GGITGraph(preMergeB2);
+            Merge.mergeNaively(graph1.db, graph2.db, repo.db);
+            graph1.closeGraph(); graph2.closeGraph();
+            _commit(new String[]{ message });
+        }
     }
 
     /**
@@ -437,5 +438,22 @@ public class GGIT {
             zipOut.write(bytes, 0, length);
         }
         fis.close();
+    }
+
+    private static String createDbSnapshot(HashMap<String, Object> currentGraph){
+        File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
+        if (dbSnapshot.isDirectory()) {
+            try {
+                repo.closeGraph();
+                FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
+                ZipOutputStream zipOut = new ZipOutputStream(fos);
+                zipFile(dbSnapshot, currentNode + ".zip", zipOut);
+                zipOut.close();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return currentNode + ".zip";
     }
 }
