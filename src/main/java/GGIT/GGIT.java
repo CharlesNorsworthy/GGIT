@@ -235,10 +235,10 @@ public class GGIT {
             versionsDir.mkdir();
         }
 
-        if (versionsDir.isDirectory()){
-            String snapshotDir = createDbSnapshot(currentGraph);
-
-            if (new File(Paths.get(versionsPath, currentNode).toString()).exists()){
+//        if (versionsDir.isDirectory()){
+            String snapshotDir = createDbSnapshot(currentGraph, versionsDir);
+        File zipped = new File(Paths.get(versionsPath, currentNode + ".zip").toString());
+            if (zipped.exists()){
                 repo.updateNodeGraphRef(currentBranch, currentNode, snapshotDir);
 
                 String graphRef = currentGraph.get(GGITConst.GRAPH_REFERENCE).toString();
@@ -250,13 +250,14 @@ public class GGIT {
                         branch = args[3];
                     }
                 }
+                System.out.println(graphRef + " " + branch + " " + message + " " + previousNode);
                 currentNode = repo.addNode(graphRef, branch, message, previousNode);
 
                 System.out.println("[ " + branch + "] " + currentNode + "  commit: " + message);
             }
-        } else {
-            System.out.println("Cannot locate '_versions' directory  in the local repository path : " + localRepoPath);
-        }
+//        } else {
+//            System.out.println("Cannot locate '_versions' directory  in the local repository path : " + localRepoPath);
+//        }
     }
 
     /**
@@ -424,7 +425,7 @@ public class GGIT {
         HelpFormatter formatter = new HelpFormatter();
 
         final PrintWriter writer = new PrintWriter(System.out);
-        formatter.printUsage(writer,80,"GGIT", options);
+        formatter.printHelp("GGIT", options, true);
         writer.flush();
     }
 
@@ -493,7 +494,7 @@ public class GGIT {
     }
 
     private static String createDbSnapshot(HashMap<String, Object> currentGraph){
-        String versionsPath = Paths.get(System.getProperty("user.dir"), "\\repositories\\local\\_versions").toString();
+        String versionsPath = Paths.get(System.getProperty("user.dir"), "\\repositories\\local\\_versions", currentNode, ".zip").toString();
         File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
         if (dbSnapshot.isDirectory()) {
             try {
@@ -501,7 +502,7 @@ public class GGIT {
                 FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
                 //Big DOODOO , much TODO
-                zipFile(new File(versionsPath)/*dbSnapshot*/, currentNode + ".zip", zipOut);
+                zipFile(dbSnapshot, versionsPath + currentNode + ".zip", zipOut);
                 zipOut.close();
                 fos.close();
             } catch (IOException e) {
@@ -509,5 +510,24 @@ public class GGIT {
             }
         }
         return versionsPath + "\\" + currentNode;
+    }
+
+    private static String createDbSnapshot(HashMap<String, Object> currentGraph, File versionsDir){
+//        String versionsPath = Paths.get(System.getProperty("user.dir"), "\\repositories\\local\\_versions", currentNode, ".zip").toString();
+        File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
+        if (dbSnapshot.isDirectory()) {
+            try {
+                repo.closeGraph();
+                FileOutputStream fos = new FileOutputStream(versionsDir + "\\" + currentNode + ".zip");
+                ZipOutputStream zipOut = new ZipOutputStream(fos);
+                //Big DOODOO , much TODO
+                zipFile(dbSnapshot, currentNode + ".zip", zipOut);
+                zipOut.close();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return versionsDir + "\\" + currentNode + ".zip";
     }
 }

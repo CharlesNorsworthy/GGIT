@@ -229,6 +229,18 @@ public class DbUtils
         }
     }
 
+    public boolean checkOutgoingRelationship(Node node) {
+        try(Transaction tx = graphDb.beginTx()) {
+            return node.hasRelationship(OUTGOING);
+        }
+    }
+
+    public boolean checkIncomingRelationship(Node node) {
+        try(Transaction tx = graphDb.beginTx()) {
+            return node.hasRelationship(INCOMING);
+        }
+    }
+
     public Relationship readRelationship(Node startNode, Node endNode, RelationshipType type){
         try(Transaction tx = graphDb.beginTx()){
             HashSet<Relationship> rels = new HashSet<>();

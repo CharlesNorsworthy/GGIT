@@ -119,8 +119,8 @@ public class GGITGraph{
             throw new IllegalArgumentException("There are no nodes in the repository on branch '" + label + "'");
         }
         for (Node node : nodes) {
-            if(!node.hasRelationship(OUTGOING)) {
-                return (String) node.getProperty(Const.UUID);
+            if(!this.db.checkOutgoingRelationship(node)) {
+                return this.db.getNodeID(node);
             }
         }
         throw new IllegalArgumentException("This branch has been merged into another branch");
@@ -157,7 +157,7 @@ public class GGITGraph{
         if (node == null) {
             throw new IllegalArgumentException("There are no nodes in the repository on branch '" + branch + "'");
         }
-        else if(!node.hasRelationship(INCOMING)) {
+        else if(!this.db.checkIncomingRelationship(node)) {
             return true;
         }
         else {
