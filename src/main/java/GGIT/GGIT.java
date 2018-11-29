@@ -1,6 +1,7 @@
 package GGIT;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
@@ -142,7 +143,7 @@ public class GGIT {
             System.out.println("Enter a location for the new repository to exist (y for this directory):");
             repoPath = input.nextLine();
             if (repoPath.equals("y") || repoPath.equals("Y")) {
-                repoPath = System.getProperty("user.dir");
+                repoPath = Paths.get(System.getProperty("user.dir"), "/graph.db").toString();
             }
             if (args.length > 1) {
                 graphRef = args[1];
