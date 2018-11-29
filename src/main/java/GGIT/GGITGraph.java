@@ -40,17 +40,18 @@ public class GGITGraph{
 
     /**
      * Used to create a new node
-     * @param uuid
      * @param graphRef
      * @param branch
      */
-    public void createNode(String uuid, String graphRef, String branch) {
+    public String createNode(String graphRef, String branch) {
         HashMap<String, Object> props = new HashMap<>();
+        String uuid = UUID.randomUUID().toString();
         props.put(Const.UUID, uuid);
         props.put(GGITConst.GRAPH_REFERENCE, graphRef);
         props.put(GGITConst.BRANCH, branch);
         props.put(GGITConst.TIMESTAMP, (new Date()).getTime());
         db.createNode(Label.label(branch), props);
+        return uuid;
     }
 
     /**
