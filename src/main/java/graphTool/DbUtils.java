@@ -60,25 +60,6 @@ public class DbUtils
         return null;
     }
 
-    public Node initRoot(String uuid) {
-        try (Transaction tx = graphDb.beginTx()) {
-            if(graphDb.findNodes(Const.ROOT_LABEL).hasNext()){
-                root = graphDb.findNodes(Const.ROOT_LABEL).next();
-            }
-            else {
-                root = this.graphDb.createNode(Const.ROOT_LABEL);
-                root.setProperty(Const.UUID, uuid);
-                root.setProperty(Const.NAME, "root");
-                System.out.println("New root created.");
-            }
-            tx.success();
-            return root;
-        } catch (Exception e) {
-            System.out.println("Unable to create 'root' node for the graph database.");
-        }
-        return null;
-    }
-
     public Node createNode(Label label, HashMap<String, Object> props) {
         try ( Transaction tx = graphDb.beginTx() ) {
             //Check for duplicates first
@@ -383,6 +364,7 @@ public class DbUtils
 
         return relsMap;
     }
+
 
     public void createDefaultNodes() {
         try ( Transaction tx = graphDb.beginTx() )

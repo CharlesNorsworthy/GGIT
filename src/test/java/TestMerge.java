@@ -42,9 +42,9 @@
 //            Node secondNode;
 //            Relationship relationship;
 //
-//            firstNode = graphDb.createNode();
+//            firstNode = graphDb.addNode();
 //            firstNode.setProperty("ID", "1");
-//            secondNode = graphDb.createNode();
+//            secondNode = graphDb.addNode();
 //            secondNode.setProperty("ID", "2");
 //
 //            relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);
@@ -81,9 +81,9 @@
 //            Node secondNode;
 //            Relationship relationship;
 //
-//            firstNode = graphDb.createNode();
+//            firstNode = graphDb.addNode();
 //            firstNode.setProperty("ID", "1");
-//            secondNode = graphDb.createNode();
+//            secondNode = graphDb.addNode();
 //            secondNode.setProperty("ID", "3");
 //
 //            relationship = firstNode.createRelationshipTo(secondNode, DbUtils.RelTypes.KNOWS);

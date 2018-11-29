@@ -38,21 +38,18 @@ public class GGIT {
         private String getPropValues(String propFileName) throws IOException {
             try {
                 Properties prop = new Properties();
-
                 inputStream = new FileInputStream(propFileName);
-
-                if (inputStream != null) {
-                    prop.load(inputStream);
-                } else {
-                    throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-                }
+                prop.load(inputStream);
 
                 // get the property value and print it out
                 remoteRepoPath = prop.getProperty("remoteRepoPath");
                 localRepoPath = prop.getProperty("localRepoPath");
                 currentNode = prop.getProperty("currentNode");
                 currentBranch = prop.getProperty("currentBranch");
-            } catch (Exception e) {
+            } catch (FileNotFoundException e){
+                System.out.println("FileNotFoundException :: property file '" + propFileName + "' not found in the classpath");
+            }
+            catch (Exception e) {
                 System.out.println("Exception: " + e);
             } finally {
                 inputStream.close();
@@ -207,30 +204,36 @@ public class GGIT {
     }
 
     /**
-     * Does nothing because Nathan hasn't done anything!
+     * Makes a snapshot of the graph database directory for the currentNode's graph reference and zips the folder with the currentNode UUID as the name.
+     * That folder is saved under the '_versions' sub directory in the local repository. Can save a message on commit.
      * @param args
      */
     private static void _commit(String[] args) {
-        File zipDir, repoDir;
-        repoDir = new File(Paths.get(localRepoPath, "_versions").toString());
+        String versionsPath = Paths.get(localRepoPath, "_versions").toString();
+        File versionsDir = new File(versionsPath);
         HashMap<String, Object> currentGraph = repo.readNode(currentNode);
-        zipDir = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
+        File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
 
-        if (repoDir.isDirectory()){
-            if (!repoDir.exists()){
-                repoDir.mkdir();
+        String message = "";
+        if(args.length > 1){
+            StringBuilder msg = new StringBuilder();
+            for (String arg : args) {
+                msg.append(arg).append(" ");
+            }
+            message = msg.toString().trim();
+        }
+
+        if (versionsDir.isDirectory()){
+            if (!versionsDir.exists()){
+                versionsDir.mkdir();
             }
 
-            if (zipDir.isDirectory()) {
-                File copyToRef = new File(currentNode);
-                if (!copyToRef.exists()) {
-                    copyToRef.mkdir();
-                }
+            if (dbSnapshot.isDirectory()) {
                 try {
                     repo.closeGraph();
                     FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
                     ZipOutputStream zipOut = new ZipOutputStream(fos);
-                    zipFile(zipDir, currentNode + ".zip", zipOut);
+                    zipFile(dbSnapshot, currentNode + ".zip", zipOut);
                     zipOut.close();
                     fos.close();
                 } catch (IOException e) {
@@ -238,13 +241,18 @@ public class GGIT {
                 }
             }
 
-            if(new File(currentNode).exists()){
-                currentNode = repo.createNode(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString(), currentGraph.get(GGITConst.BRANCH).toString());
+            if(new File(Paths.get(versionsPath, currentNode).toString()).exists()){
+                String graphRef = currentGraph.get(GGITConst.GRAPH_REFERENCE).toString();
+                String branch = currentGraph.get(GGITConst.BRANCH).toString();
+                String previousNode = repo.getCurrNode(branch);
+                currentNode = repo.addNode(graphRef, branch, message, previousNode);
+
+                System.out.println("[ " + branch + "] " + currentNode + "  commit: " + message);
             }
         }
-
-
-
+        else {
+            System.out.println("Cannot locate '_versions' directory  in the local repository path : " + localRepoPath);
+        }
     }
 
     /**
@@ -302,10 +310,7 @@ public class GGIT {
         if (repo == null) {
             throw new IllegalArgumentException("A repository must be initialized to be branched.");
         }
-        List<Label> labels = repo.getLabels();
-        for (Label label : labels) {
-            System.out.println(label.name());
-        }
+        repo.getLabels().forEach(label -> System.out.println(label.name()));
     }
 
     /**
@@ -331,13 +336,12 @@ public class GGIT {
      * @param args
      */
     private static void _fetch(String[] args) {
-        GGITGraph remote = new GGITGraph(remoteRepoPath);
-        if (remote == null) {
+        try {
+            GGITGraph remote = new GGITGraph(remoteRepoPath);
+            remote.getLabels().forEach(label -> System.out.println(label.name()));
+        } catch (Exception e){
             throw new IllegalArgumentException("There is no remote repository.");
-        }
-        List<Label> labels = remote.getLabels();
-        for (Label label : labels) {
-            System.out.println(label.name());
+
         }
     }
 
@@ -346,7 +350,15 @@ public class GGIT {
      * @param args
      */
     private static void _reset(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        Label label = Label.label(currentBranch);
+        if(repo.IsStartOfBranch(label, currentNode) && !currentBranch.equals(GGITConst.MASTER)){
+            if(repo.getCurrNode(currentBranch) != currentNode ) {
+                repo.removeNode(label, currentNode);
+                currentNode = repo.getCurrNode(currentBranch);
+            }
+        } else if(repo.IsStartOfBranch(label, currentNode)){
+            //Are you sure you want to get rid of root for Master?
+        }
     }
 
     private static void _no_command() {

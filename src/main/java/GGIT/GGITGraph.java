@@ -4,13 +4,11 @@ import graphTool.Const;
 import graphTool.DbUtils;
 //import org.jgrapht.graph.DefaultDirectedGraph;
 import org.neo4j.driver.v1.exceptions.DatabaseException;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 
 import java.util.*;
 
+import static org.neo4j.graphdb.Direction.INCOMING;
 import static org.neo4j.graphdb.Direction.OUTGOING;
 
 @SuppressWarnings("unchecked")
@@ -39,19 +37,38 @@ public class GGITGraph{
     }
 
     /**
-     * Used to create a new node
+     * Used to create and add a node to the graph. Creates a relationship the previous "currentNode". Returns the new node's UUID.
      * @param graphRef
      * @param branch
+     * @param message
+     * @param prevNode
+     * @return
      */
-    public String createNode(String graphRef, String branch) {
+    public String addNode(String graphRef, String branch, String message, String prevNode) {
         HashMap<String, Object> props = new HashMap<>();
         String uuid = UUID.randomUUID().toString();
         props.put(Const.UUID, uuid);
         props.put(GGITConst.GRAPH_REFERENCE, graphRef);
         props.put(GGITConst.BRANCH, branch);
+        props.put(GGITConst.MESSAGE, message);
         props.put(GGITConst.TIMESTAMP, (new Date()).getTime());
-        this.db.createNode(Label.label(branch), props);
+        Node current = db.createNode(Label.label(branch), props);
+
+        if (prevNode != null || !prevNode.isEmpty() || !prevNode.equals(uuid)){
+            Node previous = db.readNode(Label.label(branch), prevNode);
+            db.createRelationship(previous, current, RelationshipType.withName(branch));
+        }
+
         return uuid;
+    }
+
+    /**
+     * Removes specified node from branch
+     * @param label
+     * @param uuid
+     */
+    public void removeNode(Label label, String uuid){
+        db.deleteNode(label, uuid);
     }
 
     /**
@@ -101,6 +118,47 @@ public class GGITGraph{
         }
         throw new IllegalArgumentException("This branch has been merged into another branch");
     }
+
+    /**
+     * Returns true if specified node is the first node in a specified branch. Will return true for root.
+     * @param branch
+     * @param uuid
+     * @return
+     */
+    public boolean IsStartOfBranch(Label branch, String uuid){
+        Node node = db.readNode(branch, uuid);
+        if (node == null) {
+            throw new IllegalArgumentException("There are no nodes in the repository on branch '" + branch + "'");
+        }
+        else if(!node.hasRelationship(INCOMING)) {
+            return true;
+        }
+        else {
+            String startNode = null;
+            List<Relationship> rels = db.readRelationships(node);
+            for(Relationship rel : rels){
+                if(db.readRelationshipProperties(rel).get(Const.END_NODE).toString().equals(uuid)){
+                    startNode = db.readRelationshipProperties(rel).get(Const.START_NODE).toString();
+                    break;
+                }
+            }
+
+            if(startNode != null){
+                List<Label> labels = db.getLabels();
+                labels.removeIf( label -> (label == branch));
+                for(Label label : labels){
+                    if(db.readNode(label,startNode) != null ){
+                        return true;
+                    }
+                }
+                
+                return false;
+            } else {
+                return false;
+            }
+        }
+    }
+
 
     /**
      * Closes the instance of the graph

@@ -33,6 +33,8 @@ public class GGITConst {
 
     public static final String BRANCH = "branch";
 
+    public static final String MESSAGE = "message";
+
     public static final String TIMESTAMP = "timestamp";
 
     /**
