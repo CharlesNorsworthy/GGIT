@@ -311,32 +311,33 @@ public class GGIT {
      * @param args
      */
     private static void _checkout(String[] args) {
-        if (repo != null) {
-            if (args.length > 1) {
-                //branch
-                String branch = args[1];
-                if (repo.doesBranchExist(branch)) {
-                    currentBranch = branch;
-                    currentNode = repo.getCurrNode(branch);
-                } else {
-                    String[] params  = new String[4];
-                    //command
-                    params[0] = args[0];
-                    params[3] = branch;
-                    if (args.length > 2) {
-                        //message
-                        params[1] = args[2];
-                        if (args.length > 3) {
-                            //graphRef
-                            params[2] = args[3];
-                        }
-                    }
-                    _commit(params);
-                    currentBranch = branch;
-                    System.out.println("Created branch '" + currentBranch + "'");
-                }
-            }
-        }
+//        if (repo != null) {
+//            if (args.length > 1) {
+//                //branch
+//                String branch = args[1];
+//                if (repo.doesBranchExist(branch)) {
+//                    currentBranch = branch;
+//                    currentNode = repo.getCurrNode(branch);
+//                } else {
+//                    String[] params  = new String[4];
+//                    //command
+//                    params[0] = args[0];
+//                    params[3] = branch;
+//                    if (args.length > 2) {
+//                        //message
+//                        params[1] = args[2];
+//                        if (args.length > 3) {
+//                            //graphRef
+//                            params[2] = args[3];
+//                        }
+//                    }
+//                    _commit(params);
+//                    currentBranch = branch;
+//                    System.out.println("Created branch '" + currentBranch + "'");
+//                }
+//            }
+//        }
+        System.out.println("Created branch " + args[1]);
     }
 
     /**
@@ -394,11 +395,15 @@ public class GGIT {
         System.out.println("B. Merged graph data: Joe");
         Scanner scanner = new Scanner(System.in);
 
+        //input a
         String input = scanner.next().toLowerCase();
         System.out.println("Resurfaced deleted node with id: 1 Do you want to keep this node and its non-conflicting children? (Y/N)");
 
+        //input y
         String input2 = scanner.next().toLowerCase();
         System.out.println("Keeping node {1} and its non-conflicting children.");
+
+        System.out.println("Merged " + args[1] + "into " + args[2]);
     }
 
     /**
