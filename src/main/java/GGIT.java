@@ -16,6 +16,7 @@ public class GGIT
         db.deleteNodes(Const.KNOWLEDGE_LABEL);
         db.deleteNodes(Const.ROOT_LABEL);
         db.readNodes(Const.OBSERVATION_LABEL);
+
     }
 
     private static void executeCmd(String args[]){
@@ -43,7 +44,7 @@ public class GGIT
                 case "pull":
                     throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
                 case "merge":
-                    throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
+                    throw  new UnsupportedOperationException("The " + input + " command is not currently supported.");
                 case "diff":
                     throw new UnsupportedOperationException("The " + input + " command is not currently supported.");
                 case "log":

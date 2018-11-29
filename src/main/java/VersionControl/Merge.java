@@ -33,10 +33,7 @@ public class Merge {
      * @param mergedGraph
      * @return DbOps mergedGraph
      */
-    //TODO: test
-    //TODO: handle deleted relationships
     //TODO: handle different data in naive merge
-    //TODO: refactor, maybe instead of merged graph have a new directory to create a new merged graph in the method
     public static DbUtils mergeNaively(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
 
         //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
@@ -225,13 +222,18 @@ public class Merge {
     }
 
     private static void handleNodeMergeConflict(DbUtils mergedGraph, String conflictingID){
-        System.out.println("Resurfaced deleted node with id: "
-                + conflictingID + ". Do you want to keep this node and its non-conflicting children? (Y/N)");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.next().toLowerCase();
 
         Node conflictingNode = mergedGraph.getNodeByID(conflictingID);
         Label conflictingNodeLabel = mergedGraph.getNodeLabel(conflictingNode);
+
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        do{
+            System.out.println("Resurfaced deleted node with id: "
+                    + conflictingID + ". Do you want to keep this node and its non-conflicting children? (Y/N)");
+            input = scanner.next().toLowerCase();
+        }while(!input.equals("y") && !input.equals("n"));
+
         if(input.equals("y")){
             System.out.println("Keeping node " + conflictingID + " and its non-conflicting children.");
         } else if (input.equals("n")){
@@ -246,12 +248,16 @@ public class Merge {
 
     private static void handleDataMergeConflict(DbUtils mergedGraph, String conflictingId, String key,
                                                 String graph1Property, String graph2Property){
-        System.out.println("Conflicting data on node with id: "
-                + conflictingId + "of data type " + key + ". Which data would you rather keep?");
-        System.out.println("A. Original graph data: " + graph1Property);
-        System.out.println("B. Merged graph data: " + graph2Property);
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.next().toLowerCase();
+        String input;
+        do{
+            System.out.println("Conflicting data on node with id: "
+                    + conflictingId + " of data type " + key + ". Which data would you rather keep?");
+            System.out.println("A. First graph data: " + graph1Property);
+            System.out.println("B. Second graph data: " + graph2Property);
+            input = scanner.next().toLowerCase();
+
+        }while(!input.equals("a") && !input.equals("b"));
 
         Node conflictingNode = mergedGraph.getNodeByID(conflictingId);
         if(input.equals("a")){

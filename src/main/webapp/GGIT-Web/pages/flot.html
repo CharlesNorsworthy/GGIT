@@ -46,20 +46,26 @@
     function draw(){
         var config = {
             container_id:"viz",
-            server_url: "bolt://localhost:11016",
+            server_url: "bolt://localhost:7687",
             server_user: "neo4j",
             server_password: "password",
             labels:{
                 "OBSERVATION":{
                     caption:"id",
-                    size:"5",
-            }
+                    size:"1",
+            },
+
+            "KNOWLEDGE":{
+                caption:"id",
+                size:"1",
+
+            },
 
             },
             relationships:{
                 "KNOWS":{
-                    caption:false,
-                    thickness: "3"
+                    caption:"id",
+                    thickness: "1"
                 }
 
             },
