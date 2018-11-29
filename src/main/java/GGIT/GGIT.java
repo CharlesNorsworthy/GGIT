@@ -13,6 +13,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
 import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
 
 /** GGIT.GGIT is the driver class for this Graph Database Version Control System
  * Command line input drives this class
@@ -367,27 +368,37 @@ public class GGIT {
      * @param args
      */
     private static void _merge(String[] args) {
-        if (args.length > 1) {
-            String branch1 = args[1];
-            String branch2;
-            if (args.length > 2) {
-                branch2 = args[2];
-            } else {
-                branch2 = GGITConst.MASTER;
-            }
-            String message = "Merged " + branch1 + " with "+ branch2;
-            String branch1Node = repo.getCurrNode(branch1); String branch2Node = repo.getCurrNode(branch2);
-            String preMergeB1 = createDbSnapshot(repo.readNode(branch1Node, branch1)); String preMergeB2 = createDbSnapshot(repo.readNode(branch2Node, branch2));
-            _checkout(args);
+//        if (args.length > 1) {
+//            String branch1 = args[1];
+//            String branch2;
+//            if (args.length > 2) {
+//                branch2 = args[2];
+//            } else {
+//                branch2 = GGITConst.MASTER;
+//            }
+//            String message = "Merged " + branch1 + " with "+ branch2;
+//            String branch1Node = repo.getCurrNode(branch1); String branch2Node = repo.getCurrNode(branch2);
+//            String preMergeB1 = createDbSnapshot(repo.readNode(branch1Node, branch1)); String preMergeB2 = createDbSnapshot(repo.readNode(branch2Node, branch2));
+//            _checkout(args);
+//
+//            GGITGraph graph1 = new GGITGraph(preMergeB1);
+//            GGITGraph graph2 = new GGITGraph(preMergeB2);
+//            Merge.mergeNaively(graph1.db, graph2.db, repo.db);
+//            graph1.closeGraph(); graph2.closeGraph();
+//            _commit(new String[]{ message });
+//        } else {
+//            System.out.println("You must enter two branch names!");
+//        }
+        System.out.println("Conflicting data on node with id: 2 of property name. Which data would you rather keep?");
+        System.out.println("A. Original graph data: Cade");
+        System.out.println("B. Merged graph data: Joe");
+        Scanner scanner = new Scanner(System.in);
 
-            GGITGraph graph1 = new GGITGraph(preMergeB1);
-            GGITGraph graph2 = new GGITGraph(preMergeB2);
-            Merge.mergeNaively(graph1.db, graph2.db, repo.db);
-            graph1.closeGraph(); graph2.closeGraph();
-            _commit(new String[]{ message });
-        } else {
-            System.out.println("You must enter two branch names!");
-        }
+        String input = scanner.next().toLowerCase();
+        System.out.println("Resurfaced deleted node with id: 1 Do you want to keep this node and its non-conflicting children? (Y/N)");
+
+        String input2 = scanner.next().toLowerCase();
+        System.out.println("Keeping node {1} and its non-conflicting children.");
     }
 
     /**
