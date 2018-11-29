@@ -236,9 +236,11 @@ public class GGIT {
         }
 
         if (versionsDir.isDirectory()){
-            createDbSnapshot(currentGraph);
+            String snapshotDir = createDbSnapshot(currentGraph);
 
             if (new File(Paths.get(versionsPath, currentNode).toString()).exists()){
+                repo.updateNodeGraphRef(currentBranch, currentNode, snapshotDir);
+
                 String graphRef = currentGraph.get(GGITConst.GRAPH_REFERENCE).toString();
                 String branch = currentGraph.get(GGITConst.BRANCH).toString();
                 String previousNode = repo.getCurrNode(branch);
@@ -491,19 +493,21 @@ public class GGIT {
     }
 
     private static String createDbSnapshot(HashMap<String, Object> currentGraph){
+        String versionsPath = Paths.get(System.getProperty("user.dir"), "\\repositories\\local\\_versions").toString();
         File dbSnapshot = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
         if (dbSnapshot.isDirectory()) {
             try {
                 repo.closeGraph();
                 FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
-                zipFile(dbSnapshot, currentNode + ".zip", zipOut);
+                //Big DOODOO , much TODO
+                zipFile(new File(versionsPath)/*dbSnapshot*/, currentNode + ".zip", zipOut);
                 zipOut.close();
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return currentNode + ".zip";
+        return versionsPath + "\\" + currentNode;
     }
 }

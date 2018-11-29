@@ -4,6 +4,7 @@ import graphTool.Const;
 import graphTool.DbUtils;
 import org.neo4j.driver.v1.exceptions.DatabaseException;
 import org.neo4j.graphdb.*;
+import scala.collection.immutable.Stream;
 
 import java.util.*;
 
@@ -59,6 +60,13 @@ public class GGITGraph{
         }
 
         return uuid;
+    }
+
+    public void updateNodeGraphRef(String branch, String uuid, String graphRefPath){
+        HashMap<String, Object> props = new HashMap<>();
+        props.put(GGITConst.GRAPH_REFERENCE, graphRefPath);
+        Node node = db.readNode(Label.label(branch), uuid);
+        db.updateNode(node, props);
     }
 
     /**
