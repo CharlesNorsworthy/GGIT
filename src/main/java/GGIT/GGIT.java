@@ -37,9 +37,6 @@ public class GGIT {
 
         private String getPropValues(String propFileName) throws IOException {
             try {
-//                List<String> result = new LinkedList<>();
-//                String value;
-
                 Properties prop = new Properties();
 
                 inputStream = new FileInputStream(propFileName);
@@ -55,10 +52,6 @@ public class GGIT {
                 localRepoPath = prop.getProperty("localRepoPath");
                 currentNode = prop.getProperty("currentNode");
                 currentBranch = prop.getProperty("currentBranch");
-
-//                for(int i = 0; (value = prop.getProperty(key + "." + i)) != null; i++) {
-//                    result.add(value);
-//                }
             } catch (Exception e) {
                 System.out.println("Exception: " + e);
             } finally {
@@ -137,9 +130,6 @@ public class GGIT {
                     case "reset":
                         _reset(args);
                         break;
-                    case "grep":
-                        _grep(args);
-                        break;
                     default:
                         _no_command();
                 }
@@ -153,6 +143,10 @@ public class GGIT {
         }
     }
 
+    /**
+     * Creates a new remote repository
+     * @param args
+     */
     private static void _init(String[] args) {
         if (repo == null) {
             String graphRef;
@@ -253,6 +247,10 @@ public class GGIT {
 
     }
 
+    /**
+     * Updates a branch on the remote repository
+     * @param args
+     */
     private static void _push(String[] args) {
         throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
     }
@@ -310,25 +308,44 @@ public class GGIT {
         }
     }
 
+    /**
+     * Integrate with another repository or a local branch
+     * @param args
+     */
     private static void _pull(String[] args) {
         if (repo != null) {
 
         }
     }
 
+    /**
+     * Joins another branch to the current one
+     * @param args
+     */
     private static void _merge(String[] args) {
         throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
     }
 
+    /**
+     * Gets the list of branches on the "remote" repository
+     * @param args
+     */
     private static void _fetch(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        GGITGraph remote = new GGITGraph(remoteRepoPath);
+        if (remote == null) {
+            throw new IllegalArgumentException("There is no remote repository.");
+        }
+        List<Label> labels = remote.getLabels();
+        for (Label label : labels) {
+            System.out.println(label.name());
+        }
     }
 
+    /**
+     * Dials back the repository on the current branch
+     * @param args
+     */
     private static void _reset(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
-    }
-
-    private static void _grep(String[] args) {
         throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
     }
 

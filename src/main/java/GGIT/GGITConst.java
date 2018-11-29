@@ -24,8 +24,7 @@ public class GGITConst {
             .addOption("pull", true, "Fetch from and integrate with another repository or a local branch")
             .addOption("merge", true, "Join two or more development histories together")
             .addOption("fetch", true, "Download objects and refs from another repository")
-            .addOption("reset", true, "Reset current HEAD to the specified state")
-            .addOption("grep", true, "Print lines matching a pattern");
+            .addOption("reset", true, "Reset current HEAD to the specified state");
 
     /**
      * Node Properties
