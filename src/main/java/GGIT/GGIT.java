@@ -3,10 +3,9 @@ package GGIT;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
@@ -191,12 +190,40 @@ public class GGIT {
     }
 
     private static void _commit(String[] args) {
-        File zipDir;
-        if (args.length > 1) {
-            zipDir = new File(args[1]);
-        } else {
-            zipDir = new File(System.getProperty("user.dir"));
+        File zipDir, repoDir;
+        repoDir = new File(Paths.get(repoPath, "_versions").toString());
+        HashMap<String, Object> currentGraph = repo.readNode(currentNode);
+        zipDir = new File(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString());
+
+        if (repoDir.isDirectory()){
+            if (!repoDir.exists()){
+                repoDir.mkdir();
+            }
+
+            if (zipDir.isDirectory()) {
+                File copyToRef = new File(currentNode);
+                if (!copyToRef.exists()) {
+                    copyToRef.mkdir();
+                }
+                try {
+                    repo.closeGraph();
+                    FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
+                    ZipOutputStream zipOut = new ZipOutputStream(fos);
+                    zipFile(zipDir, currentNode + ".zip", zipOut);
+                    zipOut.close();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(new File(currentNode).exists()){
+                currentNode = repo.createNode(currentGraph.get(GGITConst.GRAPH_REFERENCE).toString(), currentGraph.get(GGITConst.BRANCH).toString());
+            }
         }
+
+
+
     }
 
     private static void _push(String[] args) {
@@ -291,5 +318,31 @@ public class GGIT {
         } catch (Exception e) {
             System.out.println("IOException :: " + e);
         }
+    }
+
+    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+        if (fileToZip.isDirectory()) {
+            if (fileName.endsWith("/")) {
+                zipOut.putNextEntry(new ZipEntry(fileName));
+                zipOut.closeEntry();
+            } else {
+                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                zipOut.closeEntry();
+            }
+            File[] children = fileToZip.listFiles();
+            for (File childFile : children) {
+                zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+            }
+            return;
+        }
+        FileInputStream fis = new FileInputStream(fileToZip);
+        ZipEntry zipEntry = new ZipEntry(fileName);
+        zipOut.putNextEntry(zipEntry);
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+            zipOut.write(bytes, 0, length);
+        }
+        fis.close();
     }
 }
