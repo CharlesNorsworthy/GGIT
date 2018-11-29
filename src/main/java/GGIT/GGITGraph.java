@@ -20,7 +20,7 @@ public class GGITGraph{
     Node root;
 
     public GGITGraph(String dbPath) {
-        db = new DbUtils(dbPath);
+        this.db = new DbUtils(dbPath);
     }
 
     /**
@@ -34,7 +34,7 @@ public class GGITGraph{
         props.put(GGITConst.GRAPH_REFERENCE, graphRef);
         props.put(GGITConst.BRANCH, GGITConst.MASTER);
         props.put(GGITConst.TIMESTAMP, (new Date()).getTime());
-        root = db.createNode(Label.label(GGITConst.MASTER), props);
+        this.root = this.db.createNode(Label.label(GGITConst.MASTER), props);
         return uuid;
     }
 
@@ -50,7 +50,7 @@ public class GGITGraph{
         props.put(GGITConst.GRAPH_REFERENCE, graphRef);
         props.put(GGITConst.BRANCH, branch);
         props.put(GGITConst.TIMESTAMP, (new Date()).getTime());
-        db.createNode(Label.label(branch), props);
+        this.db.createNode(Label.label(branch), props);
         return uuid;
     }
 
@@ -59,8 +59,8 @@ public class GGITGraph{
      * @param uuid
      */
     public HashMap<String, Object> readNode(String uuid) {
-        Node node = db.readNode(GGITConst.CHILD_LABEL, uuid);
-        return db.readNodeProperties(node);
+        Node node = this.db.readNode(GGITConst.CHILD_LABEL, uuid);
+        return this.db.readNodeProperties(node);
     }
 
     /**
@@ -68,8 +68,8 @@ public class GGITGraph{
      * @return
      */
     public List<Label> getLabels() {
-        if (db != null) {
-            return db.getLabels();
+        if (this.db != null) {
+            return this.db.getLabels();
         } else {
             throw new DatabaseException("400", "Database not initialized");
         }
@@ -78,9 +78,10 @@ public class GGITGraph{
     /**
      * Used to check if the listed "current" node is actually the most current
      * @param uuid
+     * @param branch
      */
-    public long getTimeStamp(String uuid) {
-        return 0;
+    public long getTimeStamp(String uuid, String branch) {
+        return (long) this.db.readNode(Label.label(branch), uuid).getProperty(GGITConst.TIMESTAMP);
     }
 
     /**
@@ -89,7 +90,7 @@ public class GGITGraph{
      * @return
      */
     public String getCurrNode(String label) {
-        List<Node> nodes = db.readNodes(Label.label(label));
+        List<Node> nodes = this.db.readNodes(Label.label(label));
         if (nodes.isEmpty()) {
             throw new IllegalArgumentException("There are no nodes in the repository on branch '" + label + "'");
         }
@@ -105,7 +106,7 @@ public class GGITGraph{
      * Closes the instance of the graph
      */
     public void closeGraph(){
-        db.dispose();
+        this.db.dispose();
     }
 
 //    private static GGITNode root = null;
