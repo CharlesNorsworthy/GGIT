@@ -33,7 +33,7 @@ public class GGIT {
             try {
                 Properties prop = new Properties();
 
-                inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+                inputStream = new FileInputStream(propFileName);
 
                 if (inputStream != null) {
                     prop.load(inputStream);
@@ -55,8 +55,8 @@ public class GGIT {
         private void setPropValues(String propFileName) {
             try {
                 Properties properties = new Properties();
-                properties.setProperty("repoPath", repoPath);
-                properties.setProperty("currentNode", currentNode);
+                properties.setProperty("repoPath", (repoPath == null ? "null" : repoPath));
+                properties.setProperty("currentNode", (currentNode == null ? "null" : currentNode));
 
                 File file = new File(propFileName);
                 FileOutputStream fileOut = new FileOutputStream(file);
@@ -178,6 +178,7 @@ public class GGIT {
                 }
 
                 try {
+                    repo.closeGraph();
                     FileUtils.copyDirectory(repoRef, copyToRef);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -222,19 +223,9 @@ public class GGIT {
 
     private static void _branch(String[] args) {
         if(repo == null) {
-            String graphRef = "C://Neo4J";//"C:\\Users\\ncunningham\\Desktop\\TestRepo";
-            repo = new GGITGraph(graphRef);
-            //throw new IllegalArgumentException("A repository must be initialized to be branched.");
+            throw new IllegalArgumentException("A repository must be initialized to be branched.");
         }
-        //else {
-            if(args.length > 1){
-                String branchName = args[1];
-
-            }
-            else {
-                repo.listBranches();
-            }
-        //}
+        repo.listBranches();
     }
 
     private static void _pull(String[] args) {
@@ -266,7 +257,7 @@ public class GGIT {
     }
 
     private static boolean bootUp(String args[]) {
-        String path = System.getProperty("user.dir") + "config.properties";
+        String path = Paths.get(System.getProperty("user.dir"), "config.properties").toString();
 
         if ((new File(path)).exists()) {
             GGITConfigValues config = new GGITConfigValues();
@@ -279,7 +270,7 @@ public class GGIT {
             return true;
         } else {
             if (args.length > 1) {
-                if (args[1].equals("init") || args[1].equals("clone")) {
+                if (args[0].equals("init") || args[0].equals("clone")) {
                     return true;
                 } else {
                     return false;
@@ -291,7 +282,7 @@ public class GGIT {
     }
 
     private static void writeConfig() {
-        String path = System.getProperty("user.dir") + "config.properties";
+        String path = Paths.get(System.getProperty("user.dir"), "config.properties").toString();
 
         GGITConfigValues config = new GGITConfigValues();
         try {

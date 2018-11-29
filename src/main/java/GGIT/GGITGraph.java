@@ -71,9 +71,13 @@ public class GGITGraph{
     }
 
     public void listBranches() {
-        List<Label> labels = this.db.getLabels();
+        if (db != null) {
+            db.getLabels().forEach(label -> System.out.println(label.name()));
+        }
+    }
 
-        labels.forEach(label -> System.out.println(label.name()));
+    public void closeGraph(){
+        db.dispose();
     }
 
 //    private static GGITNode root = null;
