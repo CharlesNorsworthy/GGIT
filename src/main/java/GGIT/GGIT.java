@@ -204,6 +204,9 @@ public class GGIT {
                 try {
                     repo.closeGraph();
                     FileUtils.copyDirectory(repoRef, copyToRef);
+                    if (copyToRef.isDirectory()) {
+                        System.out.println("Remote '" + remoteRepoPath + "' cloned to local '" + localRepoPath + "'");
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -238,13 +241,13 @@ public class GGIT {
             if (new File(Paths.get(versionsPath, currentNode).toString()).exists()){
                 String graphRef = currentGraph.get(GGITConst.GRAPH_REFERENCE).toString();
                 String branch = currentGraph.get(GGITConst.BRANCH).toString();
+                String previousNode = repo.getCurrNode(branch);
                 if (args.length > 2) {
                     graphRef = args[2];
                     if (args.length > 3) {
                         branch = args[3];
                     }
                 }
-                String previousNode = repo.getCurrNode(branch);
                 currentNode = repo.addNode(graphRef, branch, message, previousNode);
 
                 System.out.println("[ " + branch + "] " + currentNode + "  commit: " + message);
@@ -316,7 +319,7 @@ public class GGIT {
                     String[] params  = new String[4];
                     //command
                     params[0] = args[0];
-                    params[3] = args[1];
+                    params[3] = branch;
                     if (args.length > 2) {
                         //message
                         params[1] = args[2];
@@ -326,6 +329,8 @@ public class GGIT {
                         }
                     }
                     _commit(params);
+                    currentBranch = branch;
+                    System.out.println("Created branch '" + currentBranch + "'");
                 }
             }
         }
