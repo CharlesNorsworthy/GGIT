@@ -248,11 +248,15 @@ public class GGIT {
     }
 
     /**
-     * Updates a branch on the remote repository
+     * Integrate the local repository into the remote repository
      * @param args
      */
     private static void _push(String[] args) {
-        throw new UnsupportedOperationException("The " + args[0] + " command is not currently supported.");
+        GGITGraph remote = new GGITGraph(remoteRepoPath);
+        if (remote == null) {
+            throw new IllegalArgumentException("There is no remote repository.");
+        }
+        //Naive merge
     }
 
     /**
@@ -309,17 +313,21 @@ public class GGIT {
     }
 
     /**
-     * Integrate with another repository or a local branch
+     * Integrate the remote repository into the local repository
      * @param args
      */
     private static void _pull(String[] args) {
+        GGITGraph remote = new GGITGraph(remoteRepoPath);
+        if (remote == null) {
+            throw new IllegalArgumentException("There is no remote repository.");
+        }
         if (repo != null) {
 
         }
     }
 
     /**
-     * Joins another branch to the current one
+     * Integrates one local branch into another local branch
      * @param args
      */
     private static void _merge(String[] args) {
