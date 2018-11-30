@@ -223,6 +223,7 @@ public class GGIT {
      * @param args
      */
     private static void _commit(String[] args) {
+        //TODO
         String versionsPath = Paths.get(System.getProperty("user.dir"), "\\repositories\\local\\_versions").toString();
         File versionsDir = new File(versionsPath);
         HashMap<String, Object> currentGraph = repo.readNode(currentNode, currentBranch);
@@ -312,33 +313,32 @@ public class GGIT {
      * @param args
      */
     private static void _checkout(String[] args) {
-//        if (repo != null) {
-//            if (args.length > 1) {
-//                //branch
-//                String branch = args[1];
-//                if (repo.doesBranchExist(branch)) {
-//                    currentBranch = branch;
-//                    currentNode = repo.getCurrNode(branch);
-//                } else {
-//                    String[] params  = new String[4];
-//                    //command
-//                    params[0] = args[0];
-//                    params[3] = branch;
-//                    if (args.length > 2) {
-//                        //message
-//                        params[1] = args[2];
-//                        if (args.length > 3) {
-//                            //graphRef
-//                            params[2] = args[3];
-//                        }
-//                    }
-//                    _commit(params);
-//                    currentBranch = branch;
-//                    System.out.println("Created branch '" + currentBranch + "'");
-//                }
-//            }
-//        }
-        System.out.println("Created branch " + args[1]);
+        if (repo != null) {
+            if (args.length > 1) {
+                //branch
+                String branch = args[1];
+                if (repo.doesBranchExist(branch)) {
+                    currentBranch = branch;
+                    currentNode = repo.getCurrNode(branch);
+                } else {
+                    String[] params  = new String[4];
+                    //command
+                    params[0] = args[0];
+                    params[3] = branch;
+                    if (args.length > 2) {
+                        //message
+                        params[1] = args[2];
+                        if (args.length > 3) {
+                            //graphRef
+                            params[2] = args[3];
+                        }
+                    }
+                    _commit(params);
+                    currentBranch = branch;
+                    System.out.println("Created branch '" + currentBranch + "'");
+                }
+            }
+        }
     }
 
     /**
@@ -370,41 +370,28 @@ public class GGIT {
      * @param args
      */
     private static void _merge(String[] args) {
-//        if (args.length > 1) {
-//            String branch1 = args[1];
-//            String branch2;
-//            if (args.length > 2) {
-//                branch2 = args[2];
-//            } else {
-//                branch2 = GGITConst.MASTER;
-//            }
-//            String message = "Merged " + branch1 + " with "+ branch2;
-//            String branch1Node = repo.getCurrNode(branch1); String branch2Node = repo.getCurrNode(branch2);
-//            String preMergeB1 = createDbSnapshot(repo.readNode(branch1Node, branch1)); String preMergeB2 = createDbSnapshot(repo.readNode(branch2Node, branch2));
-//            _checkout(args);
-//
-//            GGITGraph graph1 = new GGITGraph(preMergeB1);
-//            GGITGraph graph2 = new GGITGraph(preMergeB2);
-//            Merge.mergeNaively(graph1.db, graph2.db, repo.db);
-//            graph1.closeGraph(); graph2.closeGraph();
-//            _commit(new String[]{ message });
-//        } else {
-//            System.out.println("You must enter two branch names!");
-//        }
-        System.out.println("Conflicting data on node with id: 2 of property name. Which data would you rather keep?");
-        System.out.println("A. Original graph data: Cade");
-        System.out.println("B. Merged graph data: Joe");
-        Scanner scanner = new Scanner(System.in);
+        //TODO:
+        if (args.length > 1) {
+            String branch1 = args[1];
+            String branch2;
+            if (args.length > 2) {
+                branch2 = args[2];
+            } else {
+                branch2 = GGITConst.MASTER;
+            }
+            String message = "Merged " + branch1 + " with "+ branch2;
+            String branch1Node = repo.getCurrNode(branch1); String branch2Node = repo.getCurrNode(branch2);
+            String preMergeB1 = createDbSnapshot(repo.readNode(branch1Node, branch1)); String preMergeB2 = createDbSnapshot(repo.readNode(branch2Node, branch2));
+            _checkout(args);
 
-        //input a
-        String input = scanner.next().toLowerCase();
-        System.out.println("Resurfaced deleted node with id: 1 Do you want to keep this node and its non-conflicting children? (Y/N)");
-
-        //input y
-        String input2 = scanner.next().toLowerCase();
-        System.out.println("Keeping node {1} and its non-conflicting children.");
-
-        System.out.println("Merged " + args[1] + "into " + args[2]);
+            GGITGraph graph1 = new GGITGraph(preMergeB1);
+            GGITGraph graph2 = new GGITGraph(preMergeB2);
+            Merge.mergeNaively(graph1.db, graph2.db, repo.db);
+            graph1.closeGraph(); graph2.closeGraph();
+            _commit(new String[]{ message });
+        } else {
+            System.out.println("You must enter two branch names!");
+        }
     }
 
     /**
@@ -517,7 +504,7 @@ public class GGIT {
                 repo.closeGraph();
                 FileOutputStream fos = new FileOutputStream(currentNode + ".zip");
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
-                //Big DOODOO , much TODO
+                //Big DooDoo , much TODO
                 zipFile(dbSnapshot, versionsPath + currentNode + ".zip", zipOut);
                 zipOut.close();
                 fos.close();
