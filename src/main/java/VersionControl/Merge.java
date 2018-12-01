@@ -31,12 +31,15 @@ public class Merge {
      * @param graph1
      * @param graph2
      * @param mergedGraph
-     * @return DbOps mergedGraph
+     * @return DbUtils mergedGraph
      */
     //TODO: handle different data in naive merge
+    //TODO: make sure all data from each node in two beginning graphs is in each node in merged graph
+    //TODO: handle data merge conflict right after node is put in graph
+    //TODO: compute big O
     public static DbUtils mergeNaively(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
 
-        //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
+        // Get all nodes and what each node is connected to.
         try (ResourceIterator<Node> graph1AllNodesIterator = graph1.getAllNodesIterator();
              ResourceIterator<Node> graph2AllNodesIterator = graph2.getAllNodesIterator()) {
 

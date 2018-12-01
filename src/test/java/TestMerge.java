@@ -49,8 +49,12 @@ public class TestMerge {
         HashMap<String, Object> node2Props = new HashMap<>();
         node1Props.put(Const.UUID, "1");
         node1Props.put(Const.NAME, "Nicholas");
+        node1Props.put(Const.DESCRIPTION, "husband");
+        node1Props.put(Const.LATITUDE, "lats");
         node2Props.put(Const.UUID, "2");
         node2Props.put(Const.NAME, "Moran");
+        node2Props.put(Const.DESCRIPTION, "programmer");
+
 
         graphDb.createObservation(node1Props);
         graphDb.createObservation(node2Props);
@@ -65,8 +69,11 @@ public class TestMerge {
         HashMap<String, Object> node2Props = new HashMap<>();
         node1Props.put(Const.UUID, "1");
         node1Props.put(Const.NAME, "Allison");
+        node1Props.put(Const.LONGITUDE, "longs");
+        node1Props.put(Const.DESCRIPTION, "wife");
         node2Props.put(Const.UUID, "2");
         node2Props.put(Const.NAME, "Whitehead");
+        node2Props.put(Const.DESCRIPTION, "biology");
 
         graphDb.createObservation(node1Props);
         graphDb.createObservation(node2Props);
@@ -127,9 +134,9 @@ public class TestMerge {
         DbOps testGraph2 = createGraph2ForConflictMerge2();
         DbUtils mergedGraph1 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph1");
         DbUtils mergedGraph2 = new DbUtils("\\C:\\databases\\ConflictTest2MergedGraph2");
-        System.out.println("Doing the first merge.");
+        System.out.println("--------------------Doing the first merge.--------------------");
         Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph1);
-        System.out.println("Doing the second merge.");
+        System.out.println("--------------------Doing the second merge.--------------------");
         Merge.mergeWithPossibleConflicts(testGraph1.getDb(), testGraph2.getDb(), ancestorGraph.getDb(), mergedGraph2);
     }
 
