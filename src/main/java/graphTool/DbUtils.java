@@ -16,6 +16,8 @@ public class DbUtils
     private Node root;
 
     private GraphDatabaseService graphDb;
+    //TODO: put this hash in where appropriate
+    private Hash hash;
 
     public DbUtils(String dbPath) {
         this.connectDatabase(dbPath);
@@ -491,7 +493,7 @@ public class DbUtils
         return ID;
     }
 
-    public Node getNodeByID(Object value){
+    public Node getNodeByID(Object value){ //TODO: have a has table implementation instead
         ResourceIterator<Node> graphNodesIterator = getAllNodesIterator();
         Node currentNode;
         try(Transaction tx = graphDb.beginTx()){

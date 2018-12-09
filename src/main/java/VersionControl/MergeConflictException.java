@@ -7,6 +7,7 @@ package VersionControl;
  * or conflicting addition/deletion in two graphs
  *
  */
+//TODO: try to incorporate
 class MergeConflictException extends Exception {
 
     MergeConflictException(String s) {

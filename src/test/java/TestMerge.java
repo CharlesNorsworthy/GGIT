@@ -243,8 +243,8 @@ public class TestMerge {
 
         HashMap<String, Object> node1Props = new HashMap<>();
         HashMap<String, Object> node2Props = new HashMap<>();
-        HashMap<String, Object> node3Props = new HashMap<>();
         HashMap<String, Object> node4Props = new HashMap<>();
+        HashMap<String, Object> node3Props = new HashMap<>();
         HashMap<String, Object> node5Props = new HashMap<>();
         node1Props.put(Const.UUID, "1");
         node2Props.put(Const.UUID, "2");
@@ -287,8 +287,6 @@ public class TestMerge {
         graphDb.createKnowledge("1", node4Props);
         graphDb.createKnowledge("2", node5Props);
 
-
         return graphDb;
     }
 }
-
