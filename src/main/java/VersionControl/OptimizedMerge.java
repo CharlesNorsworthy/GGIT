@@ -8,7 +8,6 @@ import org.neo4j.graphdb.ResourceIterator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 //TODO: eventually rename to just Merge after its done
 public class OptimizedMerge {
@@ -20,7 +19,7 @@ public class OptimizedMerge {
      * of graph1 and graph2 respectively. The cardinality, or number of elements in a set s,
      * is denoted |s|. The number k is the number of properties in a node.
      *
-     * @param graph1
+     * @param graph1 the
      * @param graph2
      * @param mergedGraph
      * @return DbUtils
@@ -35,64 +34,79 @@ public class OptimizedMerge {
         return mergedGraph;
     }
 
+    /**
+     * Computes the union of the nodes in the two graphs and puts the
+     * result in the merged graph.
+     *
+     * @param graph1 the original graph
+     * @param graph2 the other graph?
+     * @param mergedGraph the resulting graph
+     * @return DbUtils
+     */
+
     private static DbUtils computeUnionOfNodes(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
-        /* Computes the union of the nodes in the two graphs and puts the result in the merged graph. */
         //TODO: optimize and refactor
+        //TODO: reduce amount of try/catch statements
 
         //Get all nodes from both graphs
         try (ResourceIterator<Node> graph1AllNodesIterator = graph1.getAllNodesIterator();
-             ResourceIterator<Node> graph2AllNodesIterator = graph2.getAllNodesIterator()) {
+             ResourceIterator<Node> graph2AllNodesIterator = graph2.getAllNodesIterator()){
 
             /* Put the nodes in the merged graph */
-            while (graph1AllNodesIterator.hasNext() || graph2AllNodesIterator.hasNext()) {
-                //assume the nodes do not exist unless shown otherwise
+            while (graph1AllNodesIterator.hasNext() || graph2AllNodesIterator.hasNext()){
+                //Assume the nodes do not exist unless shown otherwise
                 Node nextNode1 = null;
                 Node nextNode2 = null;
-                try{
+
+                try {
                     nextNode1 = graph1AllNodesIterator.next();
-                    //Preemptively add the first node from graph 1.
-                    if(nextNode1 != null){
-                        Label label1 = graph1.getNodeLabel(nextNode1);
-                        HashMap<String, Object> props1 = graph1.readNodeProperties(nextNode1);
-                        if(mergedGraph.getNodeByID(props1.get(Const.UUID)) == null){
-                            mergedGraph.putNodeInGraph(label1, props1);
-                        }
+                } catch (Exception ignored){}
 
-                    }
-                } catch(Exception ignored){}
-
-                try{
+                try {
                     nextNode2 = graph2AllNodesIterator.next();
                 } catch (Exception ignored){}
 
-                //Only add the next node from graph 2 if it doesn't have the same id as the next node from graph 1.
-                //So you won't add the same node twice.
-                if(nextNode1 != null && nextNode2 != null){
-                    //If the ids of the next nodes aren't equal, put in the next node from the second graph
-                    if (!graph1.getNodeID(nextNode1).equals(graph2.getNodeID(nextNode2))) {
-                        Label label2 = graph2.getNodeLabel(nextNode2);
-                        HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
-                        if(mergedGraph.getNodeByID(props2.get(Const.UUID)) == null) {
-                            mergedGraph.putNodeInGraph(label2, props2);
-                        }
+                /* Checks every possible case the nodes can exist in */
+                if (nextNode1 != null && nextNode2 != null){
+                    //They both exist, add them both.
+                    includeNodeInMergedGraph(mergedGraph, graph1, nextNode1);
+                    //Only add the second one if it doesn't have the same ID as the first
+                    if (!graph1.getNodeID(nextNode1).equals(graph2.getNodeID(nextNode2))){
+                        includeNodeInMergedGraph(mergedGraph, graph2, nextNode2);
                     }
+                } else if(nextNode1 != null){
+                    //They don't both exist, does node 1 exist?
+                    includeNodeInMergedGraph(mergedGraph, graph1, nextNode1);
                 } else if (nextNode2 != null){
-                    Label label2 = graph2.getNodeLabel(nextNode2);
-                    HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
-                    if(mergedGraph.getNodeByID(props2.get(Const.UUID)) == null) {
-                        mergedGraph.putNodeInGraph(label2, props2);
-                    }
+                    //They don't both exist, does node 2 exist?
+                    includeNodeInMergedGraph(mergedGraph, graph2, nextNode2);
                 }
             }
         }
         return mergedGraph;
     }
 
+    private static void includeNodeInMergedGraph(DbUtils mergedGraph, DbUtils graph, Node node){
+
+        //right now it creates a new node
+        //Make it place a pointer of the node to the new merged graph
+        Label label = graph.getNodeLabel(node);
+        HashMap<String, Object> props = graph.readNodeProperties(node); //takes O(k), k = number of properties
+        if(mergedGraph.getNodeByID(props.get(Const.UUID)) == null){ // should take O(1) with hash table
+            mergedGraph.createNewNodeInGraph(label, props); //should take O(1) but currently takes O(k)
+        }
+    }
+
     private static DbUtils computeUnionOfRelationships(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
+        /*
+        Do the same with relationships as with the nodes
+         */
+
+
         /* Computes the union of the relationships in the two graphs and puts the result in the merged graph. */
 
         ArrayList<String> allMergedGraphIds = mergedGraph.getAllIDs();
-        for(Object mergedGraphId : allMergedGraphIds){
+        for (Object mergedGraphId : allMergedGraphIds){
             String currentMergedGraphId = mergedGraphId.toString();
             try {
                 /*Get the appropriate node from either graph 1, graph 2, or both*/

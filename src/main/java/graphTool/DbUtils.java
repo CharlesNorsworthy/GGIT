@@ -509,7 +509,7 @@ public class DbUtils
         return null;
     }
 
-    public void putNodeInGraph(Label label, HashMap<String, Object> properties){
+    public void createNewNodeInGraph(Label label, HashMap<String, Object> properties){
         try(Transaction tx = graphDb.beginTx()){
             Node newNode = graphDb.createNode();
             for(String key: properties.keySet()){
