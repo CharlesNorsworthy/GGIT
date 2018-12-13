@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @since 1.0
  */
 
-class MergeConflictException extends Exception {
+public class MergeConflictException extends Exception {
 
     MergeConflictException(String s) {
         // Call constructor of parent Exception

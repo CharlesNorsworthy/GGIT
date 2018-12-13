@@ -34,19 +34,19 @@ public class Hash {
     }
 
     public int getNodeKey(){
-
+        return 0;
     }
 
     public int getRelationshipKey(){
-
+        return 0;
     }
 
     public Node getNodeByKey(){
-
+        return null;
     }
 
     public Relationship getRelationshipByKey(){
-
+        return null;
     }
 
 }

@@ -1,4 +1,5 @@
 import VersionControl.Merge;
+import VersionControl.MergeConflictException;
 import graphTool.Const;
 import graphTool.DbOps;
 import graphTool.DbUtils;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 
 public class TestMerge {
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws MergeConflictException {
         System.out.println("Testing current functionality with graph merging: ");
         //testNaiveMerge1();
         //testNaiveMerge2();
@@ -74,7 +75,7 @@ public class TestMerge {
         return graphDb;
     }
 
-    private static void testMergeWithConflicts1(){
+    private static void testMergeWithConflicts1() throws MergeConflictException {
         //Emphasis on deleting a node and its children
         DbOps ancestorGraph = createAncestorGraphForConflictMerge1();
         DbOps testGraph1 = createGraph1ForConflictMerge1();
@@ -120,7 +121,7 @@ public class TestMerge {
         return graphDb;
     }
 
-    private static void testMergeWithConflicts2(){
+    private static void testMergeWithConflicts2() throws MergeConflictException {
         //emphasis on a very difficult graph merge with differing data and node deletions
         DbOps ancestorGraph = createAncestorGraphForConflictMerge2();
         DbOps testGraph1 = createGraph1ForConflictMerge2();

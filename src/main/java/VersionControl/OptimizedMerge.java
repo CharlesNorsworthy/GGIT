@@ -4,9 +4,9 @@ import graphTool.Const;
 import graphTool.DbUtils;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.ResourceIterator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 //TODO: eventually rename to just Merge after its done
@@ -24,7 +24,6 @@ public class OptimizedMerge {
      * @param mergedGraph
      * @return DbUtils
      */
-
     public static DbUtils naiveMerge(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
 
         mergedGraph = computeUnionOfNodes(graph1, graph2, mergedGraph);
@@ -43,8 +42,8 @@ public class OptimizedMerge {
      * @param mergedGraph the resulting graph
      * @return DbUtils
      */
-
-    private static DbUtils computeUnionOfNodes(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
+    private static DbUtils computeUnionOfNodes(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph)
+    {
         //TODO: optimize and refactor
         //TODO: reduce amount of try/catch statements
 
@@ -86,6 +85,14 @@ public class OptimizedMerge {
         return mergedGraph;
     }
 
+    /**
+     * This method includes a node in the merged graph and includes
+     * that node's properties.
+     *
+     * @param mergedGraph the graph that the node will be placed in
+     * @param graph the original graph the node comes from
+     * @param node the node to be placed in the merged graph
+     */
     private static void includeNodeInMergedGraph(DbUtils mergedGraph, DbUtils graph, Node node){
 
         //right now it creates a new node
@@ -97,40 +104,64 @@ public class OptimizedMerge {
         }
     }
 
-    private static DbUtils computeUnionOfRelationships(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
-        /*
-        Do the same with relationships as with the nodes
-         */
+    /**
+     * Computes the union of the relationships in the two graphs and puts the
+     * result in the merged graph.
+     *
+     * @param graph1
+     * @param graph2
+     * @param mergedGraph the resulting graph
+     * @return mergedGraph with the appropriate relationships connected
+     */
+    private static DbUtils computeUnionOfRelationships(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph)
+    {
+        //Get all relationships from both graphs
+        try (ResourceIterator<Relationship> graph1AllRelationshipsIterator = graph1.getAllRelationshipsIterator();
+             ResourceIterator<Relationship> graph2AllRelationshipsIterator = graph2.getAllRelationshipsIterator()){
 
+            /* Put the relationships in the merged graph */
+            while (graph1AllRelationshipsIterator.hasNext() || graph2AllRelationshipsIterator.hasNext()){
+                //Assume the relationships do not exist unless shown otherwise
+                Relationship nextRel1 = null;
+                Relationship nextRel2 = null;
 
-        /* Computes the union of the relationships in the two graphs and puts the result in the merged graph. */
+                try {
+                    nextRel1 = graph1AllRelationshipsIterator.next();
+                } catch (Exception ignored){}
 
-        ArrayList<String> allMergedGraphIds = mergedGraph.getAllIDs();
-        for (Object mergedGraphId : allMergedGraphIds){
-            String currentMergedGraphId = mergedGraphId.toString();
-            try {
-                /*Get the appropriate node from either graph 1, graph 2, or both*/
-                Node graph1Node = graph1.getNodeByID(currentMergedGraphId);
-                Node graph2Node = graph2.getNodeByID(currentMergedGraphId);
-                if ((graph1Node != null) && (graph2Node != null)) {
-                    //put in relationships for both
-                    connectSameRelationshipsInMergedGraph(graph1, mergedGraph, graph1Node);
-                    connectSameRelationshipsInMergedGraph(graph2, mergedGraph, graph2Node);
-                    //connectAllRelationships
-                } else if ((graph1Node == null) && (graph2Node != null)) {
-                    //put in relationship for node2 only
-                    connectSameRelationshipsInMergedGraph(graph2, mergedGraph, graph2Node);
-                } else if (graph1Node != null) {
-                    //put in relationship for node1 only
-                    connectSameRelationshipsInMergedGraph(graph1, mergedGraph, graph1Node);
+                try {
+                    nextRel2 = graph2AllRelationshipsIterator.next();
+                } catch (Exception ignored){}
+
+                /* Checks every possible case the nodes can exist in */
+                if (nextRel1 != null && nextRel2 != null){
+                    //They both exist, add them both.
+                    includeRelationshipInMergedGraph(mergedGraph, graph1, nextRel1);
+                    //Only add the second one if it doesn't have the same ID as the first
+                    if (!graph1.getRelationshipId(nextRel1).equals(graph2.getRelationshipId(nextRel2))){
+                        includeRelationshipInMergedGraph(mergedGraph, graph2, nextRel2);
+                    }
+                } else if(nextRel1 != null){
+                    //They don't both exist, does node 1 exist?
+                    includeRelationshipInMergedGraph(mergedGraph, graph1, nextRel1);
+                } else if (nextRel2 != null){
+                    //They don't both exist, does node 2 exist?
+                    includeRelationshipInMergedGraph(mergedGraph, graph2, nextRel2);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
-        //Test and handle merge conflicts with both graphs concerning the data in the nodes
-        testAndHandleDataMergeConflict(graph1, graph2, mergedGraph);
-
         return mergedGraph;
+    }
+
+    /**
+     * This method places a relationship in the merged graph
+     * between two pre existing nodes inside it.
+     *
+     * @param mergedGraph the graph that the relationship will be placed in
+     * @param graph the original graph the node comes from
+     * @param rel the relationship to be placed in the merged graph
+     */
+    private static void includeRelationshipInMergedGraph(DbUtils mergedGraph, DbUtils graph, Relationship rel){
+
     }
 }

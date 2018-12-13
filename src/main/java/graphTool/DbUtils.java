@@ -493,6 +493,15 @@ public class DbUtils
         return ID;
     }
 
+    public String getRelationshipId(Relationship rel){ //TODO: make sure rel ID's are unique and practical to what we need
+        String ID;
+        try(Transaction tx = graphDb.beginTx()){
+            ID = rel.getProperty(Const.UUID).toString();
+            tx.success();
+        }
+        return ID;
+    }
+
     public Node getNodeByID(Object value){ //TODO: have a has table implementation instead
         ResourceIterator<Node> graphNodesIterator = getAllNodesIterator();
         Node currentNode;
@@ -528,6 +537,16 @@ public class DbUtils
             tx.success();
         }
         return allIterableNodes;
+    }
+
+    public ResourceIterator<Relationship> getAllRelationshipsIterator(){
+        ResourceIterator<Relationship> allIterableRels;
+        try(Transaction tx = graphDb.beginTx()){
+            ResourceIterable<Relationship> iterable = graphDb.getAllRelationships();
+            allIterableRels = iterable.iterator();
+            tx.success();
+        }
+        return allIterableRels;
     }
 
     public ArrayList<String> getAllIDs(){
