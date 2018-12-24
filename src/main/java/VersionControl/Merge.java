@@ -126,7 +126,6 @@ public class Merge {
      * @param mergedGraph
      * @return DbOps mergedGraph
      */
-
     public static DbUtils mergeWithPossibleConflicts(DbUtils graph1, DbUtils graph2,
                                                    DbUtils commonAncestorGraph,
                                                    DbUtils mergedGraph) throws MergeConflictException {

@@ -502,7 +502,8 @@ public class DbUtils
         return ID;
     }
 
-    public Node getNodeByID(Object value){ //TODO: have a has table implementation instead
+    @Deprecated
+    public Node getNodeByID(Object value){
         ResourceIterator<Node> graphNodesIterator = getAllNodesIterator();
         Node currentNode;
         try(Transaction tx = graphDb.beginTx()){
@@ -516,6 +517,16 @@ public class DbUtils
             tx.success();
         }
         return null;
+    }
+
+    public Node getNodeByLabelAndId(Label label, Object id)
+    {
+        Node node;
+        try(Transaction tx = graphDb.beginTx()){
+            node = graphDb.findNode(label, Const.UUID, id);
+            tx.success();
+        }
+        return node;
     }
 
     public void createNewNodeInGraph(Label label, HashMap<String, Object> properties){
