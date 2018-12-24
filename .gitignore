@@ -1,10 +1,12 @@
-out
+out/
 *.xml
 .idea
 .gradle
 *.iml
 build
-datastore
+classes
 META-INF
+datastore
+config.properties
 
 src/main/java/graphTool/client/stuff

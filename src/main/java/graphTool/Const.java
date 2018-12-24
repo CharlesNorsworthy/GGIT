@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Const holds variables used throughout GGIT/graphTool
+ * Const holds variables used throughout GGIT.GGIT/src/main/graphTool
  */
 public class Const {
     /**

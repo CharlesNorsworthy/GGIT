@@ -19,6 +19,11 @@ public class GraphDriver{
         running = true;
     }
 
+    public static void main(String args[]) {
+        GraphDriver graphDriver = new GraphDriver();
+        graphDriver.Drive();
+    }
+
     private String setPath() {
         String ans, path = null;
 

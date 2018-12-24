@@ -7,7 +7,6 @@ import org.neo4j.graphdb.*;
 import java.util.*;
 
 /**
- *
  * Created by cNorsworthy 9/27/18
  *
  * This class contains methods and helper methods for merging
@@ -33,13 +32,9 @@ public class Merge {
      * @param mergedGraph
      * @return DbUtils mergedGraph
      */
-    //TODO: handle different data in naive merge
-    //TODO: make sure all data from each node in two beginning graphs is in each node in merged graph
-    //TODO: handle data merge conflict right after node is put in graph
-    //TODO: compute big O
     public static DbUtils mergeNaively(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
 
-        // Get all nodes and what each node is connected to.
+        //Search through graph1 and graph2 (breadth first search) and get all nodes and what each node is connected to
         try (ResourceIterator<Node> graph1AllNodesIterator = graph1.getAllNodesIterator();
              ResourceIterator<Node> graph2AllNodesIterator = graph2.getAllNodesIterator()) {
 
@@ -55,7 +50,7 @@ public class Merge {
                         Label label1 = graph1.getNodeLabel(nextNode1);
                         HashMap<String, Object> props1 = graph1.readNodeProperties(nextNode1);
                         if(mergedGraph.getNodeByID(props1.get(Const.UUID)) == null){
-                            mergedGraph.putNodeInGraph(label1, props1);
+                            mergedGraph.createNewNodeInGraph(label1, props1);
                         }
 
                     }
@@ -73,14 +68,14 @@ public class Merge {
                         Label label2 = graph2.getNodeLabel(nextNode2);
                         HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
                         if(mergedGraph.getNodeByID(props2.get(Const.UUID)) == null) {
-                            mergedGraph.putNodeInGraph(label2, props2);
+                            mergedGraph.createNewNodeInGraph(label2, props2);
                         }
                     }
                 } else if (nextNode2 != null){
                     Label label2 = graph2.getNodeLabel(nextNode2);
                     HashMap<String, Object> props2 = graph2.readNodeProperties(nextNode2);
                     if(mergedGraph.getNodeByID(props2.get(Const.UUID)) == null) {
-                        mergedGraph.putNodeInGraph(label2, props2);
+                        mergedGraph.createNewNodeInGraph(label2, props2);
                     }
                 }
             }
@@ -111,7 +106,7 @@ public class Merge {
             }
         }
         //Test and handle merge conflicts with both graphs concerning the data in the nodes
-        testAndHandleDataMergeConflict(graph1, graph2, mergedGraph);
+        testForDataMergeConflict(graph1, graph2, mergedGraph);
 
         return mergedGraph;
     }
@@ -131,10 +126,9 @@ public class Merge {
      * @param mergedGraph
      * @return DbOps mergedGraph
      */
-
     public static DbUtils mergeWithPossibleConflicts(DbUtils graph1, DbUtils graph2,
                                                    DbUtils commonAncestorGraph,
-                                                   DbUtils mergedGraph){
+                                                   DbUtils mergedGraph) throws MergeConflictException {
 
         //See what has changed with graphs 1 and 2
         ArrayList<String> graph1Deletions = getAllDeletedNodesIds(commonAncestorGraph, graph1);
@@ -148,7 +142,7 @@ public class Merge {
         mergedGraph = mergeNaively(graph1, graph2, mergedGraph);
 
         //Test and handle merge conflicts with deleted nodes
-        testAndHandleNodeMergeConflict(mergedGraph, totalDeletions);
+        testForNodeMergeConflict(mergedGraph, totalDeletions);
 
         return mergedGraph;
     }
@@ -208,7 +202,9 @@ public class Merge {
         return allDeletedNodesIds;
     }
 
-    private static void testAndHandleNodeMergeConflict(DbUtils mergedGraph, Set<String> totalDeletions){
+    //TODO: find a more efficient way to do this
+    private static void testForNodeMergeConflict(DbUtils mergedGraph,
+                                                 Set<String> totalDeletions) throws MergeConflictException {
         //loop over every node in the merged graph
         ResourceIterator<Node> mergedGraphAllNodesIterator = mergedGraph.getAllNodesIterator();
         while(mergedGraphAllNodesIterator.hasNext()){
@@ -218,59 +214,14 @@ public class Merge {
             for(String deletedId : totalDeletions){
                 //if the merged graph contains a node that should have been deleted, handle this conflict
                 if(deletedId.equals(mergedGraphNodeID)){
-                    handleNodeMergeConflict(mergedGraph, mergedGraphNodeID);
+                    throw new MergeConflictException(mergedGraph, mergedGraphNodeID);
                 }
             }
         }
     }
 
-    private static void handleNodeMergeConflict(DbUtils mergedGraph, String conflictingID){
-
-        Node conflictingNode = mergedGraph.getNodeByID(conflictingID);
-        Label conflictingNodeLabel = mergedGraph.getNodeLabel(conflictingNode);
-
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        do{
-            System.out.println("Resurfaced deleted node with id: "
-                    + conflictingID + ". Do you want to keep this node and its non-conflicting children? (Y/N)");
-            input = scanner.next().toLowerCase();
-        }while(!input.equals("y") && !input.equals("n"));
-
-        if(input.equals("y")){
-            System.out.println("Keeping node " + conflictingID + " and its non-conflicting children.");
-        } else if (input.equals("n")){
-            if(conflictingNodeLabel.equals(Const.ROOT_LABEL)){
-                System.out.println("You cannot delete the root node.");
-            } else {
-                System.out.println("Deleting node " + conflictingID + " and its children.");
-                mergedGraph.deleteNode(conflictingNodeLabel, conflictingID);
-            }
-        }
-    }
-
-    private static void handleDataMergeConflict(DbUtils mergedGraph, String conflictingId, String key,
-                                                String graph1Property, String graph2Property){
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        do{
-            System.out.println("Conflicting data on node with id: "
-                    + conflictingId + " of data type " + key + ". Which data would you rather keep?");
-            System.out.println("A. First graph data: " + graph1Property);
-            System.out.println("B. Second graph data: " + graph2Property);
-            input = scanner.next().toLowerCase();
-
-        }while(!input.equals("a") && !input.equals("b"));
-
-        Node conflictingNode = mergedGraph.getNodeByID(conflictingId);
-        if(input.equals("a")){
-            mergedGraph.setProperty(conflictingNode, key, graph1Property);
-        } else if (input.equals("b")){
-            mergedGraph.setProperty(conflictingNode, key, graph2Property);
-        }
-    }
-
-    private static void testAndHandleDataMergeConflict(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
+    // TODO: find a more efficient way to do this with has tables when actually creating the data
+    private static void testForDataMergeConflict(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
         //Currently, this method assumes all nodes have the same amount of properties
 
         //loop over every node in the merged graph, we only care to compare data in nodes in that graph
@@ -299,7 +250,7 @@ public class Merge {
                     //If the two strings aren't equal, you have a conflict that needs resolving
                     if(currentGraph1Node != null && currentGraph2Node != null){
                         if(!graph1Property.equals(graph2Property)){
-                            handleDataMergeConflict(mergedGraph, currentMergedGraphNodeId, propertyKey,
+                            throw new MergeConflictException(mergedGraph, currentMergedGraphNodeId, propertyKey,
                                     graph1Property, graph2Property);
                         }
                     }

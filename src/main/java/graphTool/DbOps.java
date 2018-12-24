@@ -115,7 +115,7 @@ public class DbOps{
     public Label getNodeLabel(Node node){return db.getNodeLabel(node);}
 
     public void putNodeInGraph(Label label, HashMap<String, Object> props){
-        db.putNodeInGraph(label, props);
+        db.createNewNodeInGraph(label, props);
     }
 
     public ArrayList<String> getAllIDs(){
