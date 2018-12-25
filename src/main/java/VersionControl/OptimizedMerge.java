@@ -99,7 +99,7 @@ public class OptimizedMerge {
         //Make it place a pointer of the node to the new merged graph
         Label label = graph.getNodeLabel(node);
         HashMap<String, Object> props = graph.readNodeProperties(node); //takes O(k), k = number of properties
-        if(mergedGraph.getNodeByLabelAndId(label, props.get(Const.UUID)) == null){ // should take O(1) with hash table
+        if(mergedGraph.getNodeByLabelAndId(label, props.get(Const.UUID).toString()) == null){ // should take O(1) with hash table
             mergedGraph.createNewNodeInGraph(label, props); //TODO: should take O(1) but currently takes O(k), k the # of properties
         }
     }

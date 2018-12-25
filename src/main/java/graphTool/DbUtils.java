@@ -220,15 +220,15 @@ public class DbUtils
         }
     }
 
-    public Relationship createRelationship(Node startNode, Node endNode, RelationshipType type){ //TODO: make relationship UUIDs sequential?
+    public void createRelationship(Node startNode, Node endNode, RelationshipType type){ //TODO: make relationship UUIDs sequential?
         try(Transaction tx = graphDb.beginTx()){
             Relationship rel = startNode.createRelationshipTo(endNode, type);
-            String uuid = UUID.randomUUID().toString();
-            rel.setProperty(Const.UUID, uuid);
-            relationshipHashMap.put(uuid, rel);
+            String startNodeId = getNodeID(startNode);
+            String endNodeId = getNodeID(endNode);
+            String relId = startNodeId + "," + endNodeId;
+            rel.setProperty(Const.UUID, relId);
+            relationshipHashMap.put(relId, rel);
             tx.success();
-            tx.close();
-            return rel;
         }
     }
 
@@ -543,7 +543,7 @@ public class DbUtils
         return null;
     }
 
-    public Node getNodeByLabelAndId(Label label, Object id)
+    public Node getNodeByLabelAndId(Label label, String id)
     {
         Node node;
         try(Transaction tx = graphDb.beginTx()){

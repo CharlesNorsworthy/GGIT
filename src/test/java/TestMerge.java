@@ -17,7 +17,6 @@ public class TestMerge {
         //testNaiveMerge3();
         //testMergeWithConflicts1();
         //testMergeWithConflicts2();
-
     }
 
     private static void testNaiveMerge1(){
