@@ -4,7 +4,6 @@ import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.*;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static org.neo4j.graphdb.Direction.INCOMING;
@@ -15,9 +14,11 @@ public class DbUtils
 {
     private Node root;
 
+    private HashMap<String, Relationship> relationshipHashMap;
+
     private GraphDatabaseService graphDb;
     //TODO: put this hash in where appropriate
-    private Hash hash;
+    private RelationshipHash hash;
 
     public DbUtils(String dbPath) {
         this.connectDatabase(dbPath);
@@ -25,6 +26,7 @@ public class DbUtils
 
     private void connectDatabase(String dbPath) {
         try {
+            relationshipHashMap = new HashMap<>();
             graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
             registerShutdownHook(graphDb);  //Used to shut down database if JVM is closed
         } catch(Exception e){
@@ -218,16 +220,29 @@ public class DbUtils
         }
     }
 
-    public Relationship createRelationship(Node startNode, Node endNode, RelationshipType type){
+    public Relationship createRelationship(Node startNode, Node endNode, RelationshipType type){ //TODO: make relationship UUIDs sequential?
         try(Transaction tx = graphDb.beginTx()){
             Relationship rel = startNode.createRelationshipTo(endNode, type);
-            rel.setProperty(Const.UUID, UUID.randomUUID().toString());
+            String uuid = UUID.randomUUID().toString();
+            rel.setProperty(Const.UUID, uuid);
+            relationshipHashMap.put(uuid, rel);
             tx.success();
             tx.close();
             return rel;
-        } catch(Exception e) {
-            System.out.println("ERROR :: " + e.getMessage());
-            return null;
+        }
+    }
+
+    public void createRelationship(String startNodeUUID, Label startNodeLabel,
+                                   String endNodeUUID, Label endNodeLabel,
+                                   RelationshipType type, String relationshipUUID){
+        try(Transaction tx = graphDb.beginTx()){
+            Node startNode = getNodeByLabelAndId(startNodeLabel, startNodeUUID);
+            Node endNode = getNodeByLabelAndId(endNodeLabel, endNodeUUID);
+            Relationship rel = startNode.createRelationshipTo(endNode, type);
+            rel.setProperty(Const.UUID, relationshipUUID);
+            relationshipHashMap.put(relationshipUUID, rel);
+
+            tx.success();
         }
     }
 
@@ -493,13 +508,22 @@ public class DbUtils
         return ID;
     }
 
-    public String getRelationshipId(Relationship rel){ //TODO: make sure rel ID's are unique and practical to what we need
+    public String getRelationshipUUID(Relationship rel){
         String ID;
         try(Transaction tx = graphDb.beginTx()){
             ID = rel.getProperty(Const.UUID).toString();
             tx.success();
         }
         return ID;
+    }
+
+    public Relationship getRelationshipByUUID(String uuid){
+        Relationship rel;
+        try(Transaction tx = graphDb.beginTx()){
+            rel = relationshipHashMap.get(uuid);
+            tx.success();
+        }
+        return rel;
     }
 
     @Deprecated
@@ -536,6 +560,12 @@ public class DbUtils
                 newNode.setProperty(key, properties.get(key));
             }
             newNode.addLabel(label);
+            tx.success();
+        }
+    }
+
+    public void putNodeInGraph(Node node){
+        try(Transaction tx = graphDb.beginTx()){
             tx.success();
         }
     }

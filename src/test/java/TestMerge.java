@@ -1,5 +1,6 @@
 import VersionControl.Merge;
 import VersionControl.MergeConflictException;
+import VersionControl.OptimizedMerge;
 import graphTool.Const;
 import graphTool.DbOps;
 import graphTool.DbUtils;
@@ -9,13 +10,13 @@ import java.util.HashMap;
 
 public class TestMerge {
 
-    public static void main(String args[]) throws MergeConflictException {
+    public static void main(String args[]) {
         System.out.println("Testing current functionality with graph merging: ");
-        //testNaiveMerge1();
+        testNaiveMerge1();
         //testNaiveMerge2();
         //testNaiveMerge3();
         //testMergeWithConflicts1();
-        testMergeWithConflicts2();
+        //testMergeWithConflicts2();
 
     }
 
@@ -24,7 +25,7 @@ public class TestMerge {
         DbOps testGraph1 = createGraph1ForNaiveMerge1();
         DbOps testGraph2 = createGraph2ForNaiveMerge1();
         DbUtils mergedGraph = new DbUtils("\\C:\\databases\\NaiveTest1MergedGraph");
-        Merge.mergeNaively(testGraph1.getDb(), testGraph2.getDb(), mergedGraph);
+        OptimizedMerge.naiveMerge(testGraph1.getDb(), testGraph2.getDb(), mergedGraph);
     }
 
     private static void testNaiveMerge2(){

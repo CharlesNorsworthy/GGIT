@@ -13,7 +13,6 @@ import java.util.*;
  * two graphs together.
  *
  */
-
 public class Merge {
 
     /**

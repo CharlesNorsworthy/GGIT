@@ -9,7 +9,7 @@ import org.neo4j.graphdb.ResourceIterator;
 
 import java.util.HashMap;
 
-//TODO: eventually rename to just Merge after its done
+//TODO: test
 public class OptimizedMerge {
 
     /**
@@ -100,7 +100,7 @@ public class OptimizedMerge {
         Label label = graph.getNodeLabel(node);
         HashMap<String, Object> props = graph.readNodeProperties(node); //takes O(k), k = number of properties
         if(mergedGraph.getNodeByLabelAndId(label, props.get(Const.UUID)) == null){ // should take O(1) with hash table
-            mergedGraph.createNewNodeInGraph(label, props); //should take O(1) but currently takes O(k)
+            mergedGraph.createNewNodeInGraph(label, props); //TODO: should take O(1) but currently takes O(k), k the # of properties
         }
     }
 
@@ -138,7 +138,7 @@ public class OptimizedMerge {
                     //They both exist, add them both.
                     includeRelationshipInMergedGraph(mergedGraph, graph1, nextRel1);
                     //Only add the second one if it doesn't have the same ID as the first
-                    if (!graph1.getRelationshipId(nextRel1).equals(graph2.getRelationshipId(nextRel2))){
+                    if (!graph1.getRelationshipUUID(nextRel1).equals(graph2.getRelationshipUUID(nextRel2))){
                         includeRelationshipInMergedGraph(mergedGraph, graph2, nextRel2);
                     }
                 } else if(nextRel1 != null){
@@ -162,6 +162,19 @@ public class OptimizedMerge {
      * @param rel the relationship to be placed in the merged graph
      */
     private static void includeRelationshipInMergedGraph(DbUtils mergedGraph, DbUtils graph, Relationship rel){
+        //right now it creates a new relationship
+        //Make it place a pointer of the relationship to the new merged graph
+        if(mergedGraph.getRelationshipByUUID(graph.getRelationshipUUID(rel)) == null){// should take O(1) with hash table
+            Node[] relNodes = graph.getRelationshipNodes(rel);
 
+            String startNodeId = graph.getNodeID(relNodes[0]);
+            Label startNodeLabel = graph.getNodeLabel(relNodes[0]);
+
+            String endNodeId = graph.getNodeID(relNodes[1]);
+            Label endNodeLabel = graph.getNodeLabel(relNodes[1]);
+
+            mergedGraph.createRelationship(startNodeId, startNodeLabel, endNodeId, endNodeLabel,
+                    graph.getRelationshipType(rel), graph.getRelationshipUUID(rel));
+        }
     }
 }
