@@ -26,9 +26,8 @@ public class OptimizedMerge {
      */
     public static DbUtils naiveMerge(DbUtils graph1, DbUtils graph2, DbUtils mergedGraph){
 
-        mergedGraph = computeUnionOfNodes(graph1, graph2, mergedGraph);
-
-        mergedGraph = computeUnionOfRelationships(graph1, graph2, mergedGraph);
+        computeUnionOfNodes(graph1, graph2, mergedGraph);
+        computeUnionOfRelationships(graph1, graph2, mergedGraph);
 
         return mergedGraph;
     }
